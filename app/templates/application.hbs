@@ -1,6 +1,18 @@
 {{page-title "Persberichten"}}
 
-<h1>Persberichten</h1>
-<p>Application template van de persberichten applicatie</p>
-
+<AuMainHeader @brandLink="" @contactRoute="">
+  <div class="main-header-container">
+    <div class="navigation-items">
+      <LinkTo @route="index" class="navigation-item">Persberichten</LinkTo>
+      <LinkTo @route="index" class="navigation-item">Verzendlijsten</LinkTo>
+      <LinkTo @route="index" class="navigation-item">Contacten</LinkTo>
+    </div>
+    <div class="main-header-inner">
+      <LinkTo @route="index" class="help-link">
+        <AuIcon @icon="question-circle" @alignment="left" @size="large" @ariaHidden={{true}} />
+        Help
+      </LinkTo>
+    </div>
+  </div>
+</AuMainHeader>
 {{outlet}}
