@@ -142,6 +142,10 @@ $border-black: #2A2D31;
 .au-c-main-header {
   justify-content: flex-start;
   height: 42px;
+
+  .au-c-main-header__title {
+    display: none;
+  }
 }
 .navigation-items {
   min-height: 44px;

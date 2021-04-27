@@ -8,4 +8,20 @@ export default class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('contact');
+
+  this.route('settings', { path: 'instellingen' });
+
+  this.route('login', { path: 'aanmelden' });
+
+  this.route('contacts', {
+    path: 'contacten'
+  }, function() {});
+
+  this.route('press-releases', {
+    path: 'persberichten'
+  }, function() {});
+
+  this.route('mailing-lists', {
+    path: 'verzendlijsten'
+  }, function() {});
 });
