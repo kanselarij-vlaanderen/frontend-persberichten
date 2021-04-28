@@ -36,7 +36,10 @@
 @import "appuniversum/g-reset";
 @import "appuniversum/g-box-sizing";
 @import "appuniversum/g-font";
-
+@font-face {
+  font-family: 'Flanders Art Sans';
+  src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
+}
 
 // ELEMENTS
 @import "appuniversum/e-page";
@@ -106,6 +109,7 @@
 @import "appuniversum/u-visible";
 @import "appuniversum/u-widths";
 
+@import "./page-title-component.scss";
 
 $primary-blue: #0055CC;
 $gray: #CCD1D9;
