@@ -12,14 +12,14 @@ module.exports = function(deployTarget) {
       username: 'root',
       host: 'persberichten-dev.s.redpencil.io',
       port: 22,
-      remoteDir: '/data/app-persberichten-dev/',
+      remoteDir: '/data/app-persberichten-dev/persberichten-app',
       allowOverwrite: true,
       agent: process.env.SSH_AUTH_SOCK
     },
     'rsync': { // copy assets
       host: 'root@persberichten-dev.s.redpencil.io',
       port: 22,
-      dest: '/data/app-persberichten-dev/',
+      dest: '/data/app-persberichten-dev/persberichten-app',
       delete: false,
       arg:['--verbose']
     }
