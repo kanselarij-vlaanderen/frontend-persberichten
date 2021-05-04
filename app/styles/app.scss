@@ -1,114 +1,14 @@
 @import 'ember-data-table';
+@import "ember-power-select";
 
-/* ==================================
-   #APPUNIVERSUM
-   ================================== */
+// Components (from npm package)
+@import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-standalone";
+@import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-base";
 
-/**
- * A design universe for Flanders GOV applications
- */
-
-/**
- * CONTENTS
- * ---
- * SETTINGS: Project settings and variables
- * TOOLS: Mixins
- * GENERIC: Reset, global box-sizing and font-styles
- * ELEMENTS: Plain html tag styling
- * OBJECTS: OOCSS unstyled objects (namespace: '.au-o-...')
- * COMPONENTS: Components (namespace: '.au-c-...')
- * UTILITIES: Single function helper classes (namespace: '.au-u-...')
- */
-
-
-// VARIABLES
-@import "appuniversum/s-colors.scss";
-@import "appuniversum/s-global";
-@import "appuniversum/s-utilities";
-
-
-// MIXINS
-@import "appuniversum/t-font-size";
-@import "appuniversum/t-sass-mq";
-
-
-// GENERIC
-@import "appuniversum/g-reset";
-@import "appuniversum/g-box-sizing";
-@import "appuniversum/g-font";
 @font-face {
   font-family: 'Flanders Art Sans';
   src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
 }
-
-// ELEMENTS
-@import "appuniversum/e-page";
-
-
-// OBJECTS
-@import "appuniversum/o-box";
-@import "appuniversum/o-flow";
-@import "appuniversum/o-grid";
-@import "appuniversum/o-layout";
-@import "appuniversum/o-region";
-
-
-// COMPONENTS
-@import "ember-appuniversum/c-alert";
-@import "ember-appuniversum/c-badge";
-@import "ember-appuniversum/c-body-container";
-@import "ember-appuniversum/c-brand";
-@import "ember-appuniversum/c-button";
-@import "ember-appuniversum/c-button-group";
-@import "ember-appuniversum/c-card";
-@import "ember-appuniversum/c-content";
-@import "ember-appuniversum/c-content-header";
-@import "ember-appuniversum/c-control";
-@import "ember-appuniversum/c-data-table";
-@import "ember-appuniversum/c-dropdown";
-@import "ember-appuniversum/c-form";
-@import "ember-appuniversum/c-heading";
-@import "ember-appuniversum/c-help-text";
-@import "ember-appuniversum/c-hr";
-@import "ember-appuniversum/c-icon";
-@import "ember-appuniversum/c-input";
-@import "ember-appuniversum/c-label";
-@import "ember-appuniversum/c-link";
-@import "ember-appuniversum/c-list-horizontal";
-@import "ember-appuniversum/c-list-navigation";
-@import "ember-appuniversum/c-loader";
-@import "ember-appuniversum/c-pagination";
-@import "ember-appuniversum/c-pill";
-@import "ember-appuniversum/c-main-container";
-@import "ember-appuniversum/c-main-header";
-@import "ember-appuniversum/c-main-footer";
-@import "ember-appuniversum/c-modal";
-@import "ember-appuniversum/c-sidebar";
-@import "ember-appuniversum/c-sidebar-action";
-@import "ember-appuniversum/c-textarea";
-@import "ember-appuniversum/c-toolbar";
-@import "ember-appuniversum/c-toggle-switch";
-
-
-// PLUGINS
-@import "ember-appuniversum/p-ember-power-select";
-@import "ember-appuniversum/p-duet-datepicker";
-
-
-// UTILITIES
-@import "appuniversum/u-align-text";
-@import "appuniversum/u-break-word";
-@import "appuniversum/u-headings";
-@import "appuniversum/u-hide";
-@import "appuniversum/u-font-family";
-@import "appuniversum/u-font-weights";
-@import "appuniversum/u-paragraphs";
-@import "appuniversum/u-print";
-@import "appuniversum/u-responsive-spacings";
-@import "appuniversum/u-spacings";
-@import "appuniversum/u-visible";
-@import "appuniversum/u-widths";
-
 @import "./page-title-component.scss";
 
 $primary-blue: #0055CC;
@@ -116,75 +16,22 @@ $gray: #CCD1D9;
 $muted-text-color: #69717C;
 $border-black: #2A2D31;
 
-.main-header-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+.auk-toolbar-complex {
+  max-width: calc(100% - 191px);
 }
 
 .main-header-inner {
   color: $muted-text-color;
   display: flex;
   justify-content: flex-start;
-
-  .ember-power-select-trigger {
-    line-height: 39px;
-  }.ember-basic-dropdown-trigger {
+  right: 0;
+  .ember-basic-dropdown-trigger {
     border: none;
   }
 }
-
-.ember-power-select-options[role=listbox] {
-  width: 200px;
-}
-.au-c-brand__logo {
-  background-color: #FEEA52;
-}
-
-.au-c-main-header {
-  justify-content: flex-start;
-  height: 42px;
-
-  .au-c-main-header__title {
-    display: none;
-  }
-}
-.navigation-items {
-  min-height: 44px;
-  display: inline-flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.navigation-item {
-  display: flex;
-  align-items: center;
-  color: $primary-blue;
-  text-decoration: none;
-  min-height: 44px;
-  //styleName: Label;
-  font-family: "Flanders Art Sans";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: center;
-  border-bottom: solid transparent 3px;
-
-  div {
-    height: 50%;
-    box-sizing: border-box;
-    border-right: solid $gray 1px;
-    padding: 0 10px;
-  }
-}
-
-.active {
-  color: black;
-  border-bottom: solid $border-black 3px;
-  box-sizing: border-box;
+ember-power-select-options[role=listbox] {
+  width: 90px;
 }
 
 .help-link {
@@ -196,23 +43,15 @@ $border-black: #2A2D31;
   border-bottom: none;
 }
 
-.au-c-main-header__actions {
-  width: 100%;
+.auk-navbar {
+  padding: 0;
 }
 
-.au-c-list-horizontal {
-  width: 100%;
-  height: 100%;
+.auk-brand {
+  top: 0;
+  margin-right: 1rem;
 }
 
-.au-c-list-horizontal__item {
-  width: 100%;
-  height: 100%;
-}
-
-
-@media only screen and (min-width: 767px) {
-  .au-c-main-header__title-group {
-    width: 170px;
-  }
+.muted-gray {
+  color: $muted-text-color;
 }
