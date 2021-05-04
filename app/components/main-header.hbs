@@ -1,0 +1,26 @@
+<WebComponents::AuNavbar @border="bottom" @auto="true">
+<WebComponents::AuBrand @logotype="Persberichten"/>
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <div class="main-header-container">
+        <WebComponents::AuToolbar::Item>
+          <WebComponents::AuTabs>
+            {{yield}}
+          </WebComponents::AuTabs>
+        </WebComponents::AuToolbar::Item>
+        <div class="main-header-inner">
+            {{#if @contactRoute}}
+              <LinkTo @route={{@contactRoute}} class="help-link">
+                <WebComponents::AuIcon @name={{@contactIcon}} @size={{@contactSize}} /> Help
+              </LinkTo>
+            {{/if}}
+            {{#if (and @selectFunction @selectOptions)}}
+              <PowerSelect @selected={{@selectedMonth}} @options={{@selectOptions}} @onChange={{@selectFunction}} as |name|>
+                {{name}}
+              </PowerSelect>
+            {{/if}}
+        </div>
+      </div>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</WebComponents::AuNavbar>

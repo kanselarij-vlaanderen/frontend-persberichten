@@ -24,5 +24,4 @@ Router.map(function () {
   this.route('mailing-lists', {
     path: 'verzendlijsten'
   }, function() {});
-  this.route('styleguide');
 });

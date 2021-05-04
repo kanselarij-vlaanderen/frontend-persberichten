@@ -1,26 +1,15 @@
 {{page-title "Persberichten"}}
 
-<AuMainHeader @brandLink="" @contactRoute="">
-  <div class="main-header-container">
-    <div class="navigation-items">
-      <LinkTo @route="press-releases" class="navigation-item">
-        <div>Persberichten</div>
-      </LinkTo>
-      <LinkTo @route="mailing-lists" class="navigation-item">
-        <div>Verzendlijsten</div>
-      </LinkTo>
-      <LinkTo @route="contacts" class="navigation-item">
-        <div>Contacten</div>
-      </LinkTo>
-    </div>
-    <div class="main-header-inner">
-      <LinkTo @route="contact" class="help-link">
-        <AuIcon @icon="question-circle" @alignment="left" @size="large" @ariaHidden={{true}} /> Help
-      </LinkTo>
-      <PowerSelect @selected={{this.selectedMonth}} @options={{this.months}} @onChange={{this.changeMonth}} as |name|>
-        {{name}}
-      </PowerSelect>
-    </div>
-  </div>
-</AuMainHeader>
+<MainHeader
+  @contactRoute="contact"
+  @contactIcon="circle-question"
+  @contactSize="default"
+  @selectedMonth={{this.selectedMonth}}
+  @selectOptions={{this.months}}
+  @selectFunction={{this.changeMonth}}
+>
+  <WebComponents::AuTab @route="press-releases">persberichten</WebComponents::AuTab>
+  <WebComponents::AuTab @route="mailing-lists">verzendlijsten</WebComponents::AuTab>
+  <WebComponents::AuTab @route="contacts">contacten</WebComponents::AuTab>
+</MainHeader>
 {{outlet}}
