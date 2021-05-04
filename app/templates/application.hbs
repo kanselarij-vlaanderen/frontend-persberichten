@@ -1,12 +1,12 @@
 {{page-title "Persberichten"}}
 
 <MainHeader
+  @headerTitle="Persberichten"
   @contactRoute="contact"
   @contactIcon="circle-question"
   @contactSize="default"
-  @selectedMonth={{this.selectedMonth}}
-  @selectOptions={{this.months}}
-  @selectFunction={{this.changeMonth}}
+  @user="Jan"
+  @showUserModel={{this.showSettingsModal}}
 >
   <WebComponents::AuTab @route="press-releases">persberichten</WebComponents::AuTab>
   <WebComponents::AuTab @route="mailing-lists">verzendlijsten</WebComponents::AuTab>

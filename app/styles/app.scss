@@ -16,12 +16,6 @@ $gray: #CCD1D9;
 $muted-text-color: #69717C;
 $border-black: #2A2D31;
 
-.main-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
 
 .auk-toolbar-complex {
   max-width: calc(100% - 191px);
@@ -56,4 +50,8 @@ ember-power-select-options[role=listbox] {
 .auk-brand {
   top: 0;
   margin-right: 1rem;
+}
+
+.muted-gray {
+  color: $muted-text-color;
 }

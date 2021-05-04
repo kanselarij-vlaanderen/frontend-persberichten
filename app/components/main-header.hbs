@@ -1,5 +1,5 @@
 <WebComponents::AuNavbar @border="bottom" @auto="true">
-<WebComponents::AuBrand @logotype="Persberichten"/>
+<WebComponents::AuBrand @logotype={{@headerTitle}}/>
   <WebComponents::AuToolbar>
     <WebComponents::AuToolbar::Group @position="left">
       <div class="main-header-container">
@@ -8,19 +8,21 @@
             {{yield}}
           </WebComponents::AuTabs>
         </WebComponents::AuToolbar::Item>
+      </div>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
         <div class="main-header-inner">
             {{#if @contactRoute}}
               <LinkTo @route={{@contactRoute}} class="help-link">
                 <WebComponents::AuIcon @name={{@contactIcon}} @size={{@contactSize}} /> Help
               </LinkTo>
             {{/if}}
-            {{#if (and @selectFunction @selectOptions)}}
-              <PowerSelect @selected={{@selectedMonth}} @options={{@selectOptions}} @onChange={{@selectFunction}} as |name|>
-                {{name}}
-              </PowerSelect>
+            {{#if @user}}
+            <WebComponents::AuButton @skin="borderless" class="muted-gray" {{on "click" @showUserModel }}>
+              Jan <WebComponents::AuIcon @name="chevron-down"/>
+            </WebComponents::AuButton>
             {{/if}}
         </div>
-      </div>
     </WebComponents::AuToolbar::Group>
   </WebComponents::AuToolbar>
 </WebComponents::AuNavbar>
