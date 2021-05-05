@@ -1,0 +1,28 @@
+<WebComponents::AuNavbar @border="bottom" @auto="true">
+<WebComponents::AuBrand @logotype={{@headerTitle}}/>
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <div class="main-header-container">
+        <WebComponents::AuToolbar::Item>
+          <WebComponents::AuTabs>
+            {{yield}}
+          </WebComponents::AuTabs>
+        </WebComponents::AuToolbar::Item>
+      </div>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+        <div class="main-header-inner">
+            {{#if @contactRoute}}
+              <LinkTo @route={{@contactRoute}} class="help-link">
+                <WebComponents::AuIcon @name={{@contactIcon}} @size={{@contactSize}} /> Help
+              </LinkTo>
+            {{/if}}
+            {{#if @user}}
+            <WebComponents::AuButton @skin="borderless" class="muted-gray" {{on "click" @showUserModel }}>
+              Jan <WebComponents::AuIcon @name="chevron-down"/>
+            </WebComponents::AuButton>
+            {{/if}}
+        </div>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</WebComponents::AuNavbar>

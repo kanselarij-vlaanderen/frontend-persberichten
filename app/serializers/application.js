@@ -1,6 +1,8 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
+import DS from 'ember-data';
+import DataTableSerializerMixin from 'ember-data-table/mixins/serializer';
 
-export default class ApplicationSerializer extends JSONAPISerializer {
+export class ApplicationSerializer extends JSONAPISerializer {
   serialize() {
     const payload = super.serialize(...arguments);
     if (payload && payload.data && payload.data.attributes) {
@@ -9,3 +11,7 @@ export default class ApplicationSerializer extends JSONAPISerializer {
     return payload;
   }
 }
+
+export default DS.JSONAPISerializer.extend(DataTableSerializerMixin, {
+
+});
