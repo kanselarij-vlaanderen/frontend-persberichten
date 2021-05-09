@@ -1,0 +1,15 @@
+<table>
+  <th>Publicatiekanaal</th>
+  <th>Toon telefoonnummer</th>
+  <th>Toon mobiel nummer</th>
+  <th>Toon e-mailadres</th>
+
+  {{#each @publicationChannels as |channel index|}}
+    <tr>
+      <td>{{channel.name}} {{index}}</td>
+      <td> <WebComponents::AuCheckbox @checked={{channel.telefoon}} @toggle={{action "toggle" index}}/></td>
+      <td><WebComponents::AuCheckbox @checked={{channel.mobiel}} @toggle={{action "toggle" index}}/></td>
+      <td><WebComponents::AuCheckbox @checked={{channel.email}} @toggle={{action "toggle" index}}/></td>
+    </tr>
+  {{/each}}
+</table>
