@@ -13,15 +13,15 @@ Router.map(function () {
 
   this.route('login', { path: 'aanmelden' });
 
-  this.route('contacts', {
-    path: 'contacten'
+  this.route('resources', {
+    path: 'bronnen'
   }, function() {});
 
   this.route('press-releases', {
     path: 'persberichten'
   }, function() {});
 
-  this.route('mailing-lists', {
-    path: 'verzendlijsten'
+  this.route('contacts', {
+    path: 'contacten'
   }, function() {});
 });

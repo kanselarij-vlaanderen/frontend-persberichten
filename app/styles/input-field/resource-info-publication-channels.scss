@@ -1,0 +1,33 @@
+.publication-channel-table {
+  width: 60%;
+
+  th {
+    border-bottom: solid #CCD1D9 3px;
+  }
+
+  .table-row {
+    border-bottom: solid #CCD1D9 1px;
+  }
+
+  .table-cell {
+    text-align: center;
+    vertical-align: middle;
+    height: 3em;
+    input[type="checkbox" i] {
+      width: 16px;
+      height: 16px;
+      // border: 1px solid red;
+      color: green;
+
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .table-cell-name {
+    vertical-align: middle;
+    text-align: left;
+    height: 3em;
+  }
+}
