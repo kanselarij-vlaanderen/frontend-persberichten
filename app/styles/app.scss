@@ -9,8 +9,11 @@
 //   font-family: 'Flanders Art Sans';
 //   src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
 // }
+
 @import "./page-title-component.scss";
 @import "./input-field/resource-info-publication-channels.scss";
+@import "./contact/form.scss";
+@import "./input-field/organization-select.scss";
 
 $primary-blue: #0055CC;
 $gray: #CCD1D9;
@@ -19,7 +22,7 @@ $border-black: #2A2D31;
 
 
 .auk-toolbar-complex {
-  max-width: calc(100% - 191px);
+  max-width: calc(100% - 195px);
 }
 
 .main-header-inner {
@@ -57,7 +60,24 @@ ember-power-select-options[role=listbox] {
   color: $muted-text-color;
 }
 
-.form-container {
+.margin-right-small {
+  margin-right: 0.5em;
+}
+
+.margin-input-field {
+  margin-bottom: 24px;
+}
+
+.space-between {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.input-border-radius {
+  border-radius: 3px;
 }

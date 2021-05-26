@@ -1,0 +1,28 @@
+@import './form/header.scss';
+
+.form-container {
+  width: 60%;
+  max-width: 800px;
+  margin: auto;
+  margin-bottom: 1em;
+  padding-top: 3.9em;
+}
+
+.half-width {
+  width: 48%;
+  box-sizing: border-box;
+}
+
+.full-width-input {
+  width: 100%
+}
+
+.personal-information {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+}

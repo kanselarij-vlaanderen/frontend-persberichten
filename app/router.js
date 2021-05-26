@@ -13,15 +13,32 @@ Router.map(function () {
 
   this.route('login', { path: 'aanmelden' });
 
-  this.route('resources', {
-    path: 'bronnen'
-  }, function() {});
+  this.route(
+    'resources',
+    {
+      path: 'bronnen',
+    },
+    function () {
+      this.route('new', { path: 'nieuw' });
+      this.route('index', function () {});
+      this.route('active', { path: 'actief' });
+      this.route('resource', { path: '/:resource_id' });
+    }
+  );
 
-  this.route('press-releases', {
-    path: 'persberichten'
-  }, function() {});
+  this.route(
+    'press-releases',
+    {
+      path: 'persberichten',
+    },
+    function () {}
+  );
 
-  this.route('contacts', {
-    path: 'contacten'
-  }, function() {});
+  this.route(
+    'contacts',
+    {
+      path: 'contacten',
+    },
+    function () {}
+  );
 });

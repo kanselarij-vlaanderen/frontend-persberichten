@@ -1,0 +1,78 @@
+<div class="form-container" {{ did-insert (fn this.onFormRender @resource)}}>
+  {{#if @resource}}
+  <Contact::Form::Header @name="Status">
+    <InputField::ContactStatusRadio
+      @onInput={{this.onInput}}
+      @value={{if @resource @resource.contactStatus ''}}
+    />
+  </Contact::Form::Header>
+  {{/if}}
+  <Contact::Form::Header @name="Persoonlijke informatie">
+    <div class="flex-row">
+      <InputField::InputWithLabel
+        class="half-width"
+        @value={{if @resource @resource.givenName ''}}
+        id="givenName"
+        @label="Voornaam"
+        @onInput={{this.onInput}}
+      />
+      <InputField::InputWithLabel
+        class="half-width"
+        @value={{if @resource @resource.familyName ''}}
+        id="familyName"
+        @label="Achternaam"
+        @onInput={{this.onInput}}
+      />
+    </div>
+    <InputField::InputWithLabel
+        @value={{if @resource @resource.role ''}}
+        id="role"
+        @label="Functie"
+        @onInput={{this.onInput}}
+    />
+    <InputField::OrganizationSelect
+      @label="Entiteit"
+      @changeOrganization={{this.onInput}}
+      @value={{if @resource @resource.organization ''}}
+    ></InputField::OrganizationSelect>
+  </Contact::Form::Header>
+  <Contact::Form::Header @name="Contact informatie">
+    <div class="flex-row">
+      <InputField::InputWithLabel
+        class="half-width"
+        id="telephone"
+        @label="Telefoon"
+        @onInput={{this.onInput}}
+        @value={{if @resource @resource.telephone ''}}
+      />
+      <InputField::InputWithLabel
+        class="half-width"
+        id="mobilePhone"
+        @label="Mobiel nummer"
+        @optional="true"
+        @onInput={{this.onInput}}
+        @value={{if @resource @resource.mobilePhone ''}}
+      />
+    </div>
+    <InputField::InputWithLabel
+      class="full-width-input"
+      id="mailAddress"
+      @label="E-mailadres"
+      @onInput={{this.onInput}}
+        @value={{if @resource @resource.mailAddress ''}}
+    />
+  </Contact::Form::Header>
+  <Contact::Form::Header @name="Toon contact informatie">
+    <InputField::ResourceInfoPublicationChannels
+      @publicationChannels={{if @resource @resource.publicatiekanalen}}
+      @onInput={{this.onInput}}
+      {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
+    />
+  </Contact::Form::Header>
+
+</div>
+
+
+
+{{!-- used only with existing resources --}}
+{{!-- <InputField::ContactStatusRadio @onInput={{this.onRadioSelected}}></InputField::ContactStatusRadio> --}}

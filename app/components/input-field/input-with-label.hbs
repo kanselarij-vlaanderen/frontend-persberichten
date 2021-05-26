@@ -1,0 +1,9 @@
+  <div ...attributes class="margin-input-field">
+    <div class="space-between">
+      <WebComponents::AuLabel>{{@label}}</WebComponents::AuLabel>
+      {{#if @optional}}
+        <WebComponents::AuLabel>Optioneel</WebComponents::AuLabel>
+      {{/if}}
+    </div>
+    <WebComponents::AuInput @value={{@value}} ...attributes class="full-width input-border-radius" {{on 'input' (fn @onInput)}}/>
+  </div>
