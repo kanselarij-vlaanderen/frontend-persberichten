@@ -1,0 +1,20 @@
+<PageTitleComponent>
+  <div class="title-indentification">
+    <WebComponents::AuIcon
+      @name="chevron-left"
+      @size="large"
+      @iconSkinColor="primary"
+      class="margin-right-small"
+      {{ on "click" this.navigateToSource }}
+    />
+    <div>
+      <h2 class="auk-u-muted">Bronnen</h2>
+      <h1 class="auk-toolbar-complex__title">Nieuwe bron aanmaken</h1>
+    </div>
+  </div>
+  <WebComponents::AuButton @skin="primary" {{ on 'click' this.createSource}}>
+      Bron Aanmaken
+    </WebComponents::AuButton>
+</PageTitleComponent>
+{{!-- <Contact::Form /> --}}
+<Contact::Form @source={{this.newSource}} @onInput={{this.onInput}}/>

@@ -1,0 +1,25 @@
+<PageTitleComponent>
+  <div {{ did-insert this.onLoadSource}} class="title-indentification">
+    <WebComponents::AuIcon
+      @name="chevron-left"
+      @size="large"
+      @iconSkinColor="primary"
+      class="margin-right-small"
+      {{ on "click" this.navigateToSource }}
+    />
+    <div>
+      <h2 class="auk-u-muted">Bronnen</h2>
+      <h1 class="auk-toolbar-complex__title">{{this.source.fullName}}</h1>
+    </div>
+  </div>
+  <div>
+    <WebComponents::AuButton @skin="secondary" {{ on 'click' this.openActionModal}}>
+        Acties<WebComponents::AuIcon class="margin-left-small" @name="chevron-down"/>
+    </WebComponents::AuButton>
+    <WebComponents::AuButton @skin="primary" {{ on 'click' this.saveSource}}>
+        Opslaan
+    </WebComponents::AuButton>
+  </div>
+</PageTitleComponent>
+{{!-- <Contact::Form /> --}}
+<Contact::Form @source={{this.source}} @onInput={{this.onInput}} />

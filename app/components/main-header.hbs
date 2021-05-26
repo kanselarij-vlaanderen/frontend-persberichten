@@ -14,12 +14,12 @@
         <div class="main-header-inner">
             {{#if @contactRoute}}
               <LinkTo @route={{@contactRoute}} class="help-link">
-                <WebComponents::AuIcon @name={{@contactIcon}} @size={{@contactSize}} /> Help
+                <WebComponents::AuIcon @name={{@contactIcon}} @size={{@contactSize}} class="margin-right-small"/> Help
               </LinkTo>
             {{/if}}
             {{#if @user}}
             <WebComponents::AuButton @skin="borderless" class="muted-gray" {{on "click" @showUserModel }}>
-              Jan <WebComponents::AuIcon @name="chevron-down"/>
+              Jan <WebComponents::AuIcon class="margin-left-small" @name="chevron-down"/>
             </WebComponents::AuButton>
             {{/if}}
         </div>
