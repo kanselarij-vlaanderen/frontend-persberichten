@@ -2,16 +2,16 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
 export default class ContactFormComponent extends Component {
-  resource = {};
-  newResource = {};
+  source = {};
+  newSource = {};
 
   @action
-  onFormRender(existingResource) {
-    if (existingResource) {
-      this.resource = existingResource;
-      // this.newResource = {
-      //   ...existingResource,
-      //   publicatiekanalen: existingResource.publicatiekanalen.map((channel) => {
+  onFormRender(existingSource) {
+    if (existingSource) {
+      this.source = existingSource;
+      // this.newSource = {
+      //   ...existingSource,
+      //   publicatiekanalen: existingSource.publicatiekanalen.map((channel) => {
       //     return {
       //       ...channel,
       //     };

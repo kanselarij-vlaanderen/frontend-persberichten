@@ -3,50 +3,50 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class ResourcesResourceController extends Controller {
+export default class SourcesSourceController extends Controller {
   @service router;
   @service store;
 
-  @tracked resource;
+  @tracked source;
 
   @action
-  async onLoadResource() {
+  async onLoadSource() {
     console.log('rendering');
-    const resource = await this.store.findRecord(
+    const source = await this.store.findRecord(
       'contact',
       '38d04ce5-bbef-492f-b19d-0a5da640b2e9'
     );
-    // const resource = await this.store.findRecord('contact', this.model.resource_id).catch(err => console.log(err));
-    this.resource = resource;
+    // const source = await this.store.findRecord('contact', this.model.source_id).catch(err => console.log(err));
+    this.source = source;
   }
 
   @action
-  navigateToResource() {
-    this.resource.rollbackAttributes();
-    this.router.transitionTo('resources.active');
+  navigateToSource() {
+    this.source.rollbackAttributes();
+    this.router.transitionTo('sources.active');
   }
 
   @action
   onInput(target, value) {
-    this.resource[target] = value;
+    this.source[target] = value;
     if (target === 'familyName' || target === 'givenName') {
-      this.resource.fullName = `${this.resource.givenName} ${this.resource.familyName}`;
+      this.source.fullName = `${this.source.givenName} ${this.source.familyName}`;
     }
   }
 
   @action
   openActionModal() {
-    // this.resource.familyName = 'changed name';
+    // this.source.familyName = 'changed name';
     try {
-      this.resource.save();
+      this.source.save();
     } catch (err) {
       console.log(err);
     }
   }
 
   @action
-  saveResource() {
-    console.log('saving resource');
+  saveSource() {
+    console.log('saving source');
   }
 }
 

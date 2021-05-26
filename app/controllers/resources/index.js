@@ -1,13 +1,12 @@
 import Controller from '@ember/controller';
-import {action} from '@ember/object';
-import { inject as service } from '@ember/service'
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default class ResourcesIndexController extends Controller {
-
+export default class SourcesIndexController extends Controller {
   @service router;
 
   @action
-  navigateToNewResource() {
-    this.router.transitionTo("resources.new")
+  navigateToNewSource() {
+    this.router.transitionTo('sources.new');
   }
 }

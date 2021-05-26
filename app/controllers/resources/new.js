@@ -2,11 +2,11 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class ResourcesNewController extends Controller {
+export default class SourcesNewController extends Controller {
   @service router;
   @service store;
 
-  // newResource = {
+  // newsource = {
   //   "contact-status": 'actief',
   //   "given-name": "Edo",
   //   "family-name": "Tsatourov",
@@ -24,18 +24,18 @@ export default class ResourcesNewController extends Controller {
   // };
 
   @action
-  navigateToResource() {
-    this.router.transitionTo('resources.active');
+  navigateToSource() {
+    this.router.transitionTo('sources.active');
   }
 
   @action
   onPublicationChannelChange(publicationChannels) {
-    // update resource object with publicationChannels here
+    // update source object with publicationChannels here
     console.log(publicationChannels);
   }
 
   @action
-  async createResource() {
+  async createsource() {
     // first create nested rels
     // const phone = await this.store.createRecord('mobile-phone', {
     //   number: '0404432132144',
@@ -60,6 +60,6 @@ export default class ResourcesNewController extends Controller {
 
     let contacts = await this.store.findAll('contact');
     contacts.forEach((a) => console.log(a));
-    console.log('creating resource');
+    console.log('creating source');
   }
 }

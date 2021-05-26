@@ -1,9 +1,9 @@
-<div class="form-container" {{ did-insert (fn this.onFormRender @resource)}}>
-  {{#if @resource}}
+<div class="form-container" {{ did-insert (fn this.onFormRender @source)}}>
+  {{#if @source}}
   <Contact::Form::Header @name="Status">
     <InputField::ContactStatusRadio
       @onInput={{this.onInput}}
-      @value={{if @resource @resource.contactStatus ''}}
+      @value={{if @source @source.contactStatus ''}}
     />
   </Contact::Form::Header>
   {{/if}}
@@ -11,21 +11,21 @@
     <div class="flex-row">
       <InputField::InputWithLabel
         class="half-width"
-        @value={{if @resource @resource.givenName ''}}
+        @value={{if @source @source.givenName ''}}
         id="givenName"
         @label="Voornaam"
         @onInput={{this.onInput}}
       />
       <InputField::InputWithLabel
         class="half-width"
-        @value={{if @resource @resource.familyName ''}}
+        @value={{if @source @source.familyName ''}}
         id="familyName"
         @label="Achternaam"
         @onInput={{this.onInput}}
       />
     </div>
     <InputField::InputWithLabel
-        @value={{if @resource @resource.role ''}}
+        @value={{if @source @source.role ''}}
         id="role"
         @label="Functie"
         @onInput={{this.onInput}}
@@ -33,7 +33,7 @@
     <InputField::OrganizationSelect
       @label="Entiteit"
       @changeOrganization={{this.onInput}}
-      @value={{if @resource @resource.organization ''}}
+      @value={{if @source @source.organization ''}}
     ></InputField::OrganizationSelect>
   </Contact::Form::Header>
   <Contact::Form::Header @name="Contact informatie">
@@ -43,7 +43,7 @@
         id="telephone"
         @label="Telefoon"
         @onInput={{this.onInput}}
-        @value={{if @resource @resource.telephone ''}}
+        @value={{if @source @source.telephone ''}}
       />
       <InputField::InputWithLabel
         class="half-width"
@@ -51,7 +51,7 @@
         @label="Mobiel nummer"
         @optional="true"
         @onInput={{this.onInput}}
-        @value={{if @resource @resource.mobilePhone ''}}
+        @value={{if @source @source.mobilePhone ''}}
       />
     </div>
     <InputField::InputWithLabel
@@ -59,12 +59,12 @@
       id="mailAddress"
       @label="E-mailadres"
       @onInput={{this.onInput}}
-        @value={{if @resource @resource.mailAddress ''}}
+        @value={{if @source @source.mailAddress ''}}
     />
   </Contact::Form::Header>
   <Contact::Form::Header @name="Toon contact informatie">
-    <InputField::ResourceInfoPublicationChannels
-      @publicationChannels={{if @resource @resource.publicatiekanalen}}
+    <InputField::SourceInfoPublicationChannels
+      @publicationChannels={{if @source @source.publicatiekanalen}}
       @onInput={{this.onInput}}
       {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
     />
@@ -74,5 +74,5 @@
 
 
 
-{{!-- used only with existing resources --}}
+{{!-- used only with existing sources --}}
 {{!-- <InputField::ContactStatusRadio @onInput={{this.onRadioSelected}}></InputField::ContactStatusRadio> --}}

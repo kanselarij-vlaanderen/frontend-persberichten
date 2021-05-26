@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class InputFieldResourceInfoPublicationChannelsComponent extends Component {
+export default class InputFieldSourceInfoPublicationChannelsComponent extends Component {
   @service store;
 
   @tracked _publicationChannels = [];
@@ -28,11 +28,11 @@ export default class InputFieldResourceInfoPublicationChannelsComponent extends 
   }
 
   @action
-  async onPublicationChannelsRender(existingResourceChannel) {
-    //existingResourceChannel if exsists takes this object, otherwise loads from backend
+  async onPublicationChannelsRender(existingSourceChannel) {
+    //existingSourceChannel if exsists takes this object, otherwise loads from backend
 
-    if (existingResourceChannel) {
-      this._publicationChannels = existingResourceChannel;
+    if (existingSourceChannel) {
+      this._publicationChannels = existingSourceChannel;
     } else {
       let newPublicationChannels = [];
       const publicationChannels = await this.store.findAll(

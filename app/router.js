@@ -14,7 +14,7 @@ Router.map(function () {
   this.route('login', { path: 'aanmelden' });
 
   this.route(
-    'resources',
+    'sources',
     {
       path: 'bronnen',
     },
@@ -22,7 +22,7 @@ Router.map(function () {
       this.route('new', { path: 'nieuw' });
       this.route('index', function () {});
       this.route('active', { path: 'actief' });
-      this.route('resource', { path: '/:resource_id' });
+      this.route('source', { path: '/:source_id' });
     }
   );
 
