@@ -5,8 +5,7 @@ export default class SourcesActiveRoute extends Route {
   @service store;
 
   async model() {
-    console.log('here');
+    console.log('getting all contacts');
     const contacts = await this.store.findAll('contact');
-    contacts.forEach((a) => console.log(a));
   }
 }

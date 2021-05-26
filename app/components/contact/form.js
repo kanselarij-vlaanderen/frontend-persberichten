@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 export default class ContactFormComponent extends Component {
   source = {};
   newSource = {};
+  parentCallback;
 
   @action
   onFormRender(existingSource) {

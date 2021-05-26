@@ -11,7 +11,7 @@ export default class SourcesSourceController extends Controller {
 
   @action
   async onLoadSource() {
-    console.log('rendering');
+    //after table add source_id navigation
     const source = await this.store.findRecord(
       'contact',
       '38d04ce5-bbef-492f-b19d-0a5da640b2e9'
@@ -36,17 +36,18 @@ export default class SourcesSourceController extends Controller {
 
   @action
   openActionModal() {
-    // this.source.familyName = 'changed name';
-    try {
-      this.source.save();
-    } catch (err) {
-      console.log(err);
-    }
+    // delete comes here;
   }
 
   @action
   saveSource() {
     console.log('saving source');
+    this.source.modified = new Date();
+    try {
+      this.source.save();
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
