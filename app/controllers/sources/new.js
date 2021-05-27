@@ -27,10 +27,11 @@ export default class SourcesNewController extends Controller {
     // const phone = await this.store.createRecord('mobile-phone', {
     //   number: '0404432132144',
     // });
-
+    this.source.created = new Date();
+    this.source.modified = new Date();
     try {
       console.log('saving source');
-      this.source.save();
+      this.source.save().then(() => this.router.transitionTo('sources.active'));
     } catch (err) {
       console.log(err);
     }
