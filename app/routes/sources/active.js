@@ -6,6 +6,12 @@ export default class SourcesActiveRoute extends Route {
 
   async model() {
     console.log('getting all contacts');
-    const contacts = await this.store.findAll('contact');
+    const activeContacts = await this.store.query('contact', {
+      filter: {
+        'contact-status': 'actief',
+      },
+    });
+
+    activeContacts.forEach((a) => console.log(a));
   }
 }

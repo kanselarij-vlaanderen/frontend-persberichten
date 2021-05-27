@@ -14,7 +14,7 @@ export default class SourcesSourceController extends Controller {
     //after table add source_id navigation
     const source = await this.store.findRecord(
       'contact',
-      '38d04ce5-bbef-492f-b19d-0a5da640b2e9'
+      '60ADCEF2598BA10009000001'
     );
     // const source = await this.store.findRecord('contact', this.model.source_id).catch(err => console.log(err));
     this.source = source;
