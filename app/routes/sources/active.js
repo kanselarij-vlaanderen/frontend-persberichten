@@ -1,17 +1,7 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+// eslint-disable-next-line ember/no-mixins
+import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
-export default class SourcesActiveRoute extends Route {
-  @service store;
-
-  async model() {
-    console.log('getting all contacts');
-    const activeContacts = await this.store.query('contact', {
-      filter: {
-        'contact-status': 'actief',
-      },
-    });
-
-    activeContacts.forEach((a) => console.log(a));
-  }
+export default class SourcesActiveRoute extends Route.extend(DataTableRouteMixin) {
+  modelName = 'contact';
 }

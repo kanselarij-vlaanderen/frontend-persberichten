@@ -47,6 +47,11 @@ ember-power-select-options[role=listbox] {
   border-bottom: none;
 }
 
+.text-decoration-none {
+  text-decoration: none;
+  border-bottom: none;
+}
+
 .auk-navbar {
   padding: 0;
 }
@@ -84,4 +89,9 @@ ember-power-select-options[role=listbox] {
 
 .input-border-radius {
   border-radius: 3px;
+}
+
+.table-container {
+  margin: 1em 2em;
+  width: auto;
 }

@@ -12,11 +12,13 @@ export default class SourcesSourceController extends Controller {
   @action
   async onLoadSource() {
     //after table add source_id navigation
-    const source = await this.store.findRecord(
-      'contact',
-      '60ADCEF2598BA10009000001'
-    );
-    // const source = await this.store.findRecord('contact', this.model.source_id).catch(err => console.log(err));
+    // const source = await this.store.findRecord(
+    //   'contact',
+    //   '60ADE3B5598BA10009000007'
+    // );
+    const source = await this.store
+      .findRecord('contact', this.model.source_id)
+      .catch((err) => console.log(err));
     this.source = source;
   }
 

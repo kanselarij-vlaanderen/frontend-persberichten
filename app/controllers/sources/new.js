@@ -6,7 +6,13 @@ export default class SourcesNewController extends Controller {
   @service router;
   @service store;
 
-  source = this.store.createRecord('contact');
+  source;
+
+  @action
+  renderNewSource() {
+    this.source = null;
+    this.source = this.store.createRecord('contact');
+  }
 
   @action
   navigateToSource() {
@@ -29,6 +35,8 @@ export default class SourcesNewController extends Controller {
     // });
     this.source.created = new Date();
     this.source.modified = new Date();
+    console.log(this.source.modified);
+    this.source.contactStatus = 'actief';
     try {
       console.log('saving source');
       this.source.save().then(() => this.router.transitionTo('sources.active'));
