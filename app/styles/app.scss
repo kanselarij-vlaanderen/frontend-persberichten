@@ -1,19 +1,21 @@
 @import 'ember-data-table';
 @import "ember-power-select";
+@import "./colors/colors";
 
 // Components (from npm package)
 @import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-standalone";
 @import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-base";
+@import "./auk-additions";
 
 // @font-face {
-//   font-family: 'Flanders Art Sans';
-//   src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
-// }
+  //   font-family: 'Flanders Art Sans';
+  //   src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
+  // }
 
-@import "./page-title-component.scss";
-@import "./input-field/source-info-publication-channels.scss";
-@import "./contact/form.scss";
-@import "./input-field/organization-select.scss";
+  @import "./page-title-component.scss";
+  @import "./input-field/source-info-publication-channels.scss";
+  @import "./contact/form.scss";
+  @import "./input-field/organization-select.scss";
 
 $primary-blue: #0055CC;
 $gray: #CCD1D9;
@@ -21,7 +23,7 @@ $muted-text-color: #69717C;
 $border-black: #2A2D31;
 
 
-.auk-toolbar-complex {
+.header-toolbar {
   max-width: calc(100% - 195px);
 }
 
@@ -94,4 +96,12 @@ ember-power-select-options[role=listbox] {
 .table-container {
   margin: 1em 2em;
   width: auto;
+}
+
+.width-th {
+  width: 25%;
+}
+
+.row-button {
+  text-align: end;
 }

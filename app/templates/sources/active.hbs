@@ -10,7 +10,6 @@
       Bron Aanmaken
     </WebComponents::AuButton>
 </PageTitleComponent>
-<div {{did-insert this.getFilteredContacts}}>
   <div class="auk-scroll-wrapper">
       <div class="auk-scroll-wrapper__body">
           <div class="auk-u-m-4">
@@ -21,21 +20,21 @@
                     @currentSorting={{this.sort}}
                     @field='family-name'
                     @label='Naam contact'
-                    @class="auk-u-text-nowrap auk-case-name-header"
+                    @class="auk-u-text-nowrap width-th"
                   />
                   <ThSortable
                     @currentSorting={{this.sort}}
                     @field='role'
                     @label='Functie'
-                    @class="auk-u-text-nowrap"
+                    @class="auk-u-text-nowrap width-th"
                   />
                   <ThSortable
                     @currentSorting={{this.sort}}
                     @field='modified'
                     @label='Laatst bewerkt '
-                    @class="auk-u-text-nowrap"
+                    @class="auk-u-text-nowrap width-th"
                   />
-                  <th></th>
+                  <th class="width-th"></th>
                 </tr>
               </thead>
               <tbody>
@@ -57,14 +56,14 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="row-button">
                       <LinkTo @route='sources.source' @model={{row.id}} class="text-decoration-none">
-                      <WebComponents::AuIcon
-                        @name="chevron-right"
-                        @size="large"
-                        @iconSkinColor="primary"
-                        class="margin-right-small"
-                      />
+                        <WebComponents::AuIcon
+                          @name="chevron-right"
+                          @size="large"
+                          @iconSkinColor="primary"
+                          class="margin-right-small"
+                        />
                       </LinkTo>
                     </td>
                   </tr>
@@ -80,13 +79,13 @@
   <WebComponents::AuToolbar >
     <WebComponents::AuToolbar::Group @position="left">
       <WebComponents::AuToolbar::Item>
-        {{!-- <WebComponents::AuPagination
+        <WebComponents::AuPagination
                 @page={{this.page}}
                 @nbOfItems={{this.model.length}}
                 @size={{this.size}}
                 @onNextPage={{this.nextPage}}
                 @onPreviousPage={{this.prevPage}}
-                @total={{this.model.meta.count}} /> --}}
+                @total={{this.model.meta.count}} />
       </WebComponents::AuToolbar::Item>
     </WebComponents::AuToolbar::Group>
     <WebComponents::AuToolbar::Group @position="right">
@@ -94,78 +93,13 @@
         {{t "amount-showed"}}
       </WebComponents::AuToolbar::Item>
       <WebComponents::AuToolbar::Item>
-        {{!-- <WebComponents::AuPageSize
+        <WebComponents::AuPageSize
           @selectedSize={{this.size}}
           @onChange={{this.setSizeOption}}
         >
-        </WebComponents::AuPageSize> --}}
+        </WebComponents::AuPageSize>
       </WebComponents::AuToolbar::Item>
 
     </WebComponents::AuToolbar::Group>
   </WebComponents::AuToolbar>
 </div>
-</div>
-
-
-
-
-            {{!-- <DataTable
-              @sort={{this.sort}}
-              @page={{this.page}}
-              @size={{this.size}}
-              @content={{this.model}}
-              @noDataMessage="Geen contacten gevonden" as |table|>
-
-                <table.content as |c| >
-                <c.header>
-                    <ThSortable
-                      @currentSorting={{this.sort}}
-                      @field='family-name'
-                      @label='Naam contact'
-                      @class="auk-u-text-nowrap auk-case-name-header"
-                    />
-                    <ThSortable
-                      @currentSorting={{this.sort}}
-                      @field='role'
-                      @label='Functie'
-                      @class="auk-u-text-nowrap auk-case-name-header"
-                    />
-                    <ThSortable
-                      @currentSorting={{this.sort}}
-                      @field='modified'
-                      @label='Laatst bewerkt'
-                      @class="auk-u-text-nowrap auk-case-name-header"
-                    />
-                  <th></th>
-                </c.header>
-                <c.body data-test-loket="mandatarissen-body" as |row|>
-                    <td>
-                      {{row.familyName}}
-                    </td>
-                    <td>
-                      {{row.role}}
-                    </td>
-                    <td>
-                      <div>
-                        <div>
-                          {{day-js date=row.modified format='DD-MM-YYYY'}}
-                        </div>
-                        <div class="muted-gray">
-                          {{day-js date=row.modified format='hh:mm'}}
-                        </div>
-                      </div>
-                    </td>
-                  <td>
-                    <LinkTo @route='sources.source' @model={{row.id}} class="text-decoration-none">
-                    <WebComponents::AuIcon
-                      @name="chevron-right"
-                      @size="large"
-                      @iconSkinColor="primary"
-                      class="margin-right-small"
-                    />
-                    </LinkTo>
-                  </td>
-                </c.body>
-              </table.content>
-
-            </DataTable> --}}

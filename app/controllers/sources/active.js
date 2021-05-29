@@ -9,9 +9,9 @@ export default class SourcesActiveController extends Controller {
 
   // queryParams = ['sort'];
 
-  sort = '';
-  page = 0;
-  size = 10;
+  @tracked sort = '';
+  @tracked page = 0;
+  @tracked size = 10;
 
   @tracked activeContacts;
   @tracked queryParams = {
@@ -26,10 +26,23 @@ export default class SourcesActiveController extends Controller {
   }
 
   @action
-  async getFilteredContacts() {
-    // console.log('getting all contacts');
-    // const activeContacts = await this.store.query('contact', this.queryParams);
-    // this.activeContacts = activeContacts;
-    // activeContacts.forEach((a) => console.log(a));
+  prevPage() {
+    // TODO: setter instead of @tracked on qp's before updating to Ember 3.22+ (https://github.com/emberjs/ember.js/issues/18715)
+    if (this.page > 0) {
+       this.page -=1;
+    }
+  }
+
+  @action
+  nextPage() {
+    // TODO: setter instead of @tracked on qp's before updating to Ember 3.22+ (https://github.com/emberjs/ember.js/issues/18715)
+    this.page +=1;
+  }
+
+  @action
+  setSizeOption(size) {
+    // TODO: setters instead of @tracked on qp's before updating to Ember 3.22+ (https://github.com/emberjs/ember.js/issues/18715)
+    this.size = size;
+    this.page = 0;
   }
 }
