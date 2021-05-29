@@ -1,0 +1,92 @@
+<div class="auk-scroll-wrapper">
+      <div class="auk-scroll-wrapper__body">
+          <div class="auk-u-m-4">
+            <table class="auk-table">
+              <thead>
+                <tr>
+                  <ThSortable
+                    @currentSorting={{@sort}}
+                    @field='family-name'
+                    @label='Naam contact'
+                    @class="auk-u-text-nowrap width-th"
+                  />
+                  <ThSortable
+                    @currentSorting={{@sort}}
+                    @field='role'
+                    @label='Functie'
+                    @class="auk-u-text-nowrap width-th"
+                  />
+                  <ThSortable
+                    @currentSorting={{@sort}}
+                    @field='modified'
+                    @label='Laatst bewerkt '
+                    @class="auk-u-text-nowrap width-th"
+                  />
+                  <th class="width-th"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each @model as |row|}}
+                  <tr>
+                    <td>
+                      {{row.familyName}}
+                    </td>
+                    <td>
+                      {{row.role}}
+                    </td>
+                    <td>
+                      <div>
+                        <div>
+                          {{day-js date=row.modified format='DD-MM-YYYY'}}
+                        </div>
+                        <div class="muted-gray">
+                          {{day-js date=row.modified format='hh:mm'}}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="row-button">
+                      <LinkTo @route='sources.source' @model={{row.id}} class="text-decoration-none">
+                        <WebComponents::AuIcon
+                          @name="chevron-right"
+                          @size="large"
+                          @iconSkinColor="primary"
+                          class="margin-right-small"
+                        />
+                      </LinkTo>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+      </div>
+  </div>
+
+  <div class="auk-u-mx-4">
+  <WebComponents::AuToolbar >
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <WebComponents::AuPagination
+                @page={{@page}}
+                @nbOfItems={{@model.length}}
+                @size={{@size}}
+                @onNextPage={{@nextPage}}
+                @onPreviousPage={{@prevPage}}
+                @total={{@model.meta.count}} />
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+      <WebComponents::AuToolbar::Item>
+        {{t "amount-showed"}}
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <WebComponents::AuPageSize
+          @selectedSize={{@size}}
+          @onChange={{@setSizeOption}}
+        >
+        </WebComponents::AuPageSize>
+      </WebComponents::AuToolbar::Item>
+
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</div>

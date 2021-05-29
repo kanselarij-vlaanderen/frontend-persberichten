@@ -16,6 +16,7 @@
   @import "./input-field/source-info-publication-channels.scss";
   @import "./contact/form.scss";
   @import "./input-field/organization-select.scss";
+  @import "./contact/active.scss";
 
 $primary-blue: #0055CC;
 $gray: #CCD1D9;
@@ -104,4 +105,8 @@ ember-power-select-options[role=listbox] {
 
 .row-button {
   text-align: end;
+}
+
+.nav-component {
+  font-size: 15px;
 }
