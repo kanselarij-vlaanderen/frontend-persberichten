@@ -1,0 +1,23 @@
+  <Shared::Header @name="Bericht">
+    <InputField::InputWithLabel
+        @value={{@pressRelease.title}}
+        id="title"
+        @label="Titel"
+        @onInput={{@onInput}}
+      />
+    <InputField::TextAreaWithLabel
+        class="press-release-textarea"
+        @value={{@pressRelease.htmlContent}}
+        id="htmlContent"
+        @label="Bericht"
+        @onInput={{@onInput}}
+      />
+    <InputField::TextAreaWithLabel
+        @value={{@pressRelease.abstract}}
+        id="abstract"
+        @label="Samenvatting"
+        @onInput={{@onInput}}
+      />
+    {{!-- hoe doorgeven? --}}
+    <InputField::ThemeSelect @onInput={{@onSelectTheme}} @onSelectTheme={{@onSelectTheme}} @selectedThemes={{@selectedThemes}}/>
+  </Shared::Header>

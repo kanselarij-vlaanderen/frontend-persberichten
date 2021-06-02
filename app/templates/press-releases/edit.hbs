@@ -1,0 +1,68 @@
+{{page-title "Edit"}}
+<PageTitleComponent>
+  <div class="title-indentification" {{ did-insert this.onEditRender}}>
+    <WebComponents::AuIcon
+      @name="chevron-left"
+      @size="large"
+      @iconSkinColor="primary"
+      class="margin-right-small"
+      {{ on "click" this.navigateToPressReleases }}
+    />
+    <div>
+      <h2 class="auk-u-muted">Persberichten</h2>
+      <h1 class="auk-toolbar-complex__title">Nieuw persbericht</h1>
+    </div>
+  </div>
+  <div>
+    <WebComponents::AuButton @skin="secondary" {{ on 'click' this.openActionDropdown}}>
+       Acties <WebComponents::AuIcon class="margin-left-small" @name="chevron-down"/>
+    </WebComponents::AuButton>
+    <WebComponents::AuButton @skin="primary" {{ on 'click' this.openPublishDropdown}}>
+       Publiceren <WebComponents::AuIcon class="margin-left-small" @name="chevron-down"/>
+    </WebComponents::AuButton>
+    {{#if actionsDropdownOpen}}
+    <WebComponents::AuDropdown class='dropdown-actions'>
+      <div class="auk-menu__item active" {{on 'click' this.save}} >
+        Opslaan
+      </div>
+      <div class="auk-menu__item active" {{on 'click' this.saveAndClose}} >
+        Opslaan en sluiten
+      </div>
+    </WebComponents::AuDropdown>
+    {{/if}}
+    {{#if publishDropdownOpen}}
+    <WebComponents::AuDropdown class='dropdown-publish'>
+      <div class="auk-menu__item active" {{on 'click' this.openPublishModal}} >
+        Publiceren
+      </div>
+      <div class="auk-menu__item active" {{on 'click' this.openPublishLaterModal}} >
+        Later publiceren
+      </div>
+    </WebComponents::AuDropdown>
+    {{/if}}
+  </div>
+</PageTitleComponent>
+<div class="press-release-container">
+  <PressRelease::form
+    @pressRelease={{this.pressRelease}}
+    @onInput={{this.onInput}}
+    @onSelectTheme={{this.onSelectTheme}}
+    @selectedThemes={{this.selectedThemes}} />
+</div>
+{{#if publishModal}}
+  <PublishModal
+    @action={{this.publishLater}}
+    @closeModal={{closePublishModal}}
+    @headerText="Nu publiceren"
+    @buttonLabel="Persbericht publiceren"
+  />
+{{/if}}
+{{#if publishLaterModal}}
+  <PublishModalWithDate
+    @onChange={{this.onChangeDate}}
+    @action={{this.publishLater}}
+    @closeModal={{closePublishModal}}
+    @headerText="Nu publiceren"
+    @buttonLabel="Persbericht publiceren"
+  />
+{{/if}}

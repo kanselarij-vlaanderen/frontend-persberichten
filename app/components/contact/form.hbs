@@ -1,13 +1,13 @@
 <div class="form-container" {{ did-insert (fn this.onFormRender @source)}}>
   {{#if @source}}
-  <Contact::Form::Header @name="Status">
+  <Shared::Header @name="Status">
     <InputField::ContactStatusRadio
       @onInput={{this.onInput}}
       @value={{if @source @source.contactStatus ''}}
     />
-  </Contact::Form::Header>
+  </Shared::Header>
   {{/if}}
-  <Contact::Form::Header @name="Persoonlijke informatie">
+  <Shared::Header @name="Persoonlijke informatie">
     <div class="flex-row">
       <InputField::InputWithLabel
         class="half-width"
@@ -35,8 +35,8 @@
       @changeOrganization={{this.onInput}}
       @value={{if @source @source.organization ''}}
     ></InputField::OrganizationSelect>
-  </Contact::Form::Header>
-  <Contact::Form::Header @name="Contact informatie">
+  </Shared::Header>
+  <Shared::Header @name="Contact informatie">
     <div class="flex-row">
       <InputField::InputWithLabel
         class="half-width"
@@ -61,14 +61,14 @@
       @onInput={{this.onInput}}
         @value={{if @source @source.mailAddress ''}}
     />
-  </Contact::Form::Header>
-  <Contact::Form::Header @name="Toon contact informatie">
+  </Shared::Header>
+  <Shared::Header @name="Toon contact informatie">
     <InputField::SourceInfoPublicationChannels
       @publicationChannels={{if @source @source.publicatiekanalen}}
       @onInput={{this.onInput}}
       {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
     />
-  </Contact::Form::Header>
+  </Shared::Header>
 
 </div>
 

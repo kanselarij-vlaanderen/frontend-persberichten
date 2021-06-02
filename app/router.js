@@ -32,7 +32,9 @@ Router.map(function () {
     {
       path: 'persberichten',
     },
-    function () {}
+    function () {
+      this.route('edit', { path: '/:id'});
+    }
   );
 
   this.route(

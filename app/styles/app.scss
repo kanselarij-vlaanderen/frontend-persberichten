@@ -23,6 +23,27 @@ $gray: #CCD1D9;
 $muted-text-color: #69717C;
 $border-black: #2A2D31;
 
+.auk-button {
+  border-radius: 3px;
+}
+
+.auk-menu {
+  background: #FFFFFF;
+  /* Elevation Small */
+
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 1px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.flex-spacebetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $gray;
+}
 
 .header-toolbar {
   max-width: calc(100% - 195px);
@@ -72,6 +93,10 @@ ember-power-select-options[role=listbox] {
   margin-right: 0.5em;
 }
 
+.margin-left-20px {
+  margin-left: 20px;
+}
+
 .margin-left-small {
   margin-left: 0.5em;
 }
@@ -110,3 +135,114 @@ ember-power-select-options[role=listbox] {
 .nav-component {
   font-size: 15px;
 }
+
+.full-screen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-container {
+  background: #FFFFFF;
+  /* Elevation Large */
+
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.14), 0px 6px 30px rgba(0, 0, 0, 0.12), 0px 8px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  margin: auto;
+  box-sizing: border-box;
+  h1 {
+    font-size: 20px;
+  }
+
+  .modal-header {
+    margin: 0 20px;
+    height: 65px;
+
+    button {
+      color: $muted-text-color;
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 0 20px;
+  }
+}
+
+.publish-modal {
+  width: 500px;
+  height: 235px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .button-container {
+    margin: 20px;
+  }
+}
+
+.new-press-release-modal {
+  width: 700px;
+  height: 235px;
+
+  .input-title {
+    height: 65px;
+    margin: 20px;
+  }
+}
+
+.dropdown-actions {
+  position: absolute;
+  top: 105px;
+  right: 25px;
+}
+
+.dropdown-publish {
+  position: absolute;
+  top: 105px;
+  right: 5px;
+}
+
+.press-release-container {
+  width: 80%;
+  margin: auto;
+}
+
+.press-release-textarea {
+  min-height: 400px;
+}
+
+.theme-checkbox-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  margin-bottom: 1em;
+}
+
+.theme-checkbox-inner-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .auk-label {
+    padding-bottom: 0;
+  }
+}
+
+.modal-datepicker {
+  width: 114px;
+}
+
+.datepicker-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
