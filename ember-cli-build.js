@@ -7,21 +7,25 @@ module.exports = function (defaults) {
     // Add options here
     'ember-cli-string-helpers': {
       only: ['capitalize']
-    }
+    },
+    sassOptions: {
+      extension: 'scss',
+      includePaths: [
+        'node_modules/@kanselarij-vlaanderen/au-kaleidos-css/'
+      ],
+    },
   });
 
-  // Use `app.import` to add additional libraries to the generated
-  // output files.
-  //
-  // If you need to use different assets in different
-  // environments, specify an object as the first parameter. That
-  // object's keys should be the environment name and the values
-  // should be the asset to use in that environment.
-  //
-  // If the library that you are including contains AMD or ES6
-  // modules that you would like to import into your application
-  // please specify an object with the list of modules as keys
-  // along with the exports of each module as its value.
+  app.import('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/icons.css'); // imported to /assets by default
+  app.import('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/icons.woff2', {
+    destDir: 'assets' // font files need to be next to their css file, because the css font-file references them hardcoded
+  });
+  app.import('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/icons.woff', {
+    destDir: 'assets' // font files need to be next to their css file, because the css font-file references them hardcoded
+  });
+  app.import('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/icons.ttf', {
+    destDir: 'assets' // font files need to be next to their css file, because the css font-file references them hardcoded
+  });
 
   return app.toTree();
 };

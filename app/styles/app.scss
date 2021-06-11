@@ -1,112 +1,19 @@
-@import 'ember-data-table';
+@import "ember-data-table";
 @import "ember-power-select";
-@import "./colors/colors";
 
-// Components (from npm package)
-@import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-standalone";
-@import "node_modules/@kanselarij-vlaanderen/au-kaleidos-css/auk-base";
-@import "./auk-additions";
+@import '_colors';
+@import 'govflanders/core/_setting.scss';
+@import 'govflanders/core/_tool.scss';
+@import 'govflanders/core/_generic.scss';
+@import 'govflanders/core/_object.scss';
 
-// @font-face {
-  //   font-family: 'Flanders Art Sans';
-  //   src: url(/assets/fonts/flanders-sans-medium.woff2) format('woff2');
-  // }
+/* sourced from 'au-kaleidos-css' */
+@import '_s-colors';
+@import "auk-standalone";
 
-  @import "./page-title-component.scss";
-  @import "./input-field/source-info-publication-channels.scss";
-  @import "./contact/form.scss";
-  @import "./input-field/organization-select.scss";
-  @import "./contact/active.scss";
+/* application-specific overrides */
+@import 'custom-application/power-select';
 
-$primary-blue: #0055CC;
-$gray: #CCD1D9;
-$muted-text-color: #69717C;
-$border-black: #2A2D31;
-
-
-.header-toolbar {
-  max-width: calc(100% - 195px);
-}
-
-.main-header-inner {
-  color: $muted-text-color;
-  display: flex;
-  justify-content: flex-start;
-  right: 0;
-  .ember-basic-dropdown-trigger {
-    border: none;
-  }
-}
-ember-power-select-options[role=listbox] {
-  width: 90px;
-}
-
-.help-link {
-  color: $muted-text-color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  border-bottom: none;
-}
-
-.text-decoration-none {
-  text-decoration: none;
-  border-bottom: none;
-}
-
-.auk-navbar {
-  padding: 0;
-}
-
-.auk-brand {
-  top: 0;
-  margin-right: 1rem;
-}
-
-.muted-gray {
-  color: $muted-text-color;
-}
-
-.margin-right-small {
-  margin-right: 0.5em;
-}
-
-.margin-left-small {
-  margin-left: 0.5em;
-}
-
-.margin-input-field {
-  margin-bottom: 24px;
-}
-
-.space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.input-border-radius {
-  border-radius: 3px;
-}
-
-.table-container {
-  margin: 1em 2em;
-  width: auto;
-}
-
-.width-th {
-  width: 25%;
-}
-
-.row-button {
-  text-align: end;
-}
-
-.nav-component {
-  font-size: 15px;
+[class*=auk-o-grid-col].auk-form-group:last-child {
+  margin: 0 0.8rem 2rem 0.8rem;
 }
