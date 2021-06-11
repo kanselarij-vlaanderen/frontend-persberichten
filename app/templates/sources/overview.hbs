@@ -1,5 +1,3 @@
-{{page-title "Actieve bronnen"}}
-
 <PageTitleComponent id="contact-page-title">
   <div>
     <h2>Bronnen</h2>
@@ -9,8 +7,8 @@
           <div class="main-header-container">
             <WebComponents::AuToolbar::Item>
               <WebComponents::AuTabs>
-                  <WebComponents::AuTab class="nav-component" @route="sources.active">{{capitalize "actief"}}</WebComponents::AuTab>
-                  <WebComponents::AuTab class="nav-component" @route="sources.inactive">{{capitalize "inactief"}}</WebComponents::AuTab>
+                <WebComponents::AuTab class="nav-component" @route="sources.overview.active">Actief</WebComponents::AuTab>
+                <WebComponents::AuTab class="nav-component" @route="sources.overview.inactive">Inactief</WebComponents::AuTab>
               </WebComponents::AuTabs>
             </WebComponents::AuToolbar::Item>
           </div>
@@ -24,15 +22,6 @@
       @size='small'
       class="margin-right-small"
     />
-      Bron Aanmaken
-    </WebComponents::AuButton>
+    Bron aanmaken
+  </WebComponents::AuButton>
 </PageTitleComponent>
-<Contact::Table
-  @model={{this.model}}
-  @sort={{this.sort}}
-  @page={{this.page}}
-  @size={{this.size}}
-  @nextPage={{this.nextPage}}
-  @prevPage={{this.prevPage}}
-  @setSizeOption={{this.setSizeOption}}
-/>

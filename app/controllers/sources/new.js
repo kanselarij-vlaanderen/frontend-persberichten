@@ -16,7 +16,7 @@ export default class SourcesNewController extends Controller {
 
   @action
   navigateToSource() {
-    this.router.transitionTo('sources.active');
+    this.router.transitionTo('sources.overview.active');
   }
 
   @action
@@ -39,7 +39,7 @@ export default class SourcesNewController extends Controller {
     this.source.contactStatus = 'actief';
     try {
       console.log('saving source');
-      this.source.save().then(() => this.router.transitionTo('sources.active'));
+      this.source.save().then(() => this.router.transitionTo('sources.overview.active'));
     } catch (err) {
       console.log(err);
     }
