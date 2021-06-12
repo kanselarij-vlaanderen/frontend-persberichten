@@ -20,7 +20,12 @@ export default class SourcesSourceController extends Controller {
       this.model.modified = new Date();
       yield this.model.save();
     } catch (err) {
-      console.log(err);
+      const changedAttributes = this.model.changedAttributes();
+      if (changedAttributes.modified) {
+        // restore latest successfull modification date
+        this.model.modified = changedAttributes.modified[0];
+      }
+      throw err;
     }
   }
 }

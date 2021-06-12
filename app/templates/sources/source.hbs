@@ -21,9 +21,15 @@
     </WebComponents::AuToolbar::Group>
     <WebComponents::AuToolbar::Group @position="right">
       <WebComponents::AuToolbar::Item>
-        <WebComponents::AuStatusPill @status="done">
-          {{dayjs-from-now this.model.modified}} opgeslagen
-        </WebComponents::AuStatusPill>
+        {{#if this.saveSource.last.isError}}
+          <WebComponents::AuStatusPill @status="error">
+            Opslaan mislukt
+          </WebComponents::AuStatusPill>
+        {{else}}
+          <WebComponents::AuStatusPill @status="done">
+            {{dayjs-from-now this.model.modified}} opgeslagen
+          </WebComponents::AuStatusPill>
+        {{/if}}
       </WebComponents::AuToolbar::Item>
       <WebComponents::AuToolbar::Item>
         <Auk::Button
