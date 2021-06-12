@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 export default class SourcesOverviewInactiveController extends Controller {
   @tracked sort = 'full-name';
   @tracked page = 0;
-  @tracked size = 10;
+  @tracked size = 25;
 
   @action
   prevPage() {
@@ -20,8 +20,13 @@ export default class SourcesOverviewInactiveController extends Controller {
   }
 
   @action
-  setSizeOption(size) {
+  setPageSize(size) {
     this.size = size;
     this.page = 0;
+  }
+
+  @action
+  setSort(sort) {
+    this.sort = sort;
   }
 }

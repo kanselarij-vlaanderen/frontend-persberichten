@@ -1,11 +1,23 @@
 {{page-title "Actieve bronnen"}}
 
-<Contact::Table
-  @model={{this.model}}
-  @sort={{this.sort}}
-  @page={{this.page}}
-  @size={{this.size}}
-  @nextPage={{this.nextPage}}
-  @prevPage={{this.prevPage}}
-  @setSizeOption={{this.setSizeOption}}
-/>
+<div class="auk-u-m-8">
+  <WebComponents::AuToolbar @size="large">
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <h1 class="auk-h1">Actieve bronnen</h1>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+
+  <Contact::Table
+    @model={{this.model}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+    @size={{this.size}}
+    @onSortChange={{this.setSort}}
+    @onNextPage={{this.nextPage}}
+    @onPreviousPage={{this.prevPage}}
+    @onPageSizeChange={{this.setPageSize}}
+    @noDataMessage="Geen actieve bronnen gevonden"
+  />
+</div>
