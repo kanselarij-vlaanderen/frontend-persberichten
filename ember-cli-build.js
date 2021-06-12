@@ -8,6 +8,10 @@ module.exports = function (defaults) {
     'ember-cli-string-helpers': {
       only: ['capitalize']
     },
+    'ember-dayjs': {
+      locales: ['nl-be'],
+      plugins: ['relativeTime']
+    },
     sassOptions: {
       extension: 'scss',
       includePaths: [

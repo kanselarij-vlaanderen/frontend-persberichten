@@ -53,9 +53,9 @@
                   {{row.mailAddress.value}}
                 </td>
                 <td>
-                  {{day-js date=row.modified format="DD-MM-YYYY"}}<br/>
+                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
                   <span class="auk-u-text-small auk-u-muted">
-                    {{day-js date=row.modified format="HH:mm"}}
+                    {{dayjs-format row.modified outputFormat="HH:mm"}}
                   </span>
                 </td>
                 <td>

@@ -21,6 +21,11 @@
     </WebComponents::AuToolbar::Group>
     <WebComponents::AuToolbar::Group @position="right">
       <WebComponents::AuToolbar::Item>
+        <WebComponents::AuStatusPill @status="done">
+          {{dayjs-from-now this.model.modified}} opgeslagen
+        </WebComponents::AuStatusPill>
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
         <Auk::Button
           @skin="primary"
           {{on "click" (perform this.saveSource)}}
