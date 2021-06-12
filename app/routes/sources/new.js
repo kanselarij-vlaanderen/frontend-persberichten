@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import CONFIG from '../../config/constants';
 
 export default class SourcesNewRoute extends Route {
@@ -15,5 +16,16 @@ export default class SourcesNewRoute extends Route {
     });
 
     return contact;
+  }
+
+  @action
+  willTransition(transition) {
+    const model = this.modelFor('sources.new');
+    if (model.isNew &&
+        !confirm('De bron is nog niet opgeslagen. Bent u zeker dat u de pagina wil verlaten?')) {
+      transition.abort();
+    } else {
+      return true;
+    }
   }
 }
