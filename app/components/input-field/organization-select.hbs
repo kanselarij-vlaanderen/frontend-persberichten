@@ -1,16 +1,15 @@
-<div ...attributes class="margin-input-field power-select"
-    {{ did-insert (fn this.onRenderOrganization @value)}}>
-  <div class="space-between">
-    <WebComponents::AuLabel>{{@label}}</WebComponents::AuLabel>
-    {{#if @optional}}
-      <WebComponents::AuLabel>Optioneel</WebComponents::AuLabel>
-    {{/if}}
-  </div>
-  <PowerSelect
-    @options={{this.organizations}}
-    @selected= {{this.selected}}
-    @onChange={{(fn this.changeOrganization @changeOrganization)}} as |organization|
-  >
-    {{organization}}
-  </PowerSelect>
+<div class="auk-form-group" ...attributes>
+  <Auk::Label for="organization">
+    {{@label}}
+  </Auk::Label>
+  {{#unless this.loadOrganizations.isRunning}}
+    <PowerSelect
+      @options={{this.organizations}}
+      @selected={{@selected}}
+      @searchEnabled={{true}}
+      @searchField="name"
+      @onChange={{@onChange}} as |organization|>
+      {{organization.name}}
+    </PowerSelect>
+  {{/unless}}
 </div>

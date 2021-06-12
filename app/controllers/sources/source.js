@@ -1,57 +1,26 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency-decorators';
 
 export default class SourcesSourceController extends Controller {
-  @service router;
-  @service store;
-
-  @tracked source;
-
-  @action
-  async onLoadSource() {
-    //after table add source_id navigation
-    // const source = await this.store.findRecord(
-    //   'contact',
-    //   '60ADE3B5598BA10009000007'
-    // );
-    const source = await this.store
-      .findRecord('contact', this.model.source_id)
-      .catch((err) => console.log(err));
-    this.source = source;
-  }
-
-  @action
-  navigateToSource() {
-    this.source.rollbackAttributes();
-    this.router.transitionTo('sources.active');
-  }
-
-  @action
-  onInput(target, value) {
-    this.source[target] = value;
-    if (target === 'familyName' || target === 'givenName') {
-      this.source.fullName = `${this.source.givenName} ${this.source.familyName}`;
-    }
-  }
-
-  @action
-  openActionModal() {
-    // delete comes here;
-  }
-
-  @action
-  saveSource() {
-    console.log('saving source');
-    this.source.modified = new Date();
+  @task
+  *saveSource() {
     try {
-      this.source.save();
+      const telephone = yield this.model.telephone;
+      const mobilePhone = yield this.model.mobilePhone;
+      const mailAddress = yield this.model.mailAddress;
+
+      // save related models first
+      yield Promise.all([
+        telephone.save(),
+        mobilePhone.save(),
+        mailAddress.save()
+      ]);
+
+      // save source
+      this.model.modified = new Date();
+      yield this.model.save();
     } catch (err) {
       console.log(err);
     }
   }
 }
-
-// https://guides.emberjs.com/release/models/creating-updating-and-deleting-records/
-// rollbackAttributes()

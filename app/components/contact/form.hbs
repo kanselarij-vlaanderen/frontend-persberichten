@@ -1,78 +1,115 @@
-<div class="form-container" {{ did-insert (fn this.onFormRender @source)}}>
-  {{#if @source}}
-  <Contact::Form::Header @name="Status">
-    <InputField::ContactStatusRadio
-      @onInput={{this.onInput}}
-      @value={{if @source @source.contactStatus ''}}
-    />
-  </Contact::Form::Header>
-  {{/if}}
-  <Contact::Form::Header @name="Persoonlijke informatie">
-    <div class="flex-row">
-      <InputField::InputWithLabel
-        class="half-width"
-        @value={{if @source @source.givenName ''}}
-        id="givenName"
-        @label="Voornaam"
-        @onInput={{this.onInput}}
-      />
-      <InputField::InputWithLabel
-        class="half-width"
-        @value={{if @source @source.familyName ''}}
-        id="familyName"
-        @label="Achternaam"
-        @onInput={{this.onInput}}
-      />
+{{#unless this.loadData.isRunning}}
+  <div class="auk-u-mt-8 auk-container--small auk-container--center">
+    <div class="auk-u-mt-8">
+      {{#unless @source.isNew}}
+        <h2 class="auk-h2">Status</h2>
+        <div class="auk-form-group-layout auk-form-group-layout--standard">
+          <InputField::ContactStatusRadio
+            @label="Deze contactpersoon is momenteel"
+            @value={{this.selectedStatus}}
+            @onChange={{this.setContactStatus}}
+            class="auk-form-group"
+          />
+        </div>
+      {{/unless}}
     </div>
-    <InputField::InputWithLabel
-        @value={{if @source @source.role ''}}
-        id="role"
-        @label="Functie"
-        @onInput={{this.onInput}}
-    />
-    <InputField::OrganizationSelect
-      @label="Entiteit"
-      @changeOrganization={{this.onInput}}
-      @value={{if @source @source.organization ''}}
-    ></InputField::OrganizationSelect>
-  </Contact::Form::Header>
-  <Contact::Form::Header @name="Contact informatie">
-    <div class="flex-row">
-      <InputField::InputWithLabel
-        class="half-width"
-        id="telephone"
-        @label="Telefoon"
-        @onInput={{this.onInput}}
-        @value={{if @source @source.telephone ''}}
-      />
-      <InputField::InputWithLabel
-        class="half-width"
-        id="mobilePhone"
-        @label="Mobiel nummer"
-        @optional="true"
-        @onInput={{this.onInput}}
-        @value={{if @source @source.mobilePhone ''}}
-      />
+
+    <div class="auk-u-mt-8">
+      <h2 class="auk-h2">Persoonlijke informatie</h2>
+      <div class="auk-o-grid auk-form-group-layout auk-form-group-layout--grid">
+        <div class="auk-o-grid-col-6 auk-form-group">
+          <Auk::Label for="given-name">
+            Voornaam
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="given-name"
+            @block={{true}}
+            @value={{mut @source.givenName}}
+            {{on "change" this.setFullName}}
+          />
+        </div>
+        <div class="auk-o-grid-col-6 auk-form-group">
+          <Auk::Label for="family-name">
+            Achternaam
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="family-name"
+            @block={{true}}
+            @value={{mut @source.familyName}}
+            {{on "change" this.setFullName}}
+          />
+        </div>
+        <div class="auk-o-grid-col-12 auk-form-group">
+          <Auk::Label for="contact-role">
+            Functie
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="contact-role"
+            @block={{true}}
+            @value={{mut @source.role}}
+          />
+        </div>
+        <div class="auk-o-grid-col-12">
+          <InputField::OrganizationSelect
+            @label="Entiteit"
+            @selected={{@source.organization}}
+            @onChange={{this.selectOrganization}}
+          />
+        </div>
+      </div>
     </div>
-    <InputField::InputWithLabel
-      class="full-width-input"
-      id="mailAddress"
-      @label="E-mailadres"
-      @onInput={{this.onInput}}
-        @value={{if @source @source.mailAddress ''}}
-    />
-  </Contact::Form::Header>
-  <Contact::Form::Header @name="Toon contact informatie">
-    <InputField::SourceInfoPublicationChannels
-      @publicationChannels={{if @source @source.publicatiekanalen}}
-      @onInput={{this.onInput}}
-      {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
-    />
-  </Contact::Form::Header>
 
-</div>
+    <div class="auk-u-mt-8">
+      <h2 class="auk-h2">Contact informatie</h2>
+      <div class="auk-o-grid auk-form-group-layout auk-form-group-layout--grid">
+        <div class="auk-o-grid-col-6 auk-form-group">
+          <Auk::Label for="telephone">
+            Telefoonnummer
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="telephone"
+            @block={{true}}
+            @value={{mut this.telephone.value}}
+          />
+        </div>
+        <div class="auk-o-grid-col-6 auk-form-group">
+          <Auk::Label for="mobile-phone">
+            Mobiel nummer
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="mobile-phone"
+            @block={{true}}
+            @value={{mut this.mobilePhone.value}}
+          />
+        </div>
+        <div class="auk-o-grid-col-12 auk-form-group">
+          <Auk::Label for="email">
+            E-mailadres
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="email"
+            @block={{true}}
+            @value={{mut this.mailAddress.value}}
+          />
+        </div>
+      </div>
+    </div>
 
-
-
-{{!-- used only with existing sources --}}
-{{!-- <InputField::ContactStatusRadio @onInput={{this.onRadioSelected}}></InputField::ContactStatusRadio> --}}
+    <div class="auk-u-mt-8">
+      <h2 class="auk-h2">Toon contact informatie</h2>
+      <div class="auk-o-grid auk-form-group-layout auk-form-group-layout--grid">
+        Publication channels here
+        {{!--       <InputField::SourceInfoPublicationChannels
+          @publicationChannels={{if @source @source.publicatiekanalen}}
+          @onInput={{this.onInput}} />  --}}
+        {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
+      </div>
+    </div>
+  </div>
+{{/unless}}

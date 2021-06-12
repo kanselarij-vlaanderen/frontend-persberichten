@@ -1,12 +1,15 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-export default class SourcesSourceRoute extends Route {
-  @service store;
-  model(params) {
-    return params;
-  }
 
-  setupController(controller, model) {
-    super.setupController(controller, model);
+export default class SourcesSourceRoute extends Route {
+  model(params) {
+    return this.store.findRecord('contact', params.source_id, {
+      include: [
+        'status',
+        'telephone',
+        'mobile-phone',
+        'mail-address',
+        'organization'
+      ].join(',')
+    });
   }
 }

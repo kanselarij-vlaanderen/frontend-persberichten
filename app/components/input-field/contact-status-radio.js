@@ -1,23 +1,23 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency-decorators';
 
 export default class InputFieldContactStatusRadioComponent extends Component {
   @service store;
 
-  @tracked contactStatus;
-  @tracked checked;
+  @tracked statuses = [];
 
-  @action
-  async onRenderStatus(exsistingStatus) {
-    if (exsistingStatus) this.checked = exsistingStatus;
-    const contactStatus = await this.store.findAll('contactStatus');
-    this.contactStatus = contactStatus;
+  constructor() {
+    super(...arguments);
+    this.loadStatuses.perform();
   }
-  @action
-  onSelectStatus(parentCallback, selected) {
-    this.checked = selected;
-    parentCallback('contactStatus', selected);
+
+  @task
+  *loadStatuses() {
+    this.statuses = yield this.store.query('contact-status', {
+      'page[size]': 100,
+      sort: 'label'
+    });
   }
 }
