@@ -1,15 +1,5 @@
-{{page-title "Persberichten"}}
+{{page-title "Vlivia"}}
 
-<MainHeader
-  @headerTitle="Persberichten"
-  @contactRoute="contact"
-  @contactIcon="circle-question"
-  @contactSize="default"
-  @user="Jan"
-  @showUserModel={{this.showSettingsModal}}
->
-  <WebComponents::AuTab @route="press-releases">{{capitalize "persberichten"}}</WebComponents::AuTab>
-  <WebComponents::AuTab @route="contacts">{{capitalize "contacten"}}</WebComponents::AuTab>
-  <WebComponents::AuTab @route="sources.overview">{{capitalize "bronnen"}}</WebComponents::AuTab>
-</MainHeader>
+<MainHeader />
+
 {{outlet}}
