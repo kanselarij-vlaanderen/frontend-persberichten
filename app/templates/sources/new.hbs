@@ -1,21 +1,35 @@
-<PageTitleComponent>
-  <div class="title-indentification">
-    <LinkTo @route="sources.overview.active">
-      <WebComponents::AuIcon
-        @name="chevron-left"
-        @size="large"
-        @iconSkinColor="primary"
-        class="margin-right-small"
-      />
-    </LinkTo>
-    <div>
-      <h2 class="auk-u-muted">Bronnen</h2>
-      <h1 class="auk-toolbar-complex__title">Nieuwe bron aanmaken</h1>
-    </div>
-  </div>
-  <WebComponents::AuButton @skin="primary" {{on "click" (perform this.saveSource)}}>
-    Bron aanmaken
-  </WebComponents::AuButton>
-</PageTitleComponent>
+<Auk::Navbar @skin="gray-100" @size="large">
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          @route="sources.overview"
+        />
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Bronnen
+        </div>
+        <h2 class="auk-toolbar__title">
+          Nieuwe bron aanmaken
+        </h2>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @skin="primary"
+          {{on "click" (perform this.saveSource)}}
+        >
+          Bron aanmaken
+        </Auk::Button>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</Auk::Navbar>
 
 <Contact::Form @source={{this.model}} />
