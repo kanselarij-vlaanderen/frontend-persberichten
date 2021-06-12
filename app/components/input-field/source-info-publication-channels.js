@@ -1,57 +1,43 @@
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
 
 export default class InputFieldSourceInfoPublicationChannelsComponent extends Component {
   @service store;
 
-  @tracked _publicationChannels = [];
-  // [
-  //   {name:'Belga', telefoon: false, mobiel: false, email: true},
-  //   {name:'Vlaanderen.be', telefoon: false, mobiel: false, email: true},
-  //   {name:'Abbonnees Vlaanderen.be', telefoon: false, mobiel: false, email: true},
-  //   {name:'Eigen verzendlijsten', telefoon: false, mobiel: false, email: true}
-  // ]
+  @tracked publicationChannels = [];
+  @tracked mediums = [];
 
-  @tracked publicationChannelsCopy = this._publicationChannels.map(
-    (channel) => {
-      return { ...channel };
-    }
-  );
+  constructor() {
+    super(...arguments);
+    this.loadPublicationChannels.perform();
+    this.mediums = [
+      { label: 'telefoonnummer', value: this.args.telephone },
+      { label: 'mobiel nummer', value: this.args.mobilePhone },
+      { label: 'e-mailadres', value: this.args.mailAddress }
+    ];
+  }
 
-  @action
-  changePublicationChannels(channelProperty, index, parentCallback) {
-    this.publicationChannelsCopy[index][channelProperty] = !this
-      .publicationChannelsCopy[index][channelProperty];
-    parentCallback('publicatiekanalen', this.publicationChannelsCopy);
+  @task
+  *loadPublicationChannels() {
+    this.publicationChannels = yield this.store.query('publication-channel', {
+      'page[size]': 100,
+      sort: 'name'
+    });
   }
 
   @action
-  async onPublicationChannelsRender(existingSourceChannel) {
-    //existingSourceChannel if exsists takes this object, otherwise loads from backend
-
-    if (existingSourceChannel) {
-      this._publicationChannels = existingSourceChannel;
+  togglePublicationChannel(channel, medium) {
+    if (!medium.publicationChannels) {
+      medium.publicationChannels = [];
+    }
+    const index = medium.publicationChannels.indexOf(channel.uri);
+    if (index > -1) {
+      medium.publicationChannels.splice(index, 1); // remove publication-channel
     } else {
-      let newPublicationChannels = [];
-      const publicationChannels = await this.store.findAll(
-        'publication-channel'
-      );
-      publicationChannels.forEach((resp) =>
-        newPublicationChannels.push({
-          name: resp.publicationChannelName,
-          telefoon: false,
-          mobiel: false,
-          email: false,
-        })
-      );
-      newPublicationChannels.sort((a, b) => (a.name > b.name ? 1 : -1));
-      this._publicationChannels = newPublicationChannels;
+      medium.publicationChannels.pushObject(channel.uri);
     }
-  }
-
-  get publicationChannels() {
-    return this._publicationChannels;
   }
 }

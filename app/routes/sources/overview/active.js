@@ -9,6 +9,7 @@ export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRo
   mergeQueryOptions(params){
     const queryParams = {
       sort: params.sort,
+      include: 'mail-address,organization',
       filter: {
         'status': {
           ':uri:': CONFIG.CONTACT_STATUS.ACTIVE

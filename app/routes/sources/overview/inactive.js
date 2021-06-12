@@ -9,6 +9,7 @@ export default class SourcesOverviewInactiveRoute extends Route.extend(DataTable
   mergeQueryOptions(params){
     const queryParams = {
       sort: params.sort,
+      include: 'mail-address,organization',
       filter: {
         'status': {
           ':uri:': CONFIG.CONTACT_STATUS.INACTIVE

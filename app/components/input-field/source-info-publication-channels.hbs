@@ -1,15 +1,25 @@
-<table class="publication-channel-table" {{did-insert (fn this.onPublicationChannelsRender @publicationChannels)}}>
-  <th class="table-cell-name">Publicatiekanaal</th>
-  <th class="table-cell">Toon telefoonnummer</th>
-  <th class="table-cell">Toon mobiel nummer</th>
-  <th class="table-cell">Toon e-mailadres</th>
-
+<table class="auk-table">
+  <thead>
+    <th>Publicatiekanaal</th>
+    {{#each this.mediums as |medium|}}
+      <th>Toon {{medium.label}}</th>
+    {{/each}}
+  </thead>
+  <tbody>
   {{#each this.publicationChannels as |channel index|}}
-    <tr class="table-row">
-      <td class="table-cell-name">{{channel.name}}</td>
-      <td class="table-cell"><Input @type="checkbox" checked={{channel.telefoon}} {{on "input" (fn this.changePublicationChannels 'telefoon' index @onInput)}}/></td>
-      <td class="table-cell"><Input @type="checkbox" checked={{channel.mobiel}} {{on "input" (fn this.changePublicationChannels 'mobiel' index @onInput)}}/></td>
-      <td class="table-cell"><Input @type="checkbox" checked={{channel.email}} {{on "input" (fn this.changePublicationChannels 'email' index @onInput)}}/></td>
+    <tr>
+      <td>
+        {{channel.name}}
+      </td>
+      {{#each this.mediums as |medium|}}
+        <td class="auk-u-text-align--center">
+          <Input
+            @type="checkbox"
+            checked={{includes channel.uri medium.value.publicationChannels}}
+            {{on "change" (fn this.togglePublicationChannel channel medium.value)}}/>
+        </td>
+      {{/each}}
     </tr>
   {{/each}}
+  </tbody>
 </table>

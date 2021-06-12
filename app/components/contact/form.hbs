@@ -104,11 +104,11 @@
     <div class="auk-u-mt-8">
       <h2 class="auk-h2">Toon contact informatie</h2>
       <div class="auk-o-grid auk-form-group-layout auk-form-group-layout--grid">
-        Publication channels here
-        {{!--       <InputField::SourceInfoPublicationChannels
-          @publicationChannels={{if @source @source.publicatiekanalen}}
-          @onInput={{this.onInput}} />  --}}
-        {{!-- @onInput={{action "onPublicationChannelChange"}} --}}
+        <InputField::SourceInfoPublicationChannels
+          @telephone={{this.telephone}}
+          @mobilePhone={{this.mobilePhone}}
+          @mailAddress={{this.mailAddress}}
+        />
       </div>
     </div>
   </div>
