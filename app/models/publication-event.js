@@ -1,7 +1,11 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class PublicationEventModel extends Model {
-  @attr() publishedStartDateTime;
-  @attr() publicationStartDateTime;
-  @attr() publicationEndDateTime;
+  @attr('datetime') plannedStartDate;
+  @attr('datetime') started;
+  @attr('datetime') ended;
+
+  @belongsTo('press-release') pressRelease;
+
+  @hasMany('publication-channel') publicationChannels;
 }

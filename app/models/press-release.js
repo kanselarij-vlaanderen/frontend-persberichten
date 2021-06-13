@@ -1,11 +1,17 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class PressReleaseModel extends Model {
   @attr('string') title;
   @attr('string') htmlContent;
   @attr('string') abstract;
-  @attr() created;
-  @attr() modiffied;
+  @attr('string-set') keyword;
+  @attr('datetime') created;
+  @attr('datetime') modified;
 
-  @hasMany('theme') theme;
+  @belongsTo('organization') creator;
+  @belongsTo('publication-event') publicationEvent;
+
+  @hasMany('theme') themes;
+  @hasMany('contact') sources;
+  @hasMany('file') attachments;
 }

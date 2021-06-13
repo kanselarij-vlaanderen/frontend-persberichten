@@ -6,5 +6,5 @@ export default class OrganizationModel extends Model {
   @attr('string') identifier;
 
   @hasMany('contact') contacts;
-  // @hasMany('press-release') pressReleases;
+  @hasMany('press-release') pressReleases;
 }
