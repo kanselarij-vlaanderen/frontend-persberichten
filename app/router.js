@@ -13,7 +13,7 @@ Router.map(function () {
 
   this.route('login', { path: 'aanmelden' });
 
-  this.route('sources', { path: 'bronnen' }, function () {
+  this.route('sources', { path: 'bronnen' }, function() {
     this.route('new', { path: 'nieuw' });
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('active', { path: 'actief' });
@@ -22,21 +22,15 @@ Router.map(function () {
     this.route('source', { path: '/:source_id' });
   });
 
-  this.route(
-    'press-releases',
-    {
-      path: 'persberichten',
-    },
-    function () {
-      this.route('edit', { path: '/:id'});
-    }
-  );
+  this.route('press-releases', { path: 'persberichten' }, function() {
+    this.route('edit', { path: '/:id'});
+    this.route('overview', { path: 'overzicht' }, function() {
+      this.route('concept');
+      this.route('shared', { path: 'gedeeld' });
+      this.route('planned', { path: 'gepland' });
+      this.route('published', { path: 'gepubliceerd' });
+    });
+  });
 
-  this.route(
-    'contacts',
-    {
-      path: 'contacten',
-    },
-    function () {}
-  );
+  this.route('contacts', { path: 'contacten' }, function() {});
 });

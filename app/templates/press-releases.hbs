@@ -1,22 +1,3 @@
-{{page-title "PressReleases"}}
-
-{{!-- <PageTitleComponent>
-  <h2>Persberichten</h2>
-  <div>
-    <WebComponents::AuButton @skin="secondary" {{ on 'click' this.openPressReleaseModal}}>
-        <WebComponents::AuIcon class="margin-right-small" @name="add"/>Persbericht aanmaken
-    </WebComponents::AuButton>
-  </div>
-</PageTitleComponent>
-{{#if this.pressReleaseModalOpen}}
-  <NewPressReleaseModal
-    @onInput={{this.onInputTitle}}
-    @closePressReleaseModal={{this.closePressReleaseModal}}
-    @createPressRelease={{this.createPressRelease}}
-    @value={{this.title}}
-    />
-{{/if}} --}}
-
-<h2>Persberichten</h2>
+{{page-title "Persberichten"}}
 
 {{outlet}}

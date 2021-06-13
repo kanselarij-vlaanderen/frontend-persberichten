@@ -1,0 +1,42 @@
+{{page-title "Overzicht"}}
+
+<Auk::Navbar @skin="gray-100" @auto={{true}}>
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <div class="o-flex o-flex--vertical auk-u-mt-2">
+          <div class="o-flex o-flex--vertical-center">
+            <h4 class="auk-toolbar-complex__title">Persberichten</h4>
+          </div>
+          <WebComponents::AuTabs @reversed="true">
+            <WebComponents::AuTab
+              @route="press-releases.overview.concept">
+              Concepten
+            </WebComponents::AuTab>
+            <WebComponents::AuTab
+              @route="press-releases.overview.shared">
+              Gedeeld
+            </WebComponents::AuTab>
+            <WebComponents::AuTab
+              @route="press-releases.overview.planned">
+              Gepland voor publicatie
+            </WebComponents::AuTab>
+            <WebComponents::AuTab
+              @route="press-releases.overview.published">
+              Gepubliceerd
+            </WebComponents::AuTab>
+          </WebComponents::AuTabs>
+        </div>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button @icon="add" @skin="primary">
+          Persbericht aanmaken
+        </Auk::Button>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</Auk::Navbar>
+
+{{outlet}}
