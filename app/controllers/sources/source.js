@@ -1,57 +1,43 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class SourcesSourceController extends Controller {
-  @service router;
-  @service store;
+  @tracked showConfirmationModal;
 
-  @tracked source;
-
-  @action
-  async onLoadSource() {
-    //after table add source_id navigation
-    // const source = await this.store.findRecord(
-    //   'contact',
-    //   '60ADE3B5598BA10009000007'
-    // );
-    const source = await this.store
-      .findRecord('contact', this.model.source_id)
-      .catch((err) => console.log(err));
-    this.source = source;
+  get snapshot() {
+    return this.model;
   }
 
-  @action
-  navigateToSource() {
-    this.source.rollbackAttributes();
-    this.router.transitionTo('sources.active');
+  get source() {
+    return this.snapshot.source;
   }
 
-  @action
-  onInput(target, value) {
-    this.source[target] = value;
-    if (target === 'familyName' || target === 'givenName') {
-      this.source.fullName = `${this.source.givenName} ${this.source.familyName}`;
+  @task
+  *saveChanges() {
+    yield this.snapshot.save();
+  }
+
+  @task
+  *navigateBack() {
+    const isDirty = yield this.snapshot.isDirty();
+    if (isDirty) {
+      this.showConfirmationModal = true;
+    } else {
+      this.transitionToRoute('sources.overview');
     }
   }
 
-  @action
-  openActionModal() {
-    // delete comes here;
+  @task
+  *confirmNavigationBack() {
+    yield this.snapshot.rollback();
+    this.showConfirmationModal = false;
+    this.transitionToRoute('sources.overview');
   }
 
   @action
-  saveSource() {
-    console.log('saving source');
-    this.source.modified = new Date();
-    try {
-      this.source.save();
-    } catch (err) {
-      console.log(err);
-    }
+  cancelNavigationBack() {
+    this.showConfirmationModal = false;
   }
 }
-
-// https://guides.emberjs.com/release/models/creating-updating-and-deleting-records/
-// rollbackAttributes()

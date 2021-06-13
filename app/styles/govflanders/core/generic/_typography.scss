@@ -1,0 +1,26 @@
+// sass-lint:disable max-line-length
+
+$font-location: "https://dij151upo6vad.cloudfront.net/2.latest/fonts/" !default;
+$flanders-family: "flanders-sans";
+$flanders-serif-family: "flanders-serif";
+
+@mixin font-face($family, $location, $name, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: $family;
+    src: url($location+$name+".woff2") format("woff2"), url($location+$name+".woff") format("woff");
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+  }
+}
+
+
+@include font-face($flanders-family, $font-location, $flanders-family + "-light", 300, normal);
+@include font-face($flanders-family, $font-location, $flanders-family + "-regular", 400, normal);
+@include font-face($flanders-family, $font-location, $flanders-family + "-medium", 500, normal);
+@include font-face($flanders-family, $font-location, $flanders-family + "-bold", 700, normal);
+
+@include font-face($flanders-serif-family, $font-location, $flanders-serif-family + "-light", 300, normal);
+@include font-face($flanders-serif-family, $font-location, $flanders-serif-family + "-regular", 400, normal);
+@include font-face($flanders-serif-family, $font-location, $flanders-serif-family + "-medium", 500, normal);
+@include font-face($flanders-serif-family, $font-location, $flanders-serif-family + "-bold", 700, normal);

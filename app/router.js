@@ -13,19 +13,14 @@ Router.map(function () {
 
   this.route('login', { path: 'aanmelden' });
 
-  this.route(
-    'sources',
-    {
-      path: 'bronnen',
-    },
-    function () {
-      this.route('new', { path: 'nieuw' });
-      this.route('index', function () {});
+  this.route('sources', { path: 'bronnen' }, function () {
+    this.route('new', { path: 'nieuw' });
+    this.route('overview', { path: 'overzicht' }, function() {
       this.route('active', { path: 'actief' });
       this.route('inactive', { path: 'inactief' });
-      this.route('source', { path: '/:source_id' });
-    }
-  );
+    });
+    this.route('source', { path: '/:source_id' });
+  });
 
   this.route(
     'press-releases',

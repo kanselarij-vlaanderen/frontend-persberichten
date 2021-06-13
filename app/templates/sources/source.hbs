@@ -1,25 +1,54 @@
-<PageTitleComponent>
-  <div {{ did-insert this.onLoadSource}} class="title-indentification">
-    <WebComponents::AuIcon
-      @name="chevron-left"
-      @size="large"
-      @iconSkinColor="primary"
-      class="margin-right-small"
-      {{ on "click" this.navigateToSource }}
-    />
-    <div>
-      <h2 class="auk-u-muted">Bronnen</h2>
-      <h1 class="auk-toolbar-complex__title">{{this.source.fullName}}</h1>
-    </div>
-  </div>
-  <div>
-    <WebComponents::AuButton @skin="secondary" {{ on 'click' this.openActionModal}}>
-        Acties<WebComponents::AuIcon class="margin-left-small" @name="chevron-down"/>
-    </WebComponents::AuButton>
-    <WebComponents::AuButton @skin="primary" {{ on 'click' this.saveSource}}>
-        Opslaan
-    </WebComponents::AuButton>
-  </div>
-</PageTitleComponent>
-{{!-- <Contact::Form /> --}}
-<Contact::Form @source={{this.source}} @onInput={{this.onInput}} />
+<Auk::Navbar @skin="gray-100" @size="large">
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" (perform this.navigateBack)}}
+        />
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Bronnen
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.source.fullName}}
+        </h2>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+      <WebComponents::AuToolbar::Item>
+        {{#if this.saveSource.last.isError}}
+          <WebComponents::AuStatusPill @status="error">
+            Opslaan mislukt
+          </WebComponents::AuStatusPill>
+        {{else}}
+          <WebComponents::AuStatusPill @status="done">
+            {{dayjs-from-now this.source.modified}} opgeslagen
+          </WebComponents::AuStatusPill>
+        {{/if}}
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @skin="primary"
+          {{on "click" (perform this.saveChanges)}}
+        >
+          Opslaan
+        </Auk::Button>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</Auk::Navbar>
+
+<Contact::Form @source={{this.source}} />
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}

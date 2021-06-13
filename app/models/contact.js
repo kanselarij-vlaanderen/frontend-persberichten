@@ -1,13 +1,18 @@
-import Model, { attr /*, belongsTo*/ } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class ContactModel extends Model {
   @attr() fullName;
   @attr() givenName;
   @attr() familyName;
   @attr() role;
-  @attr() contactStatus;
-  //to not lose date don't put date type in attr => with hours, minutes and seconds
-  @attr() created;
-  @attr() modified;
-  // @attr "mobile-phone"
+  @attr('datetime') created;
+  @attr('datetime') modified;
+
+  @belongsTo('contact-status') status;
+  @belongsTo('mobile-phone') mobilePhone;
+  @belongsTo('telephone') telephone;
+  @belongsTo('mail-address') mailAddress;
+  @belongsTo('organization') organization;
+
+  // @hasMany('press-release') pressReleases;
 }

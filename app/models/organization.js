@@ -1,7 +1,10 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class OrganizationModel extends Model {
-  @attr('string') fullName;
-  @attr('string') identifier;
   @attr('string') uri;
+  @attr('string') name;
+  @attr('string') identifier;
+
+  @hasMany('contact') contacts;
+  // @hasMany('press-release') pressReleases;
 }

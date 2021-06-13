@@ -1,10 +1,14 @@
-<div>Deze contactpersoon is momenteel</div>
-<WebComponents::AuRadioList {{ did-insert (fn this.onRenderStatus @value)}}>
-  {{#each this.contactStatus as |status|}}
-    <WebComponents::AuRadio
-      @name={{'status'}}
-      @checked={{if (eq this.checked status.label) true false}}
-      @label={{ capitalize status.label }}
-      {{ on 'click' (fn this.onSelectStatus @onInput status.label)}}/>
-  {{/each}}
-</WebComponents::AuRadioList>
+<div ...attributes>
+  <Auk::Label for="contact-status">
+    {{@label}}
+  </Auk::Label>
+  <Auk::RadioList as |list|>
+    {{#each this.statuses as |status|}}
+      <list.Radio
+        @label={{capitalize status.label}}
+        @checked={{eq @value status}}
+        {{on "change" (fn @onChange status)}}
+      />
+    {{/each}}
+  </Auk::RadioList>
+</div>

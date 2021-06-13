@@ -1,0 +1,23 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Pagina verlaten?"
+    @closeable={{false}}
+  />
+  <Auk::Modal::Body>
+    <p>
+      Uw wijzigingen werden nog niet opgeslagen.
+    </p>
+    <p>
+      Bent u zeker dat u deze pagina wil verlaten?
+    </p>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="danger-primary"
+      @loading={{@loading}}
+      {{on "click" @onConfirm}}
+    >
+      Pagina verlaten
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>
