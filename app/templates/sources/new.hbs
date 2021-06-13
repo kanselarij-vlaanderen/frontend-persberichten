@@ -7,7 +7,7 @@
           @skin="borderless"
           @icon="chevron-left"
           @size="large"
-          @route="sources.overview"
+          {{on "click" this.navigateBack}}
         />
       </WebComponents::AuToolbar::Item>
       <WebComponents::AuToolbar::Item>
@@ -23,7 +23,7 @@
       <WebComponents::AuToolbar::Item>
         <Auk::Button
           @skin="primary"
-          {{on "click" (perform this.saveSource)}}
+          {{on "click" (perform this.saveChanges)}}
         >
           Bron aanmaken
         </Auk::Button>
@@ -32,4 +32,11 @@
   </WebComponents::AuToolbar>
 </Auk::Navbar>
 
-<Contact::Form @source={{this.model}} />
+<Contact::Form @source={{this.source}} />
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{this.confirmNavigationBack}}
+  />
+{{/if}}

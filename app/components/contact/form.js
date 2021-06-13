@@ -24,6 +24,11 @@ export default class ContactFormComponent extends Component {
   }
 
   @action
+  setInputValue(record, attribute, event) {
+    record[attribute] = event.target.value;
+  }
+
+  @action
   setFullName() {
     const fullName = [this.args.source.givenName, this.args.source.familyName]
       .filter(n => !isBlank(n))

@@ -1,8 +1,9 @@
 import Route from '@ember/routing/route';
+import SourceSnapshot from '../../utils/source-snapshot';
 
 export default class SourcesSourceRoute extends Route {
-  model(params) {
-    return this.store.findRecord('contact', params.source_id, {
+  async model(params) {
+    const source = await this.store.findRecord('contact', params.source_id, {
       include: [
         'status',
         'telephone',
@@ -11,5 +12,9 @@ export default class SourcesSourceRoute extends Route {
         'organization'
       ].join(',')
     });
+
+    const snapshot = new SourceSnapshot(source);
+    await snapshot.commit();
+    return snapshot;
   }
 }

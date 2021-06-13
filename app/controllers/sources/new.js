@@ -1,31 +1,43 @@
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency-decorators';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class SourcesNewController extends Controller {
+  @tracked showConfirmationModal;
+
+  get snapshot() {
+    return this.model;
+  }
+
+  get source() {
+    return this.snapshot.source;
+  }
+
   @task
-  *saveSource() {
-    const now = new Date();
-    this.model.created = now;
-    this.model.modified = now;
+  *saveChanges() {
+    yield this.snapshot.save();
+    this.transitionToRoute('sources.overview');
+  }
 
-    try {
-      const telephone = yield this.model.telephone;
-      const mobilePhone = yield this.model.mobilePhone;
-      const mailAddress = yield this.model.mailAddress;
-
-      // save related models first
-      yield Promise.all([
-        telephone.save(),
-        mobilePhone.save(),
-        mailAddress.save()
-      ]);
-
-      // save source
-      yield this.model.save();
-
-      this.transitionToRoute('sources.overview.active');
-    } catch (err) {
-      console.log(err);
+  @action
+  navigateBack() {
+    if (this.source.isNew) {
+      this.showConfirmationModal = true;
+    } else {
+      this.transitionToRoute('sources.overview');
     }
   }
+
+  @action
+  confirmNavigationBack() {
+    this.showConfirmationModal = false;
+    this.transitionToRoute('sources.overview');
+  }
+
+  @action
+  cancelNavigationBack() {
+    this.showConfirmationModal = false;
+  }
+
 }

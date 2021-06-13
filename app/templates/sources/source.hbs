@@ -7,7 +7,7 @@
           @skin="borderless"
           @icon="chevron-left"
           @size="large"
-          @route="sources.overview"
+          {{on "click" (perform this.navigateBack)}}
         />
       </WebComponents::AuToolbar::Item>
       <WebComponents::AuToolbar::Item>
@@ -15,7 +15,7 @@
           Bronnen
         </div>
         <h2 class="auk-toolbar__title">
-          {{this.model.fullName}}
+          {{this.source.fullName}}
         </h2>
       </WebComponents::AuToolbar::Item>
     </WebComponents::AuToolbar::Group>
@@ -27,14 +27,14 @@
           </WebComponents::AuStatusPill>
         {{else}}
           <WebComponents::AuStatusPill @status="done">
-            {{dayjs-from-now this.model.modified}} opgeslagen
+            {{dayjs-from-now this.source.modified}} opgeslagen
           </WebComponents::AuStatusPill>
         {{/if}}
       </WebComponents::AuToolbar::Item>
       <WebComponents::AuToolbar::Item>
         <Auk::Button
           @skin="primary"
-          {{on "click" (perform this.saveSource)}}
+          {{on "click" (perform this.saveChanges)}}
         >
           Opslaan
         </Auk::Button>
@@ -43,4 +43,12 @@
   </WebComponents::AuToolbar>
 </Auk::Navbar>
 
-<Contact::Form @source={{this.model}} />
+<Contact::Form @source={{this.source}} />
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}
