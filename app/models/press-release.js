@@ -10,6 +10,7 @@ export default class PressReleaseModel extends Model {
 
   @belongsTo('organization') creator;
   @belongsTo('publication-event') publicationEvent;
+  @belongsTo('collaboration-activity') collaboration;
 
   @hasMany('theme') themes;
   @hasMany('contact') sources;
