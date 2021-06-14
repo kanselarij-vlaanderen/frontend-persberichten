@@ -31,12 +31,24 @@
     </WebComponents::AuToolbar::Group>
     <WebComponents::AuToolbar::Group @position="right">
       <WebComponents::AuToolbar::Item>
-        <Auk::Button @icon="add" @skin="primary">
+        <Auk::Button
+          @icon="add"
+          @skin="primary"
+          {{on "click" this.openNewPressReleaseModal}}
+        >
           Persbericht aanmaken
         </Auk::Button>
       </WebComponents::AuToolbar::Item>
     </WebComponents::AuToolbar::Group>
   </WebComponents::AuToolbar>
 </Auk::Navbar>
+
+{{#if this.showNewPressReleaseModal}}
+  <PressRelease::NewPressReleaseModal
+    @onCancel={{this.closeNewPressReleaseModal}}
+    @onCreate={{perform this.createNewPressRelease}}
+    @loading={{this.createNewPressRelease.isRunning}}
+  />
+{{/if}}
 
 {{outlet}}
