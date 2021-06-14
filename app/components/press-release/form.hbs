@@ -1,23 +1,45 @@
-  <Shared::Header @name="Bericht">
-    <InputField::InputWithLabel
-        @value={{@pressRelease.title}}
-        id="title"
-        @label="Titel"
-        @onInput={{@onInput}}
-      />
-    <InputField::TextAreaWithLabel
-        class="press-release-textarea"
-        @value={{@pressRelease.htmlContent}}
-        id="htmlContent"
-        @label="Bericht"
-        @onInput={{@onInput}}
-      />
-    <InputField::TextAreaWithLabel
-        @value={{@pressRelease.abstract}}
-        id="abstract"
-        @label="Samenvatting"
-        @onInput={{@onInput}}
-      />
-    {{!-- hoe doorgeven? --}}
-    <InputField::ThemeSelect @onInput={{@onSelectTheme}} @onSelectTheme={{@onSelectTheme}} @selectedThemes={{@selectedThemes}}/>
-  </Shared::Header>
+<div class="auk-u-mt-8 auk-container--small auk-container--center">
+  <div class="auk-u-mt-8">
+    <h2 class="auk-h2">Bericht</h2>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label for="title">
+          Titel
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="title"
+          @block={{true}}
+          value={{@pressRelease.title}}
+          {{on "input" (fn this.setInputValue @pressRelease "title")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="message">
+          Bericht
+        </Auk::Label>
+        <WebComponents::AuTextarea
+          type="text"
+          id="message"
+          @block={{true}}
+          @rows={{10}}
+          value={{@pressRelease.htmlContent}}
+          {{on "input" (fn this.setInputValue @pressRelease "htmlContent")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="abstract">
+          Samenvatting
+        </Auk::Label>
+        <WebComponents::AuTextarea
+          type="text"
+          id="abstract"
+          @block={{true}}
+          @rows={{5}}
+          value={{@pressRelease.abstract}}
+          {{on "input" (fn this.setInputValue @pressRelease "abstract")}}
+        />
+      </div>
+    </div>
+  </div>
+</div>

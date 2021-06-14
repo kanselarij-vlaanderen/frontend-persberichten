@@ -1,0 +1,30 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Later publiceren"
+    @onClose={{@onCancel}}
+  />
+  <Auk::Modal::Body>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label for="publication-date">
+          Datum
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="publication-date"
+          @block={{true}}
+          @value={{mut this.plannedDate}}
+        />
+      </div>
+    </div>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @loading={{@loading}}
+      {{on "click" (fn @onPublish this.plannedDate)}}
+    >
+      Later publiceren
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

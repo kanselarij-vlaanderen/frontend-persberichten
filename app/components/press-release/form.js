@@ -1,4 +1,9 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-// eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class PressReleaseFormComponent extends Component {}
+export default class PressReleaseFormComponent extends Component {
+  @action
+  setInputValue(record, attribute, event) {
+    record[attribute] = event.target.value;
+  }
+}

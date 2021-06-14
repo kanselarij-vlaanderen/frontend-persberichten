@@ -25,8 +25,46 @@
           {{dayjs-from-now this.model.modified}} opgeslagen
         </WebComponents::AuStatusPill>
       </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @skin="primary"
+          @icon="chevron-down"
+          @layout="icon-right"
+          {{on "click" this.openPublishDropdown}}>
+          Publiceren
+        </Auk::Button>
+        {{#if this.showPublishDropdown}}
+          {{!-- TODO use popper library to make dropdown disappear on click outside --}}
+          <Auk::Dropdown>
+            <div class="auk-menu__item" {{on "click" this.openPublicationModal}} >
+              Publiceren
+            </div>
+            <div class="auk-menu__item" {{on "click" this.openPublicationPlanningModal}} >
+              Later publiceren
+            </div>
+          </Auk::Dropdown>
+        {{/if}}
+      </WebComponents::AuToolbar::Item>
     </WebComponents::AuToolbar::Group>
   </WebComponents::AuToolbar>
 </Auk::Navbar>
+
+<PressRelease::Form @pressRelease={{this.model}} />
+
+{{#if this.showPublicationModal}}
+  <PressRelease::PublicationModal
+    @onCancel={{this.closePublicationModal}}
+    @onPublish={{perform this.publish}}
+    @loading={{this.publish.isRunning}}
+  />
+{{/if}}
+
+{{#if this.showPublicationPlanningModal}}
+  <PressRelease::PublicationPlanningModal
+    @onCancel={{this.closePublicationPlanningModal}}
+    @onPublish={{perform this.publish}}
+    @loading={{this.publish.isRunning}}
+  />
+{{/if}}
 
 {{outlet}}

@@ -1,9 +1,0 @@
-<WebComponents::AuLabel>Thema's</WebComponents::AuLabel>
-<div class="theme-checkbox-container" {{did-insert (fn this.onThemeSelectRender @selectedThemes)}}>
-  {{#each this.themes as |object|}}
-  <div class="theme-checkbox-inner-container">
-    <Input @type="checkbox" id={{object.theme.label}} checked={{object.checked}} {{on "input" (fn this.selectTheme object.theme)}}/>
-    <WebComponents::AuLabel>{{object.theme.label}}</WebComponents::AuLabel>
-  </div>
-  {{/each}}
-</div>

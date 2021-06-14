@@ -1,0 +1,20 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Nu publiceren"
+    @closeable={{false}}
+  />
+  <Auk::Modal::Body>
+    <p>
+      Weet u zeker dat u dit persbericht nu wil publiceren?
+    </p>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @loading={{@loading}}
+      {{on "click" @onPublish}}
+    >
+      Persbericht publiceren
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>
