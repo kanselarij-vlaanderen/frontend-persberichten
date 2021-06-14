@@ -23,13 +23,13 @@ Router.map(function () {
   });
 
   this.route('press-releases', { path: 'persberichten' }, function() {
-    this.route('edit', { path: '/:id'});
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('concept');
       this.route('shared', { path: 'gedeeld' });
       this.route('planned', { path: 'gepland' });
       this.route('published', { path: 'gepubliceerd' });
     });
+    this.route('press-release', { path: '/:press_release_id' });
   });
 
   this.route('contacts', { path: 'contacten' }, function() {});

@@ -1,0 +1,32 @@
+<Auk::Navbar @skin="gray-100" @size="large">
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          @route="press-releases.overview"
+        />
+      </WebComponents::AuToolbar::Item>
+      <WebComponents::AuToolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Persberichten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.model.title}}
+        </h2>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+    <WebComponents::AuToolbar::Group @position="right">
+      <WebComponents::AuToolbar::Item>
+        <WebComponents::AuStatusPill @status="done">
+          {{dayjs-from-now this.model.modified}} opgeslagen
+        </WebComponents::AuStatusPill>
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</Auk::Navbar>
+
+{{outlet}}

@@ -1,0 +1,86 @@
+<div class="auk-scroll-wrapper">
+  <div class="auk-scroll-wrapper__body">
+    <div class="auk-u-my-4">
+      {{#if @model.length}}
+        <table class="auk-table">
+          <thead>
+            <tr>
+              <Utils::ThSortable
+                @label="Persbericht"
+                @field="title"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+              <Utils::ThSortable
+                @label="Laatst bewerkt"
+                @field="modified"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+              <th>
+                {{!-- open detail --}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each @model as |row|}}
+              <tr>
+                <td>
+                  {{row.title}}
+                </td>
+                <td>
+                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
+                  <span class="auk-u-text-small auk-u-muted">
+                    {{dayjs-format row.modified outputFormat="HH:mm"}}
+                  </span>
+                </td>
+                <td>
+                  <LinkTo
+                    @route="press-releases.press-release"
+                    @model={{row.id}}
+                    class="auk-button auk-button--borderless auk-button--icon">
+                    <span class="auk-button__content">
+                      <i class="ki ki-chevron-right"></i>
+                    </span>
+                  </LinkTo>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+
+        <WebComponents::AuToolbar >
+          <WebComponents::AuToolbar::Group @position="left">
+            <WebComponents::AuToolbar::Item>
+              <Auk::Pagination
+                @page={{@page}}
+                @size={{@size}}
+                @nbOfItems={{@model.length}}
+                @total={{@model.meta.count}}
+                @onNextPage={{@onNextPage}}
+                @onPreviousPage={{@onPreviousPage}}
+              />
+            </WebComponents::AuToolbar::Item>
+          </WebComponents::AuToolbar::Group>
+          <WebComponents::AuToolbar::Group @position="right">
+            <WebComponents::AuToolbar::Item>
+              Persberichten per pagina
+            </WebComponents::AuToolbar::Item>
+            <WebComponents::AuToolbar::Item>
+              <WebComponents::AuPageSize
+                @selectedSize={{@size}}
+                @onChange={{@onPageSizeChange}}
+              />
+            </WebComponents::AuToolbar::Item>
+          </WebComponents::AuToolbar::Group>
+        </WebComponents::AuToolbar>
+      {{else}}
+        <Auk::Panel>
+          <Auk::Panel::Body>
+            <Auk::EmptyState @message={{@noDataMessage}} />
+          </Auk::Panel::Body>
+        </Auk::Panel>
+      {{/if}}
+    </div>
+  </div>
+</div>
