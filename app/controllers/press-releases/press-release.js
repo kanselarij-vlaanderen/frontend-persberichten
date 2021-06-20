@@ -10,7 +10,21 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
-    alert(`Not implemented. Planned at ${publicationDate}`);
+    if (!publicationDate) {
+      publicationDate = new Date();
+    }
+
+    let publicationEvent = yield this.model.publicationEvent;
+    if (!publicationEvent) {
+      publicationEvent = this.store.createRecord('publication-event', {
+        plannedStartDate: publicationDate,
+        pressRelease: this.model
+      });
+    } else {
+      publicationEvent.plannedStartDate = publicationDate;
+    }
+    yield publicationEvent.save();
+
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
   }

@@ -7,7 +7,7 @@ import { run } from '@ember/runloop';
 
 module('Unit | Initializer | dayjs-locale', function(hooks) {
   hooks.beforeEach(function() {
-    this.TestApplication = class TestApplication extends Application {}
+    this.TestApplication = class TestApplication extends Application {};
     this.TestApplication.initializer({
       name: 'initializer under test',
       initialize

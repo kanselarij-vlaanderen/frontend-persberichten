@@ -16,6 +16,17 @@
         </div>
         <h2 class="auk-toolbar__title">
           {{this.model.title}}
+          {{#if this.model.publicationEvent}}
+            {{#if this.model.publicationEvent.started}}
+              <Auk::Pill class="auk-u-ml">
+                Gepubliceerd op {{dayjs-format this.model.publicationEvent.started outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{else}}
+              <Auk::Pill class="auk-u-ml">
+                Wordt gepubliceerd op {{dayjs-format this.model.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+          {{/if}}
         </h2>
       </WebComponents::AuToolbar::Item>
     </WebComponents::AuToolbar::Group>
@@ -36,11 +47,15 @@
         {{#if this.showPublishDropdown}}
           {{!-- TODO use popper library to make dropdown disappear on click outside --}}
           <Auk::Dropdown>
-            <div class="auk-menu__item" {{on "click" this.openPublicationModal}} >
-              Publiceren
+            <div class="auk-menu__item" role="button" {{on "click" this.openPublicationModal}}>
+              Nu publiceren
             </div>
-            <div class="auk-menu__item" {{on "click" this.openPublicationPlanningModal}} >
-              Later publiceren
+            <div class="auk-menu__item" role="button" {{on "click" this.openPublicationPlanningModal}}>
+              {{#if this.model.publicationEvent.isPlanned}}
+                Planning bewerken
+              {{else}}
+                Later publiceren
+              {{/if}}
             </div>
           </Auk::Dropdown>
         {{/if}}
@@ -61,6 +76,7 @@
 
 {{#if this.showPublicationPlanningModal}}
   <PressRelease::PublicationPlanningModal
+    @plannedDate={{this.model.publicationEvent.plannedStartDate}}
     @onCancel={{this.closePublicationPlanningModal}}
     @onPublish={{perform this.publish}}
     @loading={{this.publish.isRunning}}

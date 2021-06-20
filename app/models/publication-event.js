@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { isPresent } from '@ember/utils';
 
 export default class PublicationEventModel extends Model {
   @attr('datetime') plannedStartDate;
@@ -8,4 +9,12 @@ export default class PublicationEventModel extends Model {
   @belongsTo('press-release') pressRelease;
 
   @hasMany('publication-channel') publicationChannels;
+
+  get isPublished() {
+    return isPresent(this.started);
+  }
+
+  get isPlanned() {
+    return !this.isPublished && isPresent(this.plannedStartDate);
+  }
 }

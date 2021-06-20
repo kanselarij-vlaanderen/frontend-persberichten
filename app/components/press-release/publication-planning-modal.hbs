@@ -7,13 +7,13 @@
     <div class="auk-form-group-layout auk-form-group-layout--standard">
       <div class="auk-form-group">
         <Auk::Label for="publication-date">
-          Datum
+          Publicatiedatum
         </Auk::Label>
-        <Auk::Input
-          type="text"
+        <Auk::Datepicker
           id="publication-date"
-          @block={{true}}
-          @value={{mut this.plannedDate}}
+          @date={{this.plannedDate}}
+          @enableTime={{true}}
+          @onChange={{this.setPlannedDate}}
         />
       </div>
     </div>
