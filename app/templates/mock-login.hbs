@@ -1,0 +1,52 @@
+<Auk::Navbar @skin="white" @noPadding={{true}} id="c-main-nav">
+  <WebComponents::AuToolbar>
+    <WebComponents::AuToolbar::Group @position="left">
+      <WebComponents::AuToolbar::Item>
+        <Auk::Brand @logotype="Vlivia" />
+      </WebComponents::AuToolbar::Item>
+    </WebComponents::AuToolbar::Group>
+  </WebComponents::AuToolbar>
+</Auk::Navbar>
+<div class="auk-scroll-wrapper">
+  <div class="auk-scroll-wrapper__body">
+    <div class="auk-u-p-4">
+      <div class="auk-content" style="max-width: 45rem; width: 100%; margin: 0 auto;">
+        <div class="auk-u-my-4">
+          <h4 class="auk-u-mb-2">Aanmelden als bepaald kabinet</h4>
+          <p class="auk-u-mb-4">Kies een kabinet om mee aan te melden:</p>
+          <div class="auk-panel auk-u-mb-8">
+            <MockLogin as |login|>
+              {{#if login.errorMessage}}
+                <Auk::Alert
+                  @skin="error"
+                  @message={{login.errorMessage}}
+                />
+              {{/if}}
+              {{#if this.model.length}}
+                <ul class="auk-list auk-list--view" data-test-mock-login-list>
+                  <login.each-account @accounts={{this.model}} as |account|>
+                    <Auk::List::Item>
+                      <div class="auk-u-mx-2">
+                        <span>{{account.user.firstName}} {{account.user.familyName}}</span>
+                      </div>
+                      <div class="auk-button auk-button--borderless auk-button--icon">
+                        <span class="auk-button__content">
+                          <div class="auk-icon auk-icon--default auk-icon--chevron-right ">
+                            <i class="ki ki-chevron-right"></i>
+                          </div>
+                          <div class="auk-u-sr-only">Detail</div>
+                        </span>
+                      </div>
+                    </Auk::List::Item>
+                  </login.each-account>
+                </ul>
+              {{else}}
+                Geen accounts gevonden.
+              {{/if}}
+            </MockLogin>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

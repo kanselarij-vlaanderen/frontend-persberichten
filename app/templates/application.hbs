@@ -1,5 +1,7 @@
 {{page-title "Vlivia"}}
 
-<MainHeader />
+{{#if this.session.isAuthenticated}}
+  <MainHeader />
+{{/if}}
 
 {{outlet}}

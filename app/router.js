@@ -7,12 +7,6 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('contact');
-
-  this.route('settings', { path: 'instellingen' });
-
-  this.route('login', { path: 'aanmelden' });
-
   this.route('sources', { path: 'bronnen' }, function() {
     this.route('new', { path: 'nieuw' });
     this.route('overview', { path: 'overzicht' }, function() {
@@ -33,4 +27,11 @@ Router.map(function () {
   });
 
   this.route('contacts', { path: 'contacten' }, function() {});
+
+  this.route('contact');
+
+  this.route('settings', { path: 'instellingen' });
+
+  this.route('login', { path: 'aanmelden' });
+  this.route('mock-login');
 });
