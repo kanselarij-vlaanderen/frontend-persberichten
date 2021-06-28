@@ -24,19 +24,32 @@
           @skin="muted"
           @padded="padded"
           @icon="circle-question"
+          @route="contact"
         >
           Help
         </Auk::ButtonLink>
       </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item class="auk-u-mr-3" >
-        <Auk::ButtonLink
-          @skin="muted"
-          @icon="chevron-down"
-          @layout="icon-right"
-        >
-          Guest
-        </Auk::ButtonLink>
-      </WebComponents::AuToolbar::Item>
+      {{#if this.session.isAuthenticated}}
+        <WebComponents::AuToolbar::Item class="auk-u-mr-3" >
+          <Auk::ButtonLink
+            @skin="muted"
+            @icon="chevron-down"
+            @layout="icon-right"
+          >
+            {{this.currentSession.user.fullName}}
+          </Auk::ButtonLink>
+        </WebComponents::AuToolbar::Item>
+        <WebComponents::AuToolbar::Item class="auk-u-mr-3" >
+          <Auk::ButtonLink
+            @skin="muted"
+            @layout="icon-right"
+            {{on "click" this.logout}}
+          >
+            {{!-- TODO refactor to dropdown menu --}}
+            Log uit
+          </Auk::ButtonLink>
+        </WebComponents::AuToolbar::Item>
+      {{/if}}
     </WebComponents::AuToolbar::Group>
   </WebComponents::AuToolbar>
 </Auk::Navbar>

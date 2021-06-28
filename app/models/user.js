@@ -6,4 +6,8 @@ export default class UserModel extends Model {
 
   @belongsTo('account') account;
   @belongsTo('user-group') group;
+
+  get fullName() {
+    return [this.firstName, this.familyName].filter(s => s != null).join(' ');
+  }
 }
