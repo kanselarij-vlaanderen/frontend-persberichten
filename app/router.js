@@ -28,10 +28,6 @@ Router.map(function () {
 
   this.route('contacts', { path: 'contacten' }, function() {});
 
-  this.route('contact');
-
-  this.route('settings', { path: 'instellingen' });
-
   this.route('login', { path: 'aanmelden' });
   this.route('mock-login');
 });
