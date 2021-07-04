@@ -15,4 +15,5 @@ export default class PressReleaseModel extends Model {
   @hasMany('theme') themes;
   @hasMany('contact') sources;
   @hasMany('file') attachments;
+  @hasMany('publication-channel') publicationChannels;
 }
