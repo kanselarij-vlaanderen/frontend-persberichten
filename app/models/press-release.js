@@ -16,4 +16,5 @@ export default class PressReleaseModel extends Model {
   @hasMany('contact') sources;
   @hasMany('file') attachments;
   @hasMany('publication-channel') publicationChannels;
+  @hasMany('government-fields') governmentFields;
 }
