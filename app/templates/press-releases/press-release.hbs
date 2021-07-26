@@ -1,7 +1,7 @@
 <Auk::Navbar @skin="gray-100" @size="large">
-  <WebComponents::AuToolbar>
-    <WebComponents::AuToolbar::Group @position="left">
-      <WebComponents::AuToolbar::Item>
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -9,8 +9,8 @@
           @size="large"
           @route="press-releases.overview"
         />
-      </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
         <div class="auk-overline auk-u-block auk-u-muted">
           Persberichten
         </div>
@@ -28,15 +28,15 @@
             {{/if}}
           {{/if}}
         </h2>
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-    <WebComponents::AuToolbar::Group @position="right">
-      <WebComponents::AuToolbar::Item>
-        <WebComponents::AuStatusPill @status="done">
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        <Auk::StatusPill @status="done">
           {{dayjs-from-now this.model.modified}} opgeslagen
-        </WebComponents::AuStatusPill>
-      </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item>
+        </Auk::StatusPill>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
         <Auk::Button
           @skin="primary"
           @icon="chevron-down"
@@ -59,9 +59,9 @@
             </div>
           </Auk::Dropdown>
         {{/if}}
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-  </WebComponents::AuToolbar>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
 </Auk::Navbar>
 
 <PressRelease::Form @pressRelease={{this.model}} />

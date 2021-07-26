@@ -1,34 +1,34 @@
 {{page-title "Overzicht"}}
 
 <Auk::Navbar @skin="gray-100" @auto={{true}}>
-  <WebComponents::AuToolbar>
-    <WebComponents::AuToolbar::Group @position="left">
-      <WebComponents::AuToolbar::Item>
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
         <div class="o-flex o-flex--vertical auk-u-mt-2">
           <div class="o-flex o-flex--vertical-center">
             <h4 class="auk-toolbar-complex__title">Bronnen</h4>
           </div>
-          <WebComponents::AuTabs @reversed="true">
-            <WebComponents::AuTab
+          <Auk::Tabs @reversed="true">
+            <Auk::Tab
               @route="sources.overview.active">
               Actief
-            </WebComponents::AuTab>
-            <WebComponents::AuTab
+            </Auk::Tab>
+            <Auk::Tab
               @route="sources.overview.inactive">
               Niet actief
-            </WebComponents::AuTab>
-          </WebComponents::AuTabs>
+            </Auk::Tab>
+          </Auk::Tabs>
         </div>
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-    <WebComponents::AuToolbar::Group @position="right">
-      <WebComponents::AuToolbar::Item>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
         <Auk::Button @icon="add" @skin="primary" @route="sources.new">
           Bron aanmaken
         </Auk::Button>
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-  </WebComponents::AuToolbar>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
 </Auk::Navbar>
 
 {{outlet}}
