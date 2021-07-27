@@ -1,4 +1,4 @@
 import Component from '@glimmer/component';
 
-export default class ContactTableComponent extends Component {
-}
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
+export default class ContactTableComponent extends Component {}
