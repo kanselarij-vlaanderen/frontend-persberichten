@@ -19,7 +19,6 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve --proxy=http://localhost:80",
-    "start:deployed" : "ember serve --proxy=https://dev.persberichten-dev.s.redpencil.io",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
     "release": "release-it"
@@ -35,6 +34,7 @@
     "@lblod/ember-mock-login": "^0.5.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
+    "ember-attacher": "^1.2.3",
     "ember-auto-import": "^1.10.1",
     "ember-cli": "~3.25.3",
     "ember-cli-app-version": "^4.0.0",
