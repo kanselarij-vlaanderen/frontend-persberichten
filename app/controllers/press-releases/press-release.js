@@ -30,9 +30,7 @@ export default class PressReleasesPressReleaseController extends Controller {
   @action
   async saveChangesAndNavigateBack() {
     await this.savePressRelease.perform();
-    if (this.savePressRelease.last.isSuccessful) {
-      this.transitionToRoute('press-releases.overview');
-    };
+    this.transitionToRoute('press-releases.overview');
   }
 
   @task
