@@ -9,6 +9,8 @@ import { tracked } from '@glimmer/tracking';
 */
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
+  @tracked publicationChannels;
+  @tracked publicationEvents;
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -22,6 +24,8 @@ export default class PressReleaseSnapshot {
    * Only the attributes of the related records change.
   */
   async commit() {
+    this.publicationChannels = await this.pressRelease.publicationChannels;
+    this.publicationEvents = await this.pressRelease.publicationEvents;
     // commit changes when pressRelease gets relations => e.g. source-snapshop.js
   }
 
@@ -30,7 +34,9 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    return this.pressRelease.hasDirtyAttributes;
+    return this.pressRelease.hasDirtyAttributes
+    || this.publicationChannels.hasDirtyAttributes
+    || this.publicationEvents.hasDirtyAttributes;
   }
 
   /**
@@ -38,6 +44,8 @@ export default class PressReleaseSnapshot {
   */
   async rollback() {
     this.pressRelease.rollbackAttributes();
+    this.publicationChannels.rollbackAttributes();
+    this.publicationEvents.rollbackAttributes();
   }
 
   async save() {

@@ -3,11 +3,15 @@ import PressReleaseSnapshot from '../../utils/press-release-snapshot';
 
 export default class PressReleasesPressReleaseRoute extends Route {
   async model(params) {
-    const pressRelease = await this.store.findRecord('press-release', params.press_release_id);
-    // include relations when more fields are added => e.g. sources.js route
+    const pressRelease = await this.store.findRecord('press-release', params.press_release_id, {
+      include: [
+        'publication-channel',
+        'publication-event'
+      ].join(',')
+    });
 
     const snapshot = new PressReleaseSnapshot(pressRelease);
-    // await snapshot.commit();
+    await snapshot.commit();
     // add snapshot.commit when relations are added
     return snapshot;
   }
