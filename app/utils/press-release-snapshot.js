@@ -1,5 +1,4 @@
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
 
 function serializePublicationChannels(publicationChannels) {
   let publicationChannelsStringArray = [];
@@ -39,6 +38,7 @@ function getInitialPublicationChannels(initialPublicationChannels, publicationCh
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
   @tracked pressReleasePublicationChannels = [];
+  @tracked pressReleasePublicationEvent;
   @tracked initialPressReleasePublicationChannels = [];
   @tracked initialPressReleasePublicationChannelsContents = '';
 
@@ -49,6 +49,7 @@ export default class PressReleaseSnapshot {
 
   async commit() {
     this.pressReleasePublicationChannels = await this.pressRelease.publicationChannels;
+    this.pressReleasePublicationEvent = await this.pressRelease.publicationEvent;
     this.initialPressReleasePublicationChannelsContents = serializePublicationChannels(this.pressReleasePublicationChannels);
     this.initialPressReleasePublicationChannels = setInitialPublicationChannels(this.pressReleasePublicationChannels);
     // commit changes when pressRelease gets relations => e.g. source-snapshop.js
@@ -73,8 +74,6 @@ export default class PressReleaseSnapshot {
   }
 
   async save() {
-
-
     let pressReleasePublicationEvent = await this.pressRelease.publicationEvent;
     let publicationEventPublicationChannels;
     if(pressReleasePublicationEvent) {
@@ -87,6 +86,7 @@ export default class PressReleaseSnapshot {
       pressReleasePublicationEvent ? pressReleasePublicationEvent.save() : null
     ]);
 
+    this.pressRelease.publicationEvent = pressReleasePublicationEvent;
     const now = new Date();
     if (this.pressRelease.isNew) {
       this.pressRelease.created = now;

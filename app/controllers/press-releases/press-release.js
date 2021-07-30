@@ -61,7 +61,7 @@ export default class PressReleasesPressReleaseController extends Controller {
       publicationDate = new Date();
     }
 
-    let publicationEvent = yield this.model.publicationEvent;
+    let publicationEvent = yield this.model.pressReleasePublicationEvent;
     if (!publicationEvent) {
       publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
@@ -71,6 +71,8 @@ export default class PressReleasesPressReleaseController extends Controller {
       publicationEvent.plannedStartDate = publicationDate;
     }
     yield publicationEvent.save();
+    this.model.pressRelease.publicationEvent = publicationEvent;
+    yield this.model.save();
 
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
