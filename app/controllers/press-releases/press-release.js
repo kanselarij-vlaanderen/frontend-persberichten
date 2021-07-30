@@ -57,7 +57,7 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
-    if (!publicationDate) {
+    if (!(publicationDate instanceof Date)) {
       publicationDate = new Date();
     }
 
