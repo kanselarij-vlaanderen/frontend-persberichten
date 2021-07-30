@@ -1,4 +1,33 @@
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency-decorators';
+
+function serializePublicationChannels(publicationChannels) {
+  let publicationChannelsStringArray = [];
+  let publicationChannelsString = '';
+  if (publicationChannels.length) {
+    publicationChannels.forEach(channel => publicationChannelsStringArray.push(channel.uri));
+  }
+  publicationChannelsString = publicationChannelsStringArray
+                                .sort((a, b) => a > b ?  1 : -1)
+                                .join("+");
+
+  return publicationChannelsString;
+}
+
+function setInitialPublicationChannels(pressReleasePublicationChannels) {
+  let publicationChannelsArray = [];
+  if (pressReleasePublicationChannels.length) {
+    pressReleasePublicationChannels.forEach(channel => publicationChannelsArray.pushObject(channel));
+  }
+  return publicationChannelsArray;
+}
+
+function getInitialPublicationChannels(initialPublicationChannels, publicationChannels) {
+  if (initialPublicationChannels.length) {
+    initialPublicationChannels.forEach(channel => publicationChannels.pushObject(channel));
+  }
+  return publicationChannels;
+}
 
 /**
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
@@ -9,16 +38,19 @@ import { tracked } from '@glimmer/tracking';
 */
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
-  @tracked publicationChannels;
-  @tracked publicationEvents;
+  @tracked pressReleasePublicationChannels = [];
+  @tracked initialPressReleasePublicationChannels = [];
+  @tracked initialPressReleasePublicationChannelsContents = '';
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
   }
 
+
   async commit() {
-    this.publicationChannels = await this.pressRelease.publicationChannels;
-    this.publicationEvents = await this.pressRelease.publicationEvents;
+    this.pressReleasePublicationChannels = await this.pressRelease.publicationChannels;
+    this.initialPressReleasePublicationChannelsContents = serializePublicationChannels(this.pressReleasePublicationChannels);
+    this.initialPressReleasePublicationChannels = setInitialPublicationChannels(this.pressReleasePublicationChannels);
     // commit changes when pressRelease gets relations => e.g. source-snapshop.js
   }
 
@@ -28,20 +60,32 @@ export default class PressReleaseSnapshot {
   */
   async isDirty() {
     return this.pressRelease.hasDirtyAttributes
-    || this.publicationChannels.hasDirtyAttributes
-    || this.publicationEvents.hasDirtyAttributes;
+      || this.initialPressReleasePublicationChannelsContents !== serializePublicationChannels(this.pressReleasePublicationChannels);
   }
 
   /**
    * Rollback the PressRelease record to the snapshotted state.
   */
   async rollback() {
+    this.pressReleasePublicationChannels.clear();
     this.pressRelease.rollbackAttributes();
-    this.publicationChannels.rollbackAttributes();
-    this.publicationEvents.rollbackAttributes();
+    this.pressReleasePublicationChannels = getInitialPublicationChannels(this.initialPressReleasePublicationChannels, this.pressReleasePublicationChannels);
   }
 
   async save() {
+
+
+    let pressReleasePublicationEvent = await this.pressRelease.publicationEvent;
+    let publicationEventPublicationChannels;
+    if(pressReleasePublicationEvent) {
+      let publicationEventPublicationChannels = await pressReleasePublicationEvent.publicationChannels;
+      this.pressReleasePublicationChannels.forEach(channel => publicationEventPublicationChannels.pushObject(channel));
+    }
+    await Promise.all([
+      this.pressReleasePublicationChannels.save(),
+      publicationEventPublicationChannels ? publicationEventPublicationChannels.save() : null,
+      pressReleasePublicationEvent ? pressReleasePublicationEvent.save() : null
+    ]);
 
     const now = new Date();
     if (this.pressRelease.isNew) {

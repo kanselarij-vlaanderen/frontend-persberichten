@@ -13,7 +13,6 @@ export default class InputFieldSourceInfoPublicationChannelsComponent extends Co
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
-    console.log(this.args.telephone);
     this.mediums = [
       { label: 'telefoonnummer', value: this.args.telephone },
       { label: 'mobiel nummer', value: this.args.mobilePhone },

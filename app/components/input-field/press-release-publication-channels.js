@@ -3,16 +3,22 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import constants from '../../config/constants';
 
 export default class InputFieldPressReleasePublicationChannelsComponent extends Component {
   @service store;
 
   @tracked publicationChannels = [];
-  @tracked mediums = [];
-
+  @tracked pressReleasePublicationChannels = [];
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
+    this.loadData.perform();
+  }
+
+  @task
+  *loadData() {
+    this.pressReleasePublicationChannels = yield this.args.pressRelease.publicationChannels;
   }
 
   @task
@@ -21,22 +27,18 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
       'page[size]': 100,
       // sort: 'name'
     });
-    this.publicationChannels = this.publicationChannels.filter(publicationChannel => publicationChannel.uri !== "http://themis.vlaanderen.be/id/publicatiekanaal/c184f026-feaa-4899-ba06-fd3a03df599c");
-    this.publicationChannels.forEach(a=>console.log(a));
+
+    this.publicationChannels = this.publicationChannels.filter(publicationChannel => {
+      return publicationChannel.uri !== constants.PUBLICATION_CHANNEL_URI;
+    });
   }
   @action
-  togglePublicationChannel(channel, medium) {
-
-    console.log(channel);
-    console.log(medium);
-    // if (!medium.publicationChannels) {
-    //   medium.publicationChannels = [];
-    // }
-    // const index = medium.publicationChannels.indexOf(channel.uri);
-    // if (index > -1) {
-    //   medium.publicationChannels.splice(index, 1); // remove publication-channel
-    // } else {
-    //   medium.publicationChannels.pushObject(channel.uri);
-    // }
+  async togglePublicationChannel(channel) {
+    const index = this.pressReleasePublicationChannels.indexOf(channel);
+    if (index > -1) {
+      this.pressReleasePublicationChannels.removeObject(channel); // remove publication-channel
+    } else {
+      this.pressReleasePublicationChannels.addObject(channel);
+    }
   }
 }

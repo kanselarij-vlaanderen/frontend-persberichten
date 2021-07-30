@@ -3,8 +3,8 @@
   <div class="auk-o-flex auk-o-flex--horizontal">
     <Input
       @type="checkbox"
-      {{!-- checked={{includes channel.uri medium.value.publicationChannels}} --}}
-      {{!-- {{on "change" (fn this.togglePublicationChannel channel medium.value)}} --}}
+      checked={{includes publicationChannel this.pressReleasePublicationChannels}}
+      {{on "change" (fn this.togglePublicationChannel publicationChannel)}}
       /> {{publicationChannel.name}}
   </div>
   {{/each}}
