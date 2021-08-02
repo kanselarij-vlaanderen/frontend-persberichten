@@ -71,7 +71,6 @@ export default class PressReleasesPressReleaseController extends Controller {
       publicationEvent.plannedStartDate = publicationDate;
     }
     yield publicationEvent.save();
-
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
   }

@@ -17,6 +17,8 @@ function serializePublicationChannels(publicationChannels) {
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
+ * Tracks relationship publicationChannels, to be able to find any changes, and detect those in the isDirty check.
+ * 
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
 */
@@ -53,8 +55,14 @@ export default class PressReleaseSnapshot {
   }
 
   async save() {
+    let publicationEvent = await this.pressRelease.publicationEvent;
+    if(publicationEvent) {
+      publicationEvent.publicationChannels = await this.pressRelease.publicationChannels;
+    }
+
     await Promise.all([
-      this.pressRelease.publicationChannels.save(),
+      this.publicationChannels.save(),
+      publicationEvent ? publicationEvent.save() : null
     ]);
 
     const now = new Date();
