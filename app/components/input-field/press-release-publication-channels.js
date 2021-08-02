@@ -9,23 +9,23 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   @service store;
 
   @tracked publicationChannels = [];
-  @tracked pressReleasePublicationChannels = [];
+  @tracked selectedPublicationChannels = [];
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
-    this.loadData.perform();
+    this.loadSelectedPublicationChannels.perform();
   }
 
   @task
-  *loadData() {
-    this.pressReleasePublicationChannels = yield this.args.pressRelease.publicationChannels;
+  *loadSelectedPublicationChannels() {
+    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
   }
 
   @task
   *loadPublicationChannels() {
     this.publicationChannels = yield this.store.query('publication-channel', {
       'page[size]': 100,
-      // sort: 'name'
+      sort: 'name'
     });
 
     this.publicationChannels = this.publicationChannels.filter(publicationChannel => {
@@ -33,12 +33,12 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     });
   }
   @action
-  async togglePublicationChannel(channel) {
-    const index = this.pressReleasePublicationChannels.indexOf(channel);
+  togglePublicationChannel(channel) {
+    const index = this.selectedPublicationChannels.indexOf(channel);
     if (index > -1) {
-      this.pressReleasePublicationChannels.removeObject(channel); // remove publication-channel
+      this.selectedPublicationChannels.removeObject(channel); // remove publication-channel
     } else {
-      this.pressReleasePublicationChannels.addObject(channel);
+      this.selectedPublicationChannels.addObject(channel);
     }
   }
 }

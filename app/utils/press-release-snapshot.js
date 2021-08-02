@@ -3,29 +3,14 @@ import { tracked } from '@glimmer/tracking';
 function serializePublicationChannels(publicationChannels) {
   let publicationChannelsStringArray = [];
   let publicationChannelsString = '';
-  if (publicationChannels.length) {
-    publicationChannels.forEach(channel => publicationChannelsStringArray.push(channel.uri));
-  }
+
+  publicationChannelsStringArray = publicationChannels.map(channel => channel.uri);
+
   publicationChannelsString = publicationChannelsStringArray
-                                .sort((a, b) => a > b ?  1 : -1)
-                                .join("+");
+                                .sort()
+                                .join('+');
 
   return publicationChannelsString;
-}
-
-function setInitialPublicationChannels(pressReleasePublicationChannels) {
-  let publicationChannelsArray = [];
-  if (pressReleasePublicationChannels.length) {
-    pressReleasePublicationChannels.forEach(channel => publicationChannelsArray.pushObject(channel));
-  }
-  return publicationChannelsArray;
-}
-
-function getInitialPublicationChannels(initialPublicationChannels, publicationChannels) {
-  if (initialPublicationChannels.length) {
-    initialPublicationChannels.forEach(channel => publicationChannels.pushObject(channel));
-  }
-  return publicationChannels;
 }
 
 /**
@@ -37,10 +22,8 @@ function getInitialPublicationChannels(initialPublicationChannels, publicationCh
 */
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
-  @tracked pressReleasePublicationChannels = [];
-  @tracked pressReleasePublicationEvent;
-  @tracked initialPressReleasePublicationChannels = [];
-  @tracked initialPressReleasePublicationChannelsContents = '';
+  @tracked publicationChannels;
+  @tracked publicationChannelsContent = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -48,11 +31,8 @@ export default class PressReleaseSnapshot {
 
 
   async commit() {
-    this.pressReleasePublicationChannels = await this.pressRelease.publicationChannels;
-    this.pressReleasePublicationEvent = await this.pressRelease.publicationEvent;
-    this.initialPressReleasePublicationChannelsContents = serializePublicationChannels(this.pressReleasePublicationChannels);
-    this.initialPressReleasePublicationChannels = setInitialPublicationChannels(this.pressReleasePublicationChannels);
-    // commit changes when pressRelease gets relations => e.g. source-snapshop.js
+    this.publicationChannels = await this.pressRelease.publicationChannels;
+    this.publicationChannelsContent = this.publicationChannels.map(channel => channel);
   }
 
   /**
@@ -60,33 +40,23 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    return this.pressRelease.hasDirtyAttributes
-      || this.initialPressReleasePublicationChannelsContents !== serializePublicationChannels(this.pressReleasePublicationChannels);
+    return this.pressRelease.hasDirtyAttributes ||
+      serializePublicationChannels(this.publicationChannelsContent) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
   }
 
   /**
    * Rollback the PressRelease record to the snapshotted state.
   */
   async rollback() {
-    this.pressReleasePublicationChannels.clear();
     this.pressRelease.rollbackAttributes();
-    this.pressReleasePublicationChannels = getInitialPublicationChannels(this.initialPressReleasePublicationChannels, this.pressReleasePublicationChannels);
+    this.pressRelease.publicationChannels = this.publicationChannelsContent;
   }
 
   async save() {
-    let pressReleasePublicationEvent = await this.pressRelease.publicationEvent;
-    let publicationEventPublicationChannels;
-    if(pressReleasePublicationEvent) {
-      let publicationEventPublicationChannels = await pressReleasePublicationEvent.publicationChannels;
-      this.pressReleasePublicationChannels.forEach(channel => publicationEventPublicationChannels.pushObject(channel));
-    }
     await Promise.all([
-      this.pressReleasePublicationChannels.save(),
-      publicationEventPublicationChannels ? publicationEventPublicationChannels.save() : null,
-      pressReleasePublicationEvent ? pressReleasePublicationEvent.save() : null
+      this.pressRelease.publicationChannels.save(),
     ]);
 
-    this.pressRelease.publicationEvent = pressReleasePublicationEvent;
     const now = new Date();
     if (this.pressRelease.isNew) {
       this.pressRelease.created = now;
@@ -95,7 +65,6 @@ export default class PressReleaseSnapshot {
     await this.pressRelease.save();
 
     // Set saved state as new committed state to track changes for
-    // commit only when there are relations
-    // await this.commit();
+    await this.commit();
   }
 }
