@@ -4,4 +4,6 @@ export default class ContactListModel extends Model {
   @attr('string') name;
 
   @hasMany('contact-item') contactItems;
+  @hasMany('mail-address') mailAddress;
+  @hasMany('telephone') telephone;
 }
