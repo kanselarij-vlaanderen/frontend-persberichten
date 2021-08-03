@@ -1,13 +1,16 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesPressReleaseController extends Controller {
+  
+  @service router;
+
   @tracked showPublicationModal = false;
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
-
 
   get snapshot() {
     return this.model;
@@ -30,7 +33,7 @@ export default class PressReleasesPressReleaseController extends Controller {
   @action
   async saveChangesAndNavigateBack() {
     await this.savePressRelease.perform();
-    this.transitionToRoute('press-releases.overview');
+    this.transitionToRoute(this.from);
   }
 
   @task
@@ -39,7 +42,7 @@ export default class PressReleasesPressReleaseController extends Controller {
     if (isDirty) {
       this.showConfirmationModal = true;
     } else {
-      this.transitionToRoute('press-releases.overview');
+      this.transitionToRoute(this.from);
     }
   }
 
@@ -47,7 +50,7 @@ export default class PressReleasesPressReleaseController extends Controller {
   *confirmNavigationBack() {
     yield this.snapshot.rollback();
     this.showConfirmationModal = false;
-    this.transitionToRoute('press-releases.overview');
+    this.transitionToRoute(this.from);
   }
 
   @action
@@ -57,20 +60,36 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
-    if (!(publicationDate instanceof Date)) {
+    let withDate = (publicationDate instanceof Date)
+    if (!withDate) {
+      console.log("here")
       publicationDate = new Date();
     }
+    console.log(publicationDate)
 
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     if (!publicationEvent) {
-      publicationEvent = this.store.createRecord('publication-event', {
-        plannedStartDate: publicationDate,
-        pressRelease: this.model
-      });
+      if(!withDate) {
+        publicationEvent = this.store.createRecord('publication-event', {
+          started: publicationDate,
+          pressRelease: this.model
+        });
+      } else {
+        publicationEvent = this.store.createRecord('publication-event', {
+          plannedStartDate: publicationDate,
+          pressRelease: this.model
+        });
+      }
     } else {
-      publicationEvent.plannedStartDate = publicationDate;
+      if(!withDate) {
+        publicationEvent.started = publicationDate;
+      } else {
+        publicationEvent.plannedStartDate = publicationDate;
+      }
     }
     yield publicationEvent.save();
+    // this.model.pressRelease.publicationEvent = publicationEvent;
+    // yield this.model.save();
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
   }

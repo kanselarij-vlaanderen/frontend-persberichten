@@ -11,7 +11,7 @@ export default class PressReleasesOverviewConceptRoute extends Route.extend(Data
       include: 'publication-event',
       filter: {
         ':has-no:collaboration': 'yes',
-        ':has-no:publication-event': 'yes'
+        ':has-no:publication-event': 'yes',
       },
     };
 
