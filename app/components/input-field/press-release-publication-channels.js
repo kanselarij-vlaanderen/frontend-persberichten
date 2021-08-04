@@ -3,13 +3,14 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import constants from '../../config/constants';
+import CONFIG from '../../config/constants';
 
 export default class InputFieldPressReleasePublicationChannelsComponent extends Component {
   @service store;
 
   @tracked publicationChannels = [];
   @tracked selectedPublicationChannels = [];
+  
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
@@ -23,20 +24,21 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @task
   *loadPublicationChannels() {
-    this.publicationChannels = yield this.store.query('publication-channel', {
+    let publicationChannels = yield this.store.query('publication-channel', {
       'page[size]': 100,
       sort: 'name'
     });
 
-    this.publicationChannels = this.publicationChannels.filter(publicationChannel => {
-      return publicationChannel.uri !== constants.PUBLICATION_CHANNEL_URI;
+    this.publicationChannels = publicationChannels.filter(publicationChannel => {
+      return publicationChannel.uri !== CONFIG.MAILING_LIST.PUBLICATION_CHANNEL;
     });
   }
+
   @action
   togglePublicationChannel(channel) {
     const index = this.selectedPublicationChannels.indexOf(channel);
     if (index > -1) {
-      this.selectedPublicationChannels.removeObject(channel); // remove publication-channel
+      this.selectedPublicationChannels.removeObject(channel);
     } else {
       this.selectedPublicationChannels.addObject(channel);
     }
