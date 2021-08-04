@@ -1,6 +1,6 @@
-import Model, { attr, hasOne } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class GovernmentFieldModel extends Model {
   @attr('string') prefLabel;
-  @hasMany('government-domain') governmentDomain;
+  @belongsTo('government-domain') domain;
 }
