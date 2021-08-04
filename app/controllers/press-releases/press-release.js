@@ -57,15 +57,11 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
-    if (!(publicationDate instanceof Date)) {
-      publicationDate = new Date();
-    }
-
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     if (!publicationEvent) {
       publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
-        pressRelease: this.model
+        pressRelease: this.snapshot.pressRelease
       });
     } else {
       publicationEvent.plannedStartDate = publicationDate;
