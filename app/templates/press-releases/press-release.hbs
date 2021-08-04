@@ -61,6 +61,15 @@
             <div class="auk-menu__item" role="button" {{on "click" this.saveChangesAndNavigateBack}}>
               Opslaan en sluiten
             </div>
+            {{#if this.pressRelease.publicationEvent.plannedStartDate}}
+              {{!-- expand if with or when more danger colored buttens are added --}}
+              <hr>
+            {{/if}}
+            {{#if this.pressRelease.publicationEvent.plannedStartDate}}
+            <div class="auk-menu__item auk-menu__item--danger" role="button" {{on "click" (perform this.revokePressRelease)}}>
+              Intrekken
+            </div>
+            {{/if}}
           </Auk::Dropdown>
         </AttachPopover>
       </Auk::Toolbar::Item>

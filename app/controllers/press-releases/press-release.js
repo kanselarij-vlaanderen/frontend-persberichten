@@ -65,7 +65,6 @@ export default class PressReleasesPressReleaseController extends Controller {
       console.log("here")
       publicationDate = new Date();
     }
-    console.log(publicationDate)
 
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     if (!publicationEvent) {
@@ -87,11 +86,23 @@ export default class PressReleasesPressReleaseController extends Controller {
         publicationEvent.plannedStartDate = publicationDate;
       }
     }
+
     yield publicationEvent.save();
     // this.model.pressRelease.publicationEvent = publicationEvent;
     // yield this.model.save();
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
+  }
+
+  @task
+  *revokePressRelease() {
+    let pressRelease = yield this.snapshot.pressRelease;
+    let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+    yield publicationEvent.deleteRecord();
+    pressRelease.publicationEvent = null;
+    yield pressRelease.save();
+
+    //deleteRecord to make sure it is deleted in DB, not sure if keeps excisting after pressRelease.publicationEvent = null;
   }
 
   @action
