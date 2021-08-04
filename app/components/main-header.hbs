@@ -1,25 +1,25 @@
 <Auk::Navbar @skin="white" @noPadding="true">
-  <WebComponents::AuToolbar>
-    <WebComponents::AuToolbar::Group @position="left">
-      <WebComponents::AuToolbar::Item>
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
         <Auk::Brand @logotype="Vlivia" />
-      </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item>
-        <WebComponents::AuTabs>
-          <WebComponents::AuTab @route="press-releases.overview">
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <Auk::Tabs>
+          <Auk::Tab  @route="press-releases.overview">
             Persberichten
-          </WebComponents::AuTab>
-          <WebComponents::AuTab @route="contacts">
+          </Auk::Tab>
+          <Auk::Tab  @route="contacts">
             Contacten
-          </WebComponents::AuTab>
-          <WebComponents::AuTab @route="sources.overview">
+          </Auk::Tab>
+          <Auk::Tab  @route="sources.overview">
             Bronnen
-          </WebComponents::AuTab>
-        </WebComponents::AuTabs>
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-    <WebComponents::AuToolbar::Group @position="right">
-      <WebComponents::AuToolbar::Item>
+          </Auk::Tab>
+        </Auk::Tabs>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
         <Auk::ButtonLink
           @skin="muted"
           @padded="padded"
@@ -27,9 +27,9 @@
         >
           Help
         </Auk::ButtonLink>
-      </WebComponents::AuToolbar::Item>
+      </Auk::Toolbar::Item>
       {{#if this.session.isAuthenticated}}
-        <WebComponents::AuToolbar::Item class="auk-u-mr-3" >
+        <Auk::Toolbar::Item class="auk-u-mr-3" >
           <Auk::ButtonLink
             @skin="muted"
             @icon="chevron-down"
@@ -37,8 +37,8 @@
           >
             {{this.currentSession.user.fullName}}
           </Auk::ButtonLink>
-        </WebComponents::AuToolbar::Item>
-        <WebComponents::AuToolbar::Item class="auk-u-mr-3" >
+        </Auk::Toolbar::Item>
+        <Auk::Toolbar::Item class="auk-u-mr-3" >
           <Auk::ButtonLink
             @skin="muted"
             @layout="icon-right"
@@ -47,8 +47,8 @@
             {{!-- TODO refactor to dropdown menu --}}
             Log uit
           </Auk::ButtonLink>
-        </WebComponents::AuToolbar::Item>
+        </Auk::Toolbar::Item>
       {{/if}}
-    </WebComponents::AuToolbar::Group>
-  </WebComponents::AuToolbar>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
 </Auk::Navbar>
