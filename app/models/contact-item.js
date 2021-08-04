@@ -7,4 +7,6 @@ export default class ContactItemModel extends Model {
   @attr('string') organizationName;
 
   @belongsTo('contact-list') contactList;
+  @belongsTo('telephone') telephone;
+  @belongsTo('mail-address') mailAddress;
 }
