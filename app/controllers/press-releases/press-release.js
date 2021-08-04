@@ -10,10 +10,6 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
-    if (!publicationDate) {
-      publicationDate = new Date();
-    }
-
     let publicationEvent = yield this.model.publicationEvent;
     if (!publicationEvent) {
       publicationEvent = this.store.createRecord('publication-event', {
