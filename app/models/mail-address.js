@@ -5,4 +5,5 @@ export default class MailAddressModel extends Model {
   @attr('uri-set') publicationChannels;
 
   @belongsTo('contact') contact;
+  @belongsTo('contact-item') contactItem;
 }
