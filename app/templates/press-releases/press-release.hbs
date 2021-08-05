@@ -1,51 +1,82 @@
 <Auk::Navbar @skin="gray-100" @size="large">
-  <WebComponents::AuToolbar>
-    <WebComponents::AuToolbar::Group @position="left">
-      <WebComponents::AuToolbar::Item>
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
           @icon="chevron-left"
           @size="large"
-          @route="press-releases.overview"
+          {{on "click" (perform this.navigateBack)}}
         />
-      </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
         <div class="auk-overline auk-u-block auk-u-muted">
           Persberichten
         </div>
         <h2 class="auk-toolbar__title">
-          {{this.model.title}}
-          {{#if this.model.publicationEvent}}
-            {{#if this.model.publicationEvent.started}}
+          {{this.pressRelease.title}}
+          {{#if this.pressRelease.publicationEvent}}
+            {{#if this.pressRelease.publicationEvent.started}}
               <Auk::Pill class="auk-u-ml">
-                Gepubliceerd op {{dayjs-format this.model.publicationEvent.started outputFormat="DD-MM-YYYY [om] HH:mm"}}
+                Gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.started outputFormat="DD-MM-YYYY [om] HH:mm"}}
               </Auk::Pill>
             {{else}}
               <Auk::Pill class="auk-u-ml">
-                Wordt gepubliceerd op {{dayjs-format this.model.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+                Wordt gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
               </Auk::Pill>
             {{/if}}
           {{/if}}
         </h2>
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-    <WebComponents::AuToolbar::Group @position="right">
-      <WebComponents::AuToolbar::Item>
-        <WebComponents::AuStatusPill @status="done">
-          {{dayjs-from-now this.model.modified}} opgeslagen
-        </WebComponents::AuStatusPill>
-      </WebComponents::AuToolbar::Item>
-      <WebComponents::AuToolbar::Item>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        {{#if this.savePressRelease.last.isError}}
+          <Auk::StatusPill @status="error">
+            Opslaan mislukt
+          </Auk::StatusPill>
+        {{else}}
+        <Auk::StatusPill @status="done">
+          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
+        </Auk::StatusPill>
+        {{/if}}
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @icon="chevron-down"
+          @layout="icon-right">
+          Acties
+        </Auk::Button>
+        <AttachPopover
+            @class="ember-attacher-popper"
+            @hideOn="clickout click"
+            @showOn="click"
+            @animation="shift"
+            @placement="bottom">
+          <Auk::Dropdown>
+            <div class="auk-menu__item" role="button" {{on "click" this.saveChanges}}>
+              Opslaan
+            </div>
+            <div class="auk-menu__item" role="button" {{on "click" this.saveChangesAndNavigateBack}}>
+              Opslaan en sluiten
+            </div>
+          </Auk::Dropdown>
+        </AttachPopover>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
         <Auk::Button
           @skin="primary"
           @icon="chevron-down"
-          @layout="icon-right"
-          {{on "click" this.openPublishDropdown}}>
+          @layout="icon-right">
           Publiceren
         </Auk::Button>
-        {{#if this.showPublishDropdown}}
-          {{!-- TODO use popper library to make dropdown disappear on click outside --}}
+        <AttachPopover
+            @class="ember-attacher-popper"
+            @hideOn="clickout click"
+            @showOn="click"
+            @animation="shift"
+            @placement="bottom">
           <Auk::Dropdown>
             <div class="auk-menu__item" role="button" {{on "click" this.openPublicationModal}}>
               Nu publiceren
@@ -58,13 +89,13 @@
               {{/if}}
             </div>
           </Auk::Dropdown>
-        {{/if}}
-      </WebComponents::AuToolbar::Item>
-    </WebComponents::AuToolbar::Group>
-  </WebComponents::AuToolbar>
+        </AttachPopover>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
 </Auk::Navbar>
 
-<PressRelease::Form @pressRelease={{this.model}} />
+<PressRelease::Form @pressRelease={{this.pressRelease}} />
 
 {{#if this.showPublicationModal}}
   <PressRelease::PublicationModal
@@ -80,6 +111,14 @@
     @onCancel={{this.closePublicationPlanningModal}}
     @onPublish={{perform this.publish}}
     @loading={{this.publish.isRunning}}
+  />
+{{/if}}
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
   />
 {{/if}}
 

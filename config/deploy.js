@@ -1,7 +1,7 @@
 /* eslint-env node */
 'use strict';
 
-module.exports = function(deployTarget) {
+module.exports = function() {
   //see https://github.com/ember-cli-deploy/ember-cli-deploy-revision-data/issues/52
   process.env.GIT_DISCOVERY_ACROSS_FILESYSTEM=1;
   let ENV = {

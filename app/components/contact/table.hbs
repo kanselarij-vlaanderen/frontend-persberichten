@@ -73,9 +73,9 @@
           </tbody>
         </table>
 
-        <WebComponents::AuToolbar >
-          <WebComponents::AuToolbar::Group @position="left">
-            <WebComponents::AuToolbar::Item>
+        <Auk::Toolbar>
+          <Auk::Toolbar::Group  @position="left">
+            <Auk::Toolbar::Item>
               <Auk::Pagination
                 @page={{@page}}
                 @size={{@size}}
@@ -84,20 +84,20 @@
                 @onNextPage={{@onNextPage}}
                 @onPreviousPage={{@onPreviousPage}}
               />
-            </WebComponents::AuToolbar::Item>
-          </WebComponents::AuToolbar::Group>
-          <WebComponents::AuToolbar::Group @position="right">
-            <WebComponents::AuToolbar::Item>
+            </Auk::Toolbar::Item>
+          </Auk::Toolbar::Group >
+          <Auk::Toolbar::Group  @position="right">
+            <Auk::Toolbar::Item>
               Bronnen per pagina
-            </WebComponents::AuToolbar::Item>
-            <WebComponents::AuToolbar::Item>
+            </Auk::Toolbar::Item>
+            <Auk::Toolbar::Item>
               <WebComponents::AuPageSize
                 @selectedSize={{@size}}
                 @onChange={{@onPageSizeChange}}
               />
-            </WebComponents::AuToolbar::Item>
-          </WebComponents::AuToolbar::Group>
-        </WebComponents::AuToolbar>
+            </Auk::Toolbar::Item>
+          </Auk::Toolbar::Group >
+        </Auk::Toolbar>
       {{else}}
         <Auk::Panel>
           <Auk::Panel::Body>
