@@ -10,7 +10,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @tracked publicationChannels = [];
   @tracked selectedPublicationChannels = [];
-  
+
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
@@ -30,7 +30,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     });
 
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
-      return publicationChannel.uri !== CONFIG.MAILING_LIST.PUBLICATION_CHANNEL;
+      return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
   }
 
