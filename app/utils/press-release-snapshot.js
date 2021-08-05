@@ -24,8 +24,7 @@ function serializePublicationChannels(publicationChannels) {
 */
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
-  @tracked publicationChannels;
-  @tracked publicationChannelsContent = [];
+  @tracked publicationChannels = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -33,8 +32,7 @@ export default class PressReleaseSnapshot {
 
 
   async commit() {
-    this.publicationChannels = await this.pressRelease.publicationChannels;
-    this.publicationChannelsContent = this.publicationChannels.map(channel => channel);
+    this.publicationChannels = await this.pressRelease.publicationChannels.map(channel => channel);
   }
 
   /**
@@ -43,7 +41,7 @@ export default class PressReleaseSnapshot {
   */
   async isDirty() {
     return this.pressRelease.hasDirtyAttributes ||
-      serializePublicationChannels(this.publicationChannelsContent) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
+      serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
   }
 
   /**
@@ -51,17 +49,18 @@ export default class PressReleaseSnapshot {
   */
   async rollback() {
     this.pressRelease.rollbackAttributes();
-    this.pressRelease.publicationChannels = this.publicationChannelsContent;
+    this.pressRelease.publicationChannels = this.publicationChannels;
   }
 
   async save() {
+    let publicationChannels = await this.pressRelease.publicationChannels;
     let publicationEvent = await this.pressRelease.publicationEvent;
     if(publicationEvent) {
-      publicationEvent.publicationChannels = await this.pressRelease.publicationChannels;
+      publicationEvent.publicationChannels = publicationChannels;
     }
 
     await Promise.all([
-      this.publicationChannels.save(),
+      publicationChannels.save(),
       publicationEvent ? publicationEvent.save() : null
     ]);
 

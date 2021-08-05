@@ -10,11 +10,10 @@ export default class PressReleasesOverviewPlannedRoute extends Route.extend(Data
       sort: params.sort,
       include: 'publication-event',
       filter: {
-        ':has:publication-event': 'yes',
+        ':has:publication-event': 'yes'
+        // 'publication-event][:lt:started': `${new Date()}`
       },
     };
-
-    queryParams['filter[publication-event][:has:planned-start-date]'] = 'yes'
 
     return queryParams;
   }

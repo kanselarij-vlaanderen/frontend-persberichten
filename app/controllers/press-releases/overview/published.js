@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class PressReleasesOverviewPublishedController extends Controller {  
+export default class PressReleasesOverviewPublishedController extends Controller {
 
   @tracked sort = '-publication-event.started';
   @tracked page = 0;

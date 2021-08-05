@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesPressReleaseController extends Controller {
-  
+
   @service router;
 
   @tracked showPublicationModal = false;
@@ -59,37 +59,31 @@ export default class PressReleasesPressReleaseController extends Controller {
   }
 
   @task
-  *publish(publicationDate) {
-    let withDate = (publicationDate instanceof Date)
-    if (!withDate) {
-      console.log("here")
-      publicationDate = new Date();
-    }
-
+  *publish(publicationDate, fromLaterDatePointer) {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+
     if (!publicationEvent) {
-      if(!withDate) {
+      if(fromLaterDatePointer) {
         publicationEvent = this.store.createRecord('publication-event', {
-          started: publicationDate,
-          pressRelease: this.model
+          plannedStartDate: publicationDate,
+          pressRelease: this.snapshot.pressRelease
         });
       } else {
         publicationEvent = this.store.createRecord('publication-event', {
-          plannedStartDate: publicationDate,
-          pressRelease: this.model
+          started: publicationDate,
+          pressRelease: this.snapshot.pressRelease
         });
       }
     } else {
-      if(!withDate) {
-        publicationEvent.started = publicationDate;
-      } else {
+      if(fromLaterDatePointer) {
         publicationEvent.plannedStartDate = publicationDate;
+      } else {
+        publicationEvent.started = publicationDate;
       }
     }
 
     yield publicationEvent.save();
-    // this.model.pressRelease.publicationEvent = publicationEvent;
-    // yield this.model.save();
+
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
   }
