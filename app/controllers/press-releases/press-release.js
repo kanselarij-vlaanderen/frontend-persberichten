@@ -62,20 +62,18 @@ export default class PressReleasesPressReleaseController extends Controller {
   *publish(publicationDate) {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     if (!publicationEvent) {
-      publicationEvent = this.store.createRecord('publication-event', {
+        publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
         pressRelease: this.snapshot.pressRelease
       });
     } else {
-      if(!withDate) {
+      if(!publicationEvent) {
         publicationEvent.started = publicationDate;
       } else {
         publicationEvent.plannedStartDate = publicationDate;
       }
     }
     yield publicationEvent.save();
-    // this.model.pressRelease.publicationEvent = publicationEvent;
-    // yield this.model.save();
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
   }

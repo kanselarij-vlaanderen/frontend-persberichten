@@ -12,28 +12,28 @@
                 @onChange={{@onSortChange}}
               />
               {{#if (and (not @plannedRoute) (not @publishedRoute))}}
-              <Utils::ThSortable
-                @label="Laatst bewerkt"
-                @field="modified"
-                @currentSorting={{@sort}}
-                @onChange={{@onSortChange}}
-              />
+                <Utils::ThSortable
+                  @label="Laatst bewerkt"
+                  @field="modified"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
               {{/if}}
               {{#if @publishedRoute}}
-              <Utils::ThSortable
-                @label="Gepubliceerd op"
-                @field="publication-event.started"
-                @currentSorting={{@sort}}
-                @onChange={{@onSortChange}}
-              />
+                <Utils::ThSortable
+                  @label="Gepubliceerd op"
+                  @field="publication-event.started"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
               {{/if}}
               {{#if @plannedRoute}}
-              <Utils::ThSortable
-                @label="Gepland voor publicatie op"
-                @field="publication-event.planned-start-date"
-                @currentSorting={{@sort}}
-                @onChange={{@onSortChange}}
-              />
+                <Utils::ThSortable
+                  @label="Gepland voor publicatie op"
+                  @field="publication-event.planned-start-date"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
               {{/if}}
               <th>
                 {{!-- open detail --}}
@@ -46,32 +46,32 @@
                 <td>
                   {{row.title}}
                 </td>
-                
+
                 {{#if (and (not @plannedRoute) (not @publishedRoute))}}
-                <td>
-                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
-                  <span class="auk-u-text-small auk-u-muted">
-                    {{dayjs-format row.modified outputFormat="HH:mm"}}
-                  </span>
-                </td>
+                  <td>
+                    {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
+                    <span class="auk-u-text-small auk-u-muted">
+                      {{dayjs-format row.modified outputFormat="HH:mm"}}
+                    </span>
+                  </td>
                 {{/if}}
 
                 {{#if @publishedRoute}}
-                <td>
-                  {{dayjs-format row.publicationEvent.started outputFormat="DD-MM-YYYY"}}<br/>
-                  <span class="auk-u-text-small auk-u-muted">
-                    {{dayjs-format row.publicationEvent.started outputFormat="HH:mm"}}
-                  </span>
-                </td>
+                  <td>
+                    {{dayjs-format row.publicationEvent.started outputFormat="DD-MM-YYYY"}}<br/>
+                    <span class="auk-u-text-small auk-u-muted">
+                      {{dayjs-format row.publicationEvent.started outputFormat="HH:mm"}}
+                    </span>
+                  </td>
                 {{/if}}
 
                 {{#if @plannedRoute}}
-                <td>
-                  {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY"}}<br/>
-                  <span class="auk-u-text-small auk-u-muted">
-                    {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="HH:mm"}}
-                  </span>
-                </td>
+                  <td>
+                    {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY"}}<br/>
+                    <span class="auk-u-text-small auk-u-muted">
+                      {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="HH:mm"}}
+                    </span>
+                  </td>
                 {{/if}}
                 <td>
                   <LinkTo
