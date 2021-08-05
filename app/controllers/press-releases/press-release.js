@@ -59,29 +59,17 @@ export default class PressReleasesPressReleaseController extends Controller {
   }
 
   @task
-  *publish(publicationDate, comingFrom) {
+  *publish(publicationDate) {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
 
     if (!publicationEvent) {
-      if(comingFrom !== 'publish') {
-        publicationEvent = this.store.createRecord('publication-event', {
-          plannedStartDate: publicationDate,
-          pressRelease: this.snapshot.pressRelease
-        });
-      } else {
-        publicationEvent = this.store.createRecord('publication-event', {
-          started: publicationDate,
-          pressRelease: this.snapshot.pressRelease
-        });
-      }
+      publicationEvent = this.store.createRecord('publication-event', {
+        plannedStartDate: publicationDate,
+        pressRelease: this.snapshot.pressRelease
+      });
     } else {
-      if(comingFrom !== 'publish') {
-        publicationEvent.plannedStartDate = publicationDate;
-      } else {
-        publicationEvent.started = publicationDate;
-      }
+      publicationEvent.plannedStartDate = publicationDate;
     }
-
     yield publicationEvent.save();
 
     this.showPublicationModal = false;
@@ -93,10 +81,8 @@ export default class PressReleasesPressReleaseController extends Controller {
     let pressRelease = yield this.snapshot.pressRelease;
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     yield publicationEvent.deleteRecord();
-    pressRelease.publicationEvent = null;
+    yield publicationEvent.save();
     yield pressRelease.save();
-
-    //deleteRecord to make sure it is deleted in DB, not sure if keeps excisting after pressRelease.publicationEvent = null;
   }
 
   @action
