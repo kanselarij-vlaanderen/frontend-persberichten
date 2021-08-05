@@ -59,11 +59,11 @@ export default class PressReleasesPressReleaseController extends Controller {
   }
 
   @task
-  *publish(publicationDate, fromLaterDatePointer) {
+  *publish(publicationDate, comingFrom) {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
 
     if (!publicationEvent) {
-      if(fromLaterDatePointer) {
+      if(comingFrom !== 'publish') {
         publicationEvent = this.store.createRecord('publication-event', {
           plannedStartDate: publicationDate,
           pressRelease: this.snapshot.pressRelease
@@ -75,7 +75,7 @@ export default class PressReleasesPressReleaseController extends Controller {
         });
       }
     } else {
-      if(fromLaterDatePointer) {
+      if(comingFrom !== 'publish') {
         publicationEvent.plannedStartDate = publicationDate;
       } else {
         publicationEvent.started = publicationDate;

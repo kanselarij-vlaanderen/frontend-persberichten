@@ -5,6 +5,7 @@ export default class PressReleasePublicationModalComponent extends Component {
   @action
   publish() {
     const now = new Date();
-    this.args.onPublish(now);
+    const comingFrom = 'publish';
+    this.args.onPublish(now, comingFrom);
   }
 }
