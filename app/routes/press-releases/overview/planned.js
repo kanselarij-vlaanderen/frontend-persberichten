@@ -10,7 +10,7 @@ export default class PressReleasesOverviewPlannedRoute extends Route.extend(Data
       sort: params.sort,
       include: 'publication-event',
       filter: {
-        'publication-event][:lt:started': `${new Date()}`
+        'publication-event][:lt:plannedStartDate': `${new Date()}`
       },
     };
 
