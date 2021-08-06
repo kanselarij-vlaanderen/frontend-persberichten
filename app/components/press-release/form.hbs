@@ -40,6 +40,24 @@
           {{on "input" (fn this.setInputValue @pressRelease "abstract")}}
         />
       </div>
+      <div class="auk-form-group">
+        <Auk::Label>
+          Kernwoorden
+        </Auk::Label>
+        <Auk::InputPills
+          @items={{@pressRelease.keywords}}
+          @onCreate={{this.addKeyword}}
+          @onRemove={{this.deleteKeyword}} as |keyword|>
+          {{keyword}}
+        </Auk::InputPills>
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label>
+          Ontvangers
+        </Auk::Label>
+        <h3>Publicatiekanalen</h3>
+        <InputField::PressReleasePublicationChannels @pressRelease={{@pressRelease}} />
+      </div>
     </div>
   </div>
 </div>

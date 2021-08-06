@@ -8,6 +8,18 @@
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
+  <PressRelease::Table
+    @model={{this.model}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+    @size={{this.size}}
+    @onSortChange={{this.setSort}}
+    @onNextPage={{this.nextPage}}
+    @onPreviousPage={{this.prevPage}}
+    @onPageSizeChange={{this.setPageSize}}
+    @publishedRoute={{true}}
+    @noDataMessage="Geen gepubliceerde persberichten gevonden"
+  />
 </div>
 
 {{outlet}}

@@ -6,4 +6,7 @@ export default {
   SERVICE_PROVIDERS: {
     MOCK_LOGIN: 'https://github.com/lblod/mock-login-service',
   },
+  PUBLICATION_CHANNEL: {
+    MAILING_LIST: 'http://themis.vlaanderen.be/id/publicatiekanaal/c184f026-feaa-4899-ba06-fd3a03df599c',
+  }
 };

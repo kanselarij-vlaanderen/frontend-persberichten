@@ -1,21 +1,29 @@
 import { tracked } from '@glimmer/tracking';
 
+function serializePublicationChannels(publicationChannels) {
+  return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
+}
+
 /**
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
+ *
+ * Tracks relationship publicationChannels, to be able to find any changes, and detect those in the isDirty check.
  *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
 */
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
+  @tracked publicationChannels = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
   }
 
+
   async commit() {
-    // commit changes when pressRelease gets relations => e.g. source-snapshop.js
+    this.publicationChannels = await this.pressRelease.publicationChannels.slice(0);
   }
 
   /**
@@ -23,7 +31,8 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    return this.pressRelease.hasDirtyAttributes;
+    return this.pressRelease.hasDirtyAttributes ||
+      serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
   }
 
   /**
@@ -31,9 +40,17 @@ export default class PressReleaseSnapshot {
   */
   async rollback() {
     this.pressRelease.rollbackAttributes();
+    this.pressRelease.publicationChannels = this.publicationChannels;
   }
 
   async save() {
+    const publicationChannels = await this.pressRelease.publicationChannels;
+    const publicationEvent = await this.pressRelease.publicationEvent;
+    if (publicationEvent) {
+      publicationEvent.publicationChannels = publicationChannels;
+    }
+
+    await publicationEvent ? publicationEvent.save() : null;
 
     const now = new Date();
     if (this.pressRelease.isNew) {
@@ -43,7 +60,6 @@ export default class PressReleaseSnapshot {
     await this.pressRelease.save();
 
     // Set saved state as new committed state to track changes for
-    // commit only when there are relations
-    // await this.commit();
+    await this.commit();
   }
 }

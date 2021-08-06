@@ -21,7 +21,7 @@
     </Auk::Toolbar::Group >
     <Auk::Toolbar::Group  @position="right">
       <Auk::Toolbar::Item>
-        {{#if this.saveSource.last.isError}}
+        {{#if this.saveChanges.last.isError}}
           <Auk::StatusPill @status="error">
             Opslaan mislukt
           </Auk::StatusPill>
