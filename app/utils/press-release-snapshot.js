@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 
 function serializePublicationChannels(publicationChannels) {
-  return publicationChannels.map(channel => channel.uri).sort().join('+');
+  return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
 }
 
 /**
@@ -19,7 +19,6 @@ export default class PressReleaseSnapshot {
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
-    console.log(this.pressRelease)
   }
 
 
@@ -32,6 +31,7 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
+    console.log(serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels))
     return this.pressRelease.hasDirtyAttributes ||
       serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
   }

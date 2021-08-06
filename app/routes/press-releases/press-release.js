@@ -25,7 +25,6 @@ export default class PressReleasesPressReleaseRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    this.controllerFor('press-releases.press-release');
     controller.fromRoute = this.fromRoute;
   }
 }
