@@ -31,7 +31,6 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    console.log(serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels))
     return this.pressRelease.hasDirtyAttributes ||
       serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
   }
