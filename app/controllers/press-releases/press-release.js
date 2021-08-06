@@ -5,12 +5,14 @@ import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesPressReleaseController extends Controller {
-  
+
   @service router;
 
   @tracked showPublicationModal = false;
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
+
+  @tracked fromRoute;
 
   get snapshot() {
     return this.model;
@@ -33,7 +35,7 @@ export default class PressReleasesPressReleaseController extends Controller {
   @action
   async saveChangesAndNavigateBack() {
     await this.savePressRelease.perform();
-    this.transitionToRoute(this.from);
+    this.transitionToRoute(this.fromRoute);
   }
 
   @task
@@ -42,7 +44,7 @@ export default class PressReleasesPressReleaseController extends Controller {
     if (isDirty) {
       this.showConfirmationModal = true;
     } else {
-      this.transitionToRoute(this.from);
+      this.transitionToRoute(this.fromRoute);
     }
   }
 
@@ -50,7 +52,7 @@ export default class PressReleasesPressReleaseController extends Controller {
   *confirmNavigationBack() {
     yield this.snapshot.rollback();
     this.showConfirmationModal = false;
-    this.transitionToRoute(this.from);
+    this.transitionToRoute(this.fromRoute);
   }
 
   @action
@@ -61,18 +63,16 @@ export default class PressReleasesPressReleaseController extends Controller {
   @task
   *publish(publicationDate) {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+
     if (!publicationEvent) {
         publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
         pressRelease: this.snapshot.pressRelease
       });
     } else {
-      if(!publicationEvent) {
-        publicationEvent.started = publicationDate;
-      } else {
-        publicationEvent.plannedStartDate = publicationDate;
-      }
+      publicationEvent.plannedStartDate = publicationDate;
     }
+
     yield publicationEvent.save();
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;

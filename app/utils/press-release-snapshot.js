@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 
 function serializePublicationChannels(publicationChannels) {
-  return publicationChannels.slice(0).sort().join('+');
+  return publicationChannels.map(channel => channel.uri).sort().join('+');
 }
 
 /**
@@ -19,6 +19,7 @@ export default class PressReleaseSnapshot {
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
+    console.log(this.pressRelease)
   }
 
 
@@ -50,9 +51,7 @@ export default class PressReleaseSnapshot {
       publicationEvent.publicationChannels = publicationChannels;
     }
 
-    await Promise.all([
-      publicationEvent ? publicationEvent.save() : null
-    ]);
+    await publicationEvent ? publicationEvent.save() : null;
 
     const now = new Date();
     if (this.pressRelease.isNew) {

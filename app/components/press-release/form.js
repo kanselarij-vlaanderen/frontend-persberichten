@@ -9,21 +9,21 @@ export default class PressReleaseFormComponent extends Component {
 
   @action
   addKeyword(newKeyword) {
-    let keyWordArray = this.args.pressRelease.keyword;
+    let keyWordArray = this.args.pressRelease.keywords;
     if (keyWordArray) {
       keyWordArray.push(newKeyword)
-      this.args.pressRelease.keyword = [...new Set(keyWordArray)];
+      this.args.pressRelease.keywords = [...new Set(keyWordArray)];
     } else {
       keyWordArray = new Set(newKeyword);
-      this.args.pressRelease.keyword = [...keyWordArray];
+      this.args.pressRelease.keywords = [...keyWordArray];
     }
   }
 
   @action
   deleteKeyword(keyword) {
-    const keyWordArray = this.args.pressRelease.keyword;
+    const keyWordArray = this.args.pressRelease.keywords;
     const index = keyWordArray.indexOf(keyword);
     keyWordArray.splice(index, 1);
-    this.args.pressRelease.keyword = [...keyWordArray];
+    this.args.pressRelease.keywords = [...keyWordArray];
   }
 }
