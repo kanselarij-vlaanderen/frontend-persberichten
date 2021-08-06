@@ -14,10 +14,8 @@ export default class PressReleaseFormComponent extends Component {
       keyWordArray.push(newKeyword)
       model.keyword = [...new Set(keyWordArray)];
     } else {
-      keyWordArray = new Set();
-      keyWordArray.add(newKeyword)
-      let newKeywordArray = [...keyWordArray]
-      model.keyword = newKeywordArray;
+      keyWordArray = new Set(newKeyword);
+      model.keyword = [...keyWordArray];
     }
   }
 
