@@ -46,8 +46,8 @@
         </Auk::Label>
         <Auk::InputPills
           @items={{@pressRelease.keyword}}
-          @onCreate={{(fn this.addKeyword @pressRelease)}}
-          @onRemove={{(fn this.deleteKeyword @pressRelease)}} as |keyword|>
+          @onCreate={{this.addKeyword}}
+          @onRemove={{this.deleteKeyword}} as |keyword|>
           {{keyword}}
         </Auk::InputPills>
       </div>

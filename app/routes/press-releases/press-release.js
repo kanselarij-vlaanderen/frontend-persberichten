@@ -5,7 +5,7 @@ export default class PressReleasesPressReleaseRoute extends Route {
   from;
   async model(params) {
     const pressRelease = await this.store.findRecord('press-release', params.press_release_id, {
-      includes: [
+      include: [
         'publication-channels',
         'publication-event'
       ].join(',')
@@ -15,7 +15,7 @@ export default class PressReleasesPressReleaseRoute extends Route {
     return snapshot;
   }
 
-  
+
   beforeModel(transition) {
     if(transition.from) {
       this.from = transition.from.name;
