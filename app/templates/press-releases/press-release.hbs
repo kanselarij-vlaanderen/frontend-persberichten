@@ -63,7 +63,7 @@
             </div>
             {{#if this.pressRelease.publicationEvent.plannedStartDate}}
               {{!-- expand if with or when more danger colored buttens are added --}}
-              <hr>
+              <div class="auk-menu__divider"></div>
             {{/if}}
             {{#if this.pressRelease.publicationEvent.plannedStartDate}}
               <div class="auk-menu__item auk-menu__item--danger" role="button" {{on "click" (perform this.revokePressRelease)}}>
