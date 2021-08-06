@@ -4,7 +4,7 @@ export default class PressReleaseModel extends Model {
   @attr('string') title;
   @attr('string') htmlContent;
   @attr('string') abstract;
-  @attr('string-set') keyword;
+  @attr('string-set') keywords;
   @attr('datetime') created;
   @attr('datetime') modified;
 

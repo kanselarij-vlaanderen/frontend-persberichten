@@ -1,11 +1,12 @@
 <div class="auk-o-flex auk-o-flex--vertical">
   {{#each this.publicationChannels as |publicationChannel|}}
-  <div class="auk-o-flex auk-o-flex--horizontal">
-    <Input
+  <Auk::CheckboxList>
+    <Auk::Checkbox
       @type="checkbox"
-      checked={{includes publicationChannel this.selectedPublicationChannels}}
+      @checked={{includes publicationChannel this.selectedPublicationChannels}}
+      @label={{publicationChannel.name}}
       {{on "change" (fn this.togglePublicationChannel publicationChannel)}}
-      /> {{publicationChannel.name}}
-  </div>
+      />
+  </Auk::CheckboxList>
   {{/each}}
 </div>

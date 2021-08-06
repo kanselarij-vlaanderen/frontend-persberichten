@@ -1,16 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 
 function serializePublicationChannels(publicationChannels) {
-  let publicationChannelsStringArray = [];
-  let publicationChannelsString = '';
-
-  publicationChannelsStringArray = publicationChannels.map(channel => channel.uri);
-
-  publicationChannelsString = publicationChannelsStringArray
-                                .sort()
-                                .join('+');
-
-  return publicationChannelsString;
+  return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
 }
 
 /**
@@ -18,7 +9,7 @@ function serializePublicationChannels(publicationChannels) {
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
  * Tracks relationship publicationChannels, to be able to find any changes, and detect those in the isDirty check.
- * 
+ *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
 */
@@ -32,7 +23,7 @@ export default class PressReleaseSnapshot {
 
 
   async commit() {
-    this.publicationChannels = await this.pressRelease.publicationChannels.map(channel => channel);
+    this.publicationChannels = await this.pressRelease.publicationChannels.slice(0);
   }
 
   /**
@@ -53,16 +44,13 @@ export default class PressReleaseSnapshot {
   }
 
   async save() {
-    let publicationChannels = await this.pressRelease.publicationChannels;
-    let publicationEvent = await this.pressRelease.publicationEvent;
-    if(publicationEvent) {
+    const publicationChannels = await this.pressRelease.publicationChannels;
+    const publicationEvent = await this.pressRelease.publicationEvent;
+    if (publicationEvent) {
       publicationEvent.publicationChannels = publicationChannels;
     }
 
-    await Promise.all([
-      publicationChannels.save(),
-      publicationEvent ? publicationEvent.save() : null
-    ]);
+    await publicationEvent ? publicationEvent.save() : null;
 
     const now = new Date();
     if (this.pressRelease.isNew) {
