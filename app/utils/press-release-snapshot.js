@@ -23,7 +23,7 @@ export default class PressReleaseSnapshot {
 
 
   async commit() {
-    this.publicationChannels = await this.pressRelease.publicationChannels.slice(0);
+    this.publicationChannels = (await this.pressRelease.publicationChannels).slice(0);
   }
 
   /**
