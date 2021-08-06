@@ -48,9 +48,8 @@ export default class PressReleaseSnapshot {
     const publicationEvent = await this.pressRelease.publicationEvent;
     if (publicationEvent) {
       publicationEvent.publicationChannels = publicationChannels;
+      await publicationEvent.save();
     }
-
-    await publicationEvent ? publicationEvent.save() : null;
 
     const now = new Date();
     if (this.pressRelease.isNew) {
