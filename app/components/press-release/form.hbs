@@ -41,6 +41,17 @@
         />
       </div>
       <div class="auk-form-group">
+        <Auk::Label for="abstract">
+          Kernwoorden
+        </Auk::Label>
+        <Auk::InputPills
+          @items={{@pressRelease.keyword}}
+          @onCreate={{(fn this.addKeyword @pressRelease)}}
+          @onRemove={{(fn this.deleteKeyword @pressRelease)}} as |keyword|>
+          {{keyword}}
+        </Auk::InputPills>
+      </div>
+      <div class="auk-form-group">
         <Auk::Label>
           Ontvangers
         </Auk::Label>
