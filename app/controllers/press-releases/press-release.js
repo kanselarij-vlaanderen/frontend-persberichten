@@ -74,8 +74,10 @@ export default class PressReleasesPressReleaseController extends Controller {
     }
 
     yield publicationEvent.save();
+    yield this.snapshot.commit();
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
+
   }
 
   @action

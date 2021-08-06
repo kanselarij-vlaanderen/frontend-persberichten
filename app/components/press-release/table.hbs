@@ -22,7 +22,7 @@
               {{#if @publishedRoute}}
                 <Utils::ThSortable
                   @label="Gepubliceerd op"
-                  @field="publication-event.started"
+                  @field="publication-event.planned-start-date"
                   @currentSorting={{@sort}}
                   @onChange={{@onSortChange}}
                 />
@@ -58,9 +58,9 @@
 
                 {{#if @publishedRoute}}
                   <td>
-                    {{dayjs-format row.publicationEvent.started outputFormat="DD-MM-YYYY"}}<br/>
+                    {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY"}}<br/>
                     <span class="auk-u-text-small auk-u-muted">
-                      {{dayjs-format row.publicationEvent.started outputFormat="HH:mm"}}
+                      {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="HH:mm"}}
                     </span>
                   </td>
                 {{/if}}
