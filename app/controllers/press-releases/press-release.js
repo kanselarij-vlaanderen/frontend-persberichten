@@ -81,11 +81,8 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *revokePressRelease() {
-    let pressRelease = yield this.snapshot.pressRelease;
-    let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
-    yield publicationEvent.deleteRecord();
-    yield publicationEvent.save();
-    yield pressRelease.save();
+    const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+    yield publicationEvent.destroyRecord();
   }
 
   @action
