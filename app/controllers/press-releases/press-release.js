@@ -65,7 +65,7 @@ export default class PressReleasesPressReleaseController extends Controller {
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
 
     if (!publicationEvent) {
-        publicationEvent = this.store.createRecord('publication-event', {
+      publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
         pressRelease: this.snapshot.pressRelease
       });
@@ -74,10 +74,17 @@ export default class PressReleasesPressReleaseController extends Controller {
     }
 
     yield publicationEvent.save();
-    yield this.snapshot.commit();
+
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
 
+  }
+
+  @task
+  *revokePressRelease() {
+    const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+    yield publicationEvent.destroyRecord();
+    yield publicationEvent.save();
   }
 
   @action
