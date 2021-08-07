@@ -11,7 +11,7 @@ export default class PressReleasesOverviewPublishedRoute extends Route.extend(Da
       include: 'publication-event',
       filter: {
         'publication-event': {
-          ':lt:started': new Date().toISOString()
+          ':lt:planned-start-date': new Date().toISOString()
         },
       },
     };

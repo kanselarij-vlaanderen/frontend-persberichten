@@ -77,12 +77,14 @@ export default class PressReleasesPressReleaseController extends Controller {
 
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
+
   }
 
   @task
   *revokePressRelease() {
     const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     yield publicationEvent.destroyRecord();
+    yield publicationEvent.save();
   }
 
   @action

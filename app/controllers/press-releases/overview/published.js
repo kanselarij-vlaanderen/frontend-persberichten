@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class PressReleasesOverviewPublishedController extends Controller {
 
-  @tracked sort = '-publication-event.started';
+  @tracked sort = '-publication-event.planned-start-date';
   @tracked page = 0;
   @tracked size = 25;
 
