@@ -11,10 +11,10 @@ export default class PublicationEventModel extends Model {
   @hasMany('publication-channel') publicationChannels;
 
   get isPublished() {
-    return isPresent(this.started);
+    return isPresent(this.plannedStartDate) && this.plannedStartDate < new Date();
   }
 
   get isPlanned() {
-    return !this.isPublished && isPresent(this.plannedStartDate);
+    return isPresent(this.plannedStartDate) && this.plannedStartDate > new Date();
   }
 }

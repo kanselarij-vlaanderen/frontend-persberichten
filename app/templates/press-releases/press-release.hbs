@@ -43,62 +43,44 @@
         {{/if}}
       </Auk::Toolbar::Item>
       <Auk::Toolbar::Item>
-        <Auk::Button
-          @icon="chevron-down"
-          @layout="icon-right">
-          Acties
-        </Auk::Button>
-        <AttachPopover
-            @class="ember-attacher-popper"
-            @hideOn="clickout click"
-            @showOn="click"
-            @animation="shift"
-            @placement="bottom">
-          <Auk::Dropdown>
-            <div class="auk-menu__item" role="button" {{on "click" this.saveChanges}}>
-              Opslaan
-            </div>
-            <div class="auk-menu__item" role="button" {{on "click" this.saveChangesAndNavigateBack}}>
-              Opslaan en sluiten
-            </div>
-            {{#if this.pressRelease.publicationEvent.isPlanned}}
-              {{!-- expand if with or when more danger colored buttens are added --}}
-              <div class="auk-menu__divider"></div>
-            {{/if}}
-            {{#if this.pressRelease.publicationEvent.isPlanned}}
-              <div class="auk-menu__item auk-menu__item--danger" role="button" {{on "click" (perform this.revokePressRelease)}}>
+        <DropdownMenu
+          @label="Acties"
+          as |Menu|>
+          <Menu.Item {{on "click" this.saveChanges}}>
+            Opslaan
+          </Menu.Item>
+          <Menu.Item  {{on "click" this.saveChangesAndNavigateBack}}>
+            Opslaan en sluiten
+          </Menu.Item>
+          {{#if this.pressRelease.publicationEvent.isPlanned}}
+            {{!-- expand if with or when more danger colored buttens are added --}}
+            <Menu.Divider />
+          {{/if}}
+          {{#if this.pressRelease.publicationEvent.isPlanned}}
+            <Menu.Item
+              class="auk-menu__item auk-menu__item--danger"
+              {{on "click" (perform this.revokePressRelease)}}>
                 Intrekken
-              </div>
-            {{/if}}
-          </Auk::Dropdown>
-        </AttachPopover>
+            </Menu.Item>
+          {{/if}}
+        </DropdownMenu>
       </Auk::Toolbar::Item>
       <Auk::Toolbar::Item>
-        <Auk::Button
+        <DropdownMenu
           @skin="primary"
-          @icon="chevron-down"
-          @layout="icon-right">
-          Publiceren
-        </Auk::Button>
-        <AttachPopover
-            @class="ember-attacher-popper"
-            @hideOn="clickout click"
-            @showOn="click"
-            @animation="shift"
-            @placement="bottom">
-          <Auk::Dropdown>
-            <div class="auk-menu__item" role="button" {{on "click" this.openPublicationModal}}>
-              Nu publiceren
-            </div>
-            <div class="auk-menu__item" role="button" {{on "click" this.openPublicationPlanningModal}}>
-              {{#if this.model.publicationEvent.isPlanned}}
-                Planning bewerken
-              {{else}}
-                Later publiceren
-              {{/if}}
-            </div>
-          </Auk::Dropdown>
-        </AttachPopover>
+          @label="Publiceren"
+          as |Menu|>
+          <Menu.Item {{on "click" this.openPublicationModal}}>
+            Nu publiceren
+          </Menu.Item>
+          <Menu.Item  {{on "click" this.openPublicationPlanningModal}}>
+            {{#if this.model.publicationEvent.isPlanned}}
+              Planning bewerken
+            {{else}}
+              Later publiceren
+            {{/if}}
+          </Menu.Item>
+        </DropdownMenu>
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
   </Auk::Toolbar>

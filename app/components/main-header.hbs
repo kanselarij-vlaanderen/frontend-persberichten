@@ -20,33 +20,40 @@
     </Auk::Toolbar::Group >
     <Auk::Toolbar::Group  @position="right">
       <Auk::Toolbar::Item>
-        <Auk::ButtonLink
+        <DropdownMenu
           @skin="muted"
-          @padded="padded"
+          @label="Help"
           @icon="circle-question"
-        >
-          Help
-        </Auk::ButtonLink>
+          @padded="padded"
+          as |Menu|>
+          <Menu.Item>
+            Contacteer ons
+            {{!-- mail naar support emailadres na pers-162 --}}
+          </Menu.Item>
+        </DropdownMenu>
       </Auk::Toolbar::Item>
       {{#if this.session.isAuthenticated}}
-        <Auk::Toolbar::Item class="auk-u-mr-3" >
-          <Auk::ButtonLink
+        <Auk::Toolbar::Item>
+          <DropdownMenu
             @skin="muted"
-            @icon="chevron-down"
-            @layout="icon-right"
-          >
-            {{this.currentSession.user.fullName}}
-          </Auk::ButtonLink>
-        </Auk::Toolbar::Item>
-        <Auk::Toolbar::Item class="auk-u-mr-3" >
-          <Auk::ButtonLink
-            @skin="muted"
-            @layout="icon-right"
-            {{on "click" this.logout}}
-          >
-            {{!-- TODO refactor to dropdown menu --}}
-            Log uit
-          </Auk::ButtonLink>
+            @label={{this.currentSession.user.firstName}}
+            @padded="padded"
+            as |Menu|>
+              <Menu.Item @skin="2-lines" @disabled={{true}}>
+                <div class="o-flex o-flex--vertical">
+                  <div>{{this.currentSession.user.fullName}}</div>
+                  <div>{{this.currentSession.user.group.name}}</div>
+                </div>
+              </Menu.Item>
+              <Menu.Divider />
+              {{!-- <Menu.Item>
+                Mijn profiel
+              </Menu.Item> --}}
+              <Menu.Item
+                {{on "click" this.logout}}>
+                Afmelden
+              </Menu.Item>
+          </DropdownMenu>
         </Auk::Toolbar::Item>
       {{/if}}
     </Auk::Toolbar::Group >
