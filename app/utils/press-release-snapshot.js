@@ -4,6 +4,10 @@ function serializePublicationChannels(publicationChannels) {
   return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
 }
 
+function serializeGovernmentFields(governmentFields) {
+  return governmentFields.slice(0).map(field => field.prefLabel).sort().join('+');
+}
+
 /**
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
@@ -16,6 +20,7 @@ function serializePublicationChannels(publicationChannels) {
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
   @tracked publicationChannels = [];
+  @tracked governmentFields = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -24,6 +29,7 @@ export default class PressReleaseSnapshot {
 
   async commit() {
     this.publicationChannels = (await this.pressRelease.publicationChannels).slice(0);
+    this.governmentFields = (await this.pressRelease.governmentFields).slice(0);
   }
 
   /**
@@ -31,8 +37,9 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    return this.pressRelease.hasDirtyAttributes ||
-      serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
+    return this.pressRelease.hasDirtyAttributes
+      || serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels)
+      || serializeGovernmentFields(this.governmentFields) !== serializeGovernmentFields(await this.pressRelease.governmentFields);
   }
 
   /**
@@ -41,6 +48,7 @@ export default class PressReleaseSnapshot {
   async rollback() {
     this.pressRelease.rollbackAttributes();
     this.pressRelease.publicationChannels = this.publicationChannels;
+    this.pressRelease.governmentFields = this.governmentFields;
   }
 
   async save() {
