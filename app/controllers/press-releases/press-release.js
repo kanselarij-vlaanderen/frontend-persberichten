@@ -62,6 +62,10 @@ export default class PressReleasesPressReleaseController extends Controller {
 
   @task
   *publish(publicationDate) {
+    if (yield this.snapshot.isDirty()) {
+      yield this.savePressRelease.perform();
+    }
+
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
 
     if (!publicationEvent) {
