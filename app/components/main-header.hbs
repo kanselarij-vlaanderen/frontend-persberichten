@@ -28,7 +28,7 @@
           as |Menu|>
           <Menu.Item>
             Contacteer ons
-            {{!-- mail naar support emailadres na pers-162 --}}
+            {{!-- TODO: PERS-162 mail naar support emailadres --}}
           </Menu.Item>
         </DropdownMenu>
       </Auk::Toolbar::Item>
@@ -46,9 +46,6 @@
                 </div>
               </Menu.Item>
               <Menu.Divider />
-              {{!-- <Menu.Item>
-                Mijn profiel
-              </Menu.Item> --}}
               <Menu.Item
                 {{on "click" this.logout}}>
                 Afmelden
