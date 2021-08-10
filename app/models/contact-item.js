@@ -6,10 +6,10 @@ export default class ContactItemModel extends Model {
   @attr('string') familyName;
   @attr('string') organizationName;
 
-  @belongsTo('contact-list') contactList;
+  @belongsTo('contact-list') contactLists;
   @belongsTo('telephone') telephone;
   @belongsTo('mail-address') mailAddress;
-  @belongsTo('press-release') pressRelease;
 
+  @hasMany('press-release') pressReleases;
   @hasMany('publication-event') publicationEvents;
 }

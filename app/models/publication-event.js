@@ -6,10 +6,10 @@ export default class PublicationEventModel extends Model {
   @attr('datetime') started;
   @attr('datetime') ended;
 
-  @belongsTo('press-release') pressRelease;
-  @belongsTo('contact-item') contactItems;
-  @belongsTo('contact-list') contactLists;
+  @belongsTo('press-release') pressReleases;
 
+  @hasMany('contact-item') contactItems;
+  @hasMany('contact-list') contactLists;
   @hasMany('publication-channel') publicationChannels;
 
   get isPublished() {
