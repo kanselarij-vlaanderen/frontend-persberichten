@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class ContactItemModel extends Model {
   @attr('string') fullName;
@@ -7,7 +7,9 @@ export default class ContactItemModel extends Model {
   @attr('string') organizationName;
 
   @belongsTo('contact-list') contactList;
-
   @belongsTo('telephone') telephone;
   @belongsTo('mail-address') mailAddress;
+  @belongsTo('press-release') pressRelease;
+
+  @hasMany('publication-event') publicationEvents;
 }
