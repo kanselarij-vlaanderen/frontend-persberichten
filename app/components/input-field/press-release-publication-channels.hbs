@@ -3,9 +3,9 @@
   <Auk::CheckboxList>
     <Auk::Checkbox
       @type="checkbox"
-      @checked={{includes publicationChannel this.selectedPublicationChannels}}
+      @checked={{includes publicationChannel @publicationChannels}}
       @label={{publicationChannel.name}}
-      {{on "change" (fn this.togglePublicationChannel publicationChannel)}}
+      {{on "change" (fn @onChange publicationChannel)}}
       />
   </Auk::CheckboxList>
   {{/each}}

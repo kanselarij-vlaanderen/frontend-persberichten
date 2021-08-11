@@ -1,18 +1,14 @@
 import { tracked } from '@glimmer/tracking';
 
-function serializePublicationChannels(publicationChannels) {
-  return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
-}
-
-function serializeGovernmentFields(governmentFields) {
-  return governmentFields.slice(0).map(field => field.prefLabel).sort().join('+');
+function serializeRelation(relations) {
+  return relations.map(relation => relation.uri).sort().join('+');
 }
 
 /**
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
- * Tracks relationship publicationChannels, to be able to find any changes, and detect those in the isDirty check.
+ * Tracks relationship publicationChannels and governmentFields, to be able to find any changes, and detect those in the isDirty check.
  *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
@@ -38,8 +34,8 @@ export default class PressReleaseSnapshot {
   */
   async isDirty() {
     return this.pressRelease.hasDirtyAttributes
-      || serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels)
-      || serializeGovernmentFields(this.governmentFields) !== serializeGovernmentFields(await this.pressRelease.governmentFields);
+      || serializeRelation(this.publicationChannels) !== serializeRelation(await this.pressRelease.publicationChannels)
+      || serializeRelation(this.governmentFields) !== serializeRelation(await this.pressRelease.governmentFields);
   }
 
   /**

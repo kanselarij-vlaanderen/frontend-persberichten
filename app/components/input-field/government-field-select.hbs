@@ -1,13 +1,12 @@
 <PowerSelectMultiple
   @options={{this.governmentFields}}
-  @selected={{@pressRelease.governmentFields}}
+  @selected={{@selectedGovernmentFields}}
   @noMatchesMessage="Geen resultaten gevonden"
   @placeholder="Beleidsbevoegdheden zoeken"
-  @onChange={{this.setGovernmentFields}}
+  @onChange={{@onChange}}
   @allowClear={{true}}
   @searchEnabled={{true}}
-  @search={{perform this.debouncedSearch}}
-  @onInput={{perform this.restGovernmentFields}}
+  @onInput={{perform this.debouncedSearch}}
   @searchField="prefLabel"
   as |governmentField|>
     {{ governmentField.prefLabel }}

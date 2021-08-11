@@ -9,17 +9,10 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   @service store;
 
   @tracked publicationChannels = [];
-  @tracked selectedPublicationChannels = [];
 
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
-    this.loadSelectedPublicationChannels.perform();
-  }
-
-  @task
-  *loadSelectedPublicationChannels() {
-    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
   }
 
   @task
@@ -32,15 +25,5 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
-  }
-
-  @action
-  togglePublicationChannel(channel) {
-    const index = this.selectedPublicationChannels.indexOf(channel);
-    if (index > -1) {
-      this.selectedPublicationChannels.removeObject(channel);
-    } else {
-      this.selectedPublicationChannels.addObject(channel);
-    }
   }
 }

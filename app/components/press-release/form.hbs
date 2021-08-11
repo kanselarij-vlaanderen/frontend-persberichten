@@ -55,12 +55,16 @@
         <Auk::Label>
           Beleidsbevoegdheden
         </Auk::Label>
-        <InputField::GovernmentFieldSelect @pressRelease={{@pressRelease}} />
+        <InputField::GovernmentFieldSelect
+          @selectedGovernmentFields={{@pressRelease.governmentFields}}
+          @onChange={{this.setGovernmentFields}}/>
       </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
         <h4 class="auk-h4">Publicatiekanalen</h4>
-        <InputField::PressReleasePublicationChannels @pressRelease={{@pressRelease}} />
+        <InputField::PressReleasePublicationChannels
+          @publicationChannels={{@pressRelease.publicationChannels}}
+          @onChange={{this.setPublicationChannels}}/>
       </div>
     </div>
   </div>
