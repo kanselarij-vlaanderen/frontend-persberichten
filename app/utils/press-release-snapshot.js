@@ -8,7 +8,7 @@ function serializeRelation(relations) {
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
- * Tracks relationship publicationChannels and governmentFields, to be able to find any changes, and detect those in the isDirty check.
+ * Tracks relationship publicationChannels, governmentFields and themes, to be able to find any changes, and detect those in the isDirty check.
  *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
@@ -17,6 +17,7 @@ export default class PressReleaseSnapshot {
   @tracked pressRelease;
   @tracked publicationChannels = [];
   @tracked governmentFields = [];
+  @tracked themes = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -26,6 +27,7 @@ export default class PressReleaseSnapshot {
   async commit() {
     this.publicationChannels = (await this.pressRelease.publicationChannels).slice(0);
     this.governmentFields = (await this.pressRelease.governmentFields).slice(0);
+    this.themes = (await this.pressRelease.themes).slice(0);
   }
 
   /**
@@ -35,7 +37,8 @@ export default class PressReleaseSnapshot {
   async isDirty() {
     return this.pressRelease.hasDirtyAttributes
       || serializeRelation(this.publicationChannels) !== serializeRelation(await this.pressRelease.publicationChannels)
-      || serializeRelation(this.governmentFields) !== serializeRelation(await this.pressRelease.governmentFields);
+      || serializeRelation(this.governmentFields) !== serializeRelation(await this.pressRelease.governmentFields)
+      || serializeRelation(this.themes) !== serializeRelation(await this.pressRelease.themes);
   }
 
   /**
@@ -45,6 +48,7 @@ export default class PressReleaseSnapshot {
     this.pressRelease.rollbackAttributes();
     this.pressRelease.publicationChannels = this.publicationChannels;
     this.pressRelease.governmentFields = this.governmentFields;
+    this.pressRelease.themes = this.themes;
   }
 
   async save() {
