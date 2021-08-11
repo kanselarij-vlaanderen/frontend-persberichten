@@ -9,17 +9,10 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   @service store;
 
   @tracked publicationChannels = [];
-  @tracked selectedPublicationChannels = [];
 
   constructor() {
     super(...arguments);
     this.loadPublicationChannels.perform();
-    this.loadSelectedPublicationChannels.perform();
-  }
-
-  @task
-  *loadSelectedPublicationChannels() {
-    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
   }
 
   @task
@@ -35,12 +28,14 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   }
 
   @action
-  togglePublicationChannel(channel) {
-    const index = this.selectedPublicationChannels.indexOf(channel);
+  getSelectedPublicationChannels(publicationChannel) {
+    const selectedPublicationChannels = this.args.publicationChannels.slice(0);
+    const index = selectedPublicationChannels.indexOf(publicationChannel);
     if (index > -1) {
-      this.selectedPublicationChannels.removeObject(channel);
+      selectedPublicationChannels.removeObject(publicationChannel);
     } else {
-      this.selectedPublicationChannels.addObject(channel);
+      selectedPublicationChannels.addObject(publicationChannel);
     }
+    this.args.onChange(selectedPublicationChannels);
   }
 }

@@ -1,14 +1,14 @@
 import { tracked } from '@glimmer/tracking';
 
-function serializePublicationChannels(publicationChannels) {
-  return publicationChannels.slice(0).map(channel => channel.uri).sort().join('+');
+function serializeRelation(relations) {
+  return relations.map(relation => relation.uri).sort().join('+');
 }
 
 /**
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
- * Tracks relationship publicationChannels, to be able to find any changes, and detect those in the isDirty check.
+ * Tracks relationship publicationChannels and governmentFields, to be able to find any changes, and detect those in the isDirty check.
  *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
@@ -16,6 +16,7 @@ function serializePublicationChannels(publicationChannels) {
 export default class PressReleaseSnapshot {
   @tracked pressRelease;
   @tracked publicationChannels = [];
+  @tracked governmentFields = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
@@ -24,6 +25,7 @@ export default class PressReleaseSnapshot {
 
   async commit() {
     this.publicationChannels = (await this.pressRelease.publicationChannels).slice(0);
+    this.governmentFields = (await this.pressRelease.governmentFields).slice(0);
   }
 
   /**
@@ -31,8 +33,9 @@ export default class PressReleaseSnapshot {
    * Returns true if there is a difference.
   */
   async isDirty() {
-    return this.pressRelease.hasDirtyAttributes ||
-      serializePublicationChannels(this.publicationChannels) !== serializePublicationChannels(await this.pressRelease.publicationChannels);
+    return this.pressRelease.hasDirtyAttributes
+      || serializeRelation(this.publicationChannels) !== serializeRelation(await this.pressRelease.publicationChannels)
+      || serializeRelation(this.governmentFields) !== serializeRelation(await this.pressRelease.governmentFields);
   }
 
   /**
@@ -41,6 +44,7 @@ export default class PressReleaseSnapshot {
   async rollback() {
     this.pressRelease.rollbackAttributes();
     this.pressRelease.publicationChannels = this.publicationChannels;
+    this.pressRelease.governmentFields = this.governmentFields;
   }
 
   async save() {
