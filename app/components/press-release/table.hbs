@@ -11,6 +11,12 @@
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
+              <Utils::ThSortable
+                @label="Thema's"
+                @field="themes"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
               {{#if (and (not @plannedRoute) (not @publishedRoute))}}
                 <Utils::ThSortable
                   @label="Laatst bewerkt"
@@ -45,6 +51,13 @@
               <tr>
                 <td>
                   {{row.title}}
+                </td>
+                <td>
+                  {{#each row.themes as |theme|}}
+                    <Auk::Pill>
+                      {{theme.label}}
+                    </Auk::Pill>
+                  {{/each}}
                 </td>
 
                 {{#if (and (not @plannedRoute) (not @publishedRoute))}}
