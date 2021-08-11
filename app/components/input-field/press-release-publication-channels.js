@@ -26,4 +26,16 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
   }
+
+  @action
+  getSelectedPublicationChannels(publicationChannel) {
+    const selectedPublicationChannels = this.args.publicationChannels;
+    const index = selectedPublicationChannels.indexOf(publicationChannel);
+    if (index > -1) {
+      selectedPublicationChannels.removeObject(publicationChannel);
+    } else {
+      selectedPublicationChannels.addObject(publicationChannel);
+    }
+    this.args.onChange(selectedPublicationChannels);
+  }
 }

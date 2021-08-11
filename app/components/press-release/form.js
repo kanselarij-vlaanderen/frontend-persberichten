@@ -48,12 +48,7 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  setPublicationChannels(channel) {
-    const index = this.selectedPublicationChannels.indexOf(channel);
-    if (index > -1) {
-      this.selectedPublicationChannels.removeObject(channel);
-    } else {
-      this.selectedPublicationChannels.addObject(channel);
-    }
+  setPublicationChannels(selectedChannels) {
+    this.args.pressRelease.publicationChannels = selectedChannels;
   }
 }

@@ -5,7 +5,7 @@
       @type="checkbox"
       @checked={{includes publicationChannel @publicationChannels}}
       @label={{publicationChannel.name}}
-      {{on "change" (fn @onChange publicationChannel)}}
+      {{on "change" (fn this.getSelectedPublicationChannels publicationChannel)}}
       />
   </Auk::CheckboxList>
   {{/each}}
