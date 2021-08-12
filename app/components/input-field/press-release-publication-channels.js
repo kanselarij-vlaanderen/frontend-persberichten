@@ -29,7 +29,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @action
   getSelectedPublicationChannels(publicationChannel) {
-    const selectedPublicationChannels = this.args.publicationChannels;
+    const selectedPublicationChannels = this.args.publicationChannels.slice(0);
     const index = selectedPublicationChannels.indexOf(publicationChannel);
     if (index > -1) {
       selectedPublicationChannels.removeObject(publicationChannel);
