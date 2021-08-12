@@ -9,12 +9,16 @@ export default class CurrentSessionService extends Service {
   @tracked user;
   @tracked group;
   @tracked roles;
+  @tracked organization;
 
   async load() {
     if (this.session.isAuthenticated) {
       const accountId = this.session.get('data.authenticated.relationships.account.data.id');
       this.account = await this.store.find('account', accountId);
       this.user = await this.account.user;
+
+      const groupUri = await this.user.group.get('uri');
+      this.organization = await this.store.findRecordByUri('organization', groupUri)
 
       const groupId = this.session.get('data.authenticated.relationships.group.data.id');
       if (groupId) {
