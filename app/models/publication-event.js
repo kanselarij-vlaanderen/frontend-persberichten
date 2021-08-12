@@ -6,7 +6,7 @@ export default class PublicationEventModel extends Model {
   @attr('datetime') started;
   @attr('datetime') ended;
 
-  @belongsTo('press-release') pressReleases;
+  @belongsTo('press-release') pressRelease;
 
   @hasMany('contact-item') contactItems;
   @hasMany('contact-list') contactLists;
