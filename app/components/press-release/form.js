@@ -51,4 +51,9 @@ export default class PressReleaseFormComponent extends Component {
   setPublicationChannels(selectedChannels) {
     this.args.pressRelease.publicationChannels = selectedChannels;
   }
+
+  @action
+  setThemes(themes) {
+    this.args.pressRelease.themes = themes;
+  }
 }

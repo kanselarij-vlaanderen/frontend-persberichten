@@ -1,4 +1,4 @@
-<div class="auk-u-mt-8 auk-container--small auk-container--center">
+<div class="auk-u-mt-8 auk-container auk-container--center">
   <div class="auk-u-mt-8">
     <h2 class="auk-h2">Bericht</h2>
     <div class="auk-form-group-layout auk-form-group-layout--standard">
@@ -58,6 +58,15 @@
         <InputField::GovernmentFieldSelect
           @selectedGovernmentFields={{@pressRelease.governmentFields}}
           @onChange={{this.setGovernmentFields}}/>
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label>
+          Thema's
+        </Auk::Label>
+        <InputField::ThemesSelection
+          @selectedThemes={{@pressRelease.themes}}
+          @onChange={{this.setThemes}}
+          />
       </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">

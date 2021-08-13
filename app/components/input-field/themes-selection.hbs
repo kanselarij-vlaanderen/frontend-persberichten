@@ -1,0 +1,12 @@
+<div class="auk-o-grid">
+  {{#each this.themes as |theme|}}
+  <Auk::CheckboxList class="auk-o-grid-col-4 auk-o-grid-col-static">
+    <Auk::Checkbox
+      @type="checkbox"
+      @checked={{includes theme @selectedThemes}}
+      @label={{theme.label}}
+      {{on "change" (fn this.getSelectedThemes theme)}}
+      />
+  </Auk::CheckboxList>
+  {{/each}}
+</div>
