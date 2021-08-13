@@ -16,16 +16,6 @@
         </div>
         <h2 class="auk-toolbar__title">
           {{this.pressRelease.title}}
-          {{#if (and (not this.pressRelease.publicationEvent) (not this.pressRelease.collaboration))}}
-            <Auk::Pill class="auk-u-ml">
-              Gedeeld persbericht
-            </Auk::Pill>
-          {{/if}}
-          {{#if (and (not this.pressRelease.publicationEvent) this.pressRelease.collaboration)}}
-            <Auk::Pill class="auk-u-ml">
-              Concept
-            </Auk::Pill>
-          {{/if}}
           {{#if this.pressRelease.publicationEvent}}
             {{#if this.pressRelease.publicationEvent.isPublished}}
               <Auk::Pill class="auk-u-ml">
@@ -35,6 +25,16 @@
             {{#if this.pressRelease.publicationEvent.isPlanned}}
               <Auk::Pill class="auk-u-ml">
                 Wordt gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+          {{else}}
+            {{#if this.pressRelease.collaboration}}
+              <Auk::Pill class="auk-u-ml">
+                Gedeeld persbericht
+              </Auk::Pill>
+            {{else}}
+              <Auk::Pill class="auk-u-ml">
+                Concept
               </Auk::Pill>
             {{/if}}
           {{/if}}
