@@ -17,13 +17,24 @@
         <h2 class="auk-toolbar__title">
           {{this.pressRelease.title}}
           {{#if this.pressRelease.publicationEvent}}
-            {{#if this.pressRelease.publicationEvent.started}}
+            {{#if this.pressRelease.publicationEvent.isPublished}}
               <Auk::Pill class="auk-u-ml">
-                Gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.started outputFormat="DD-MM-YYYY [om] HH:mm"}}
+                Gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+            {{#if this.pressRelease.publicationEvent.isPlanned}}
+              <Auk::Pill class="auk-u-ml">
+                Wordt gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+          {{else}}
+            {{#if this.pressRelease.collaboration}}
+              <Auk::Pill class="auk-u-ml">
+                Gedeeld persbericht
               </Auk::Pill>
             {{else}}
               <Auk::Pill class="auk-u-ml">
-                Wordt gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+                Concept
               </Auk::Pill>
             {{/if}}
           {{/if}}
