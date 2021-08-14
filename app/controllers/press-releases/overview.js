@@ -26,7 +26,7 @@ export default class PressReleasesOverviewController extends Controller {
   }
 
   @action
-  async openNewPressReleaseModal() {
+  openNewPressReleaseModal() {
     this.showNewPressReleaseModal = true;
   }
 

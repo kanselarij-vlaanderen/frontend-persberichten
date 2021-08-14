@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 export default class PressReleaseFormComponent extends Component {
 
   @tracked selectedPublicationChannels = [];
+  @tracked showContactModal = false;
 
   constructor() {
     super(...arguments);
@@ -55,5 +56,15 @@ export default class PressReleaseFormComponent extends Component {
   @action
   setThemes(themes) {
     this.args.pressRelease.themes = themes;
+  }
+
+  @action
+  openContactModal() {
+    this.showContactModal = true;
+  }
+
+  @action
+  closeContactModal() {
+    this.showContactModal = false;
   }
 }

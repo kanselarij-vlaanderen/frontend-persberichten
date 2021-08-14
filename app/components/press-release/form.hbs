@@ -68,6 +68,18 @@
           @onChange={{this.setThemes}}
           />
       </div>
+      <div class="auk-form-group">
+        <Auk::Label>
+          Bron
+        </Auk::Label>
+        <Auk::Button
+          @icon="add"
+          @skin="primary"
+          {{on "click" this.openContactModal}}
+        >
+          Bron toevoegen
+        </Auk::Button>
+      </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
         <h4 class="auk-h4">Publicatiekanalen</h4>
@@ -78,3 +90,10 @@
     </div>
   </div>
 </div>
+{{#if this.showContactModal}}
+  <PressRelease::PublicationModal
+    @onCancel={{this.closePublicationModal}}
+    @onPublish={{perform this.publish}}
+    @loading={{this.publish.isRunning}}
+  />
+{{/if}}
