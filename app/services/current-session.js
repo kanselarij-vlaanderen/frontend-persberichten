@@ -9,6 +9,7 @@ export default class CurrentSessionService extends Service {
   @tracked user;
   @tracked group;
   @tracked roles;
+  @tracked organization;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -16,9 +17,11 @@ export default class CurrentSessionService extends Service {
       this.account = await this.store.find('account', accountId);
       this.user = await this.account.user;
 
+
       const groupId = this.session.get('data.authenticated.relationships.group.data.id');
       if (groupId) {
         this.group = await this.store.find('user-group', groupId);
+        this.organization = await this.store.findRecordByUri('organization', this.group.uri);
       }
 
       this.roles = this.session.get('data.authenticated.data.attributes.roles');

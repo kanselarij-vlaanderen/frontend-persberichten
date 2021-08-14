@@ -17,6 +17,12 @@
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
+              <Utils::ThSortable
+                @label="Aangemaakt door"
+                @field="creator.name"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
               {{#if (and (not @plannedRoute) (not @publishedRoute))}}
                 <Utils::ThSortable
                   @label="Laatst bewerkt"
@@ -58,6 +64,9 @@
                       {{theme.label}}
                     </Auk::Pill>
                   {{/each}}
+                </td>
+                <td>
+                  {{row.creator.name}}
                 </td>
 
                 {{#if (and (not @plannedRoute) (not @publishedRoute))}}
