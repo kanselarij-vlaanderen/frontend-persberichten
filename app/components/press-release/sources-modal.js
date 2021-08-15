@@ -20,18 +20,18 @@ export default class PressReleaseSourcesModalComponent extends Component {
     this.sources = yield this.store.findAll('contact');
   }
 
-    @action
-    onSelectContact(source) {
-      this.selectedSource = source;
-    }
+  @action
+  onSelectContact(source) {
+    this.selectedSource = source;
+  }
 
-    @action
-    onAddContact() {
-      const sources = this.args.sources.slice(0);
-      const index = sources.indexOf(this.selectedSource);
-      if (index < 0) {
-        sources.addObject(this.selectedSource);
-      }
-      this.args.onChange(sources);
+  @action
+  onAddContact() {
+    const sources = this.args.sources.slice(0);
+    const index = sources.indexOf(this.selectedSource);
+    if (index < 0) {
+      sources.addObject(this.selectedSource);
     }
+    this.args.onChange(sources);
+  }
 }
