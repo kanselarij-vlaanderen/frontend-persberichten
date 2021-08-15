@@ -69,16 +69,23 @@
           />
       </div>
       <div class="auk-form-group">
-        <Auk::Label>
-          Bron
-        </Auk::Label>
-        <Auk::Button
-          @icon="add"
-          @skin="primary"
-          {{on "click" this.openContactModal}}
-        >
-          Bron toevoegen
-        </Auk::Button>
+        <div class="auk-o-flex auk-o-flex--justify-between">
+          <Auk::Label>
+            Bron
+          </Auk::Label>
+          <Auk::Button
+            @icon="add"
+            @skin="primary"
+            {{on "click" this.openSourceModal}}
+          >
+            Bron toevoegen
+          </Auk::Button>
+        </div>
+        <PressRelease::SourcesTable
+          @onRemoveSource={{this.removeSource}}
+          @model={{@pressRelease.sources}}
+          @noDataMessage="Geen bronnen gevonden"
+        />
       </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
@@ -90,10 +97,11 @@
     </div>
   </div>
 </div>
-{{#if this.showContactModal}}
-  <PressRelease::PublicationModal
-    @onCancel={{this.closePublicationModal}}
-    @onPublish={{perform this.publish}}
-    @loading={{this.publish.isRunning}}
+{{#if this.showSourceModal}}
+  <PressRelease::SourcesModal
+    @sources={{@pressRelease.sources}}
+    @onCancel={{this.closeSourceModal}}
+    @onChange={{this.setSources}}
+    @loading={{this.setSources.isRunning}}
   />
 {{/if}}

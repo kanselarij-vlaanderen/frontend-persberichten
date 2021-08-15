@@ -1,0 +1,69 @@
+<div class="auk-scroll-wrapper">
+  <div class="auk-scroll-wrapper__body">
+    <div class="auk-u-my-4">
+      {{#if @model.length}}
+        <table class="auk-table">
+          <thead>
+            <tr>
+              <th>
+                Naam contact
+              </th>
+              <th>
+                Functie
+              </th>
+              <th>
+                Organisatie
+              </th>
+              <th>
+                E-mailadres
+              </th>
+              <th>
+                Laatst bewerkt
+              </th>
+              <th>
+                {{!-- remove source --}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each @model as |row|}}
+              <tr>
+                <td>
+                  {{row.fullName}}
+                </td>
+                <td>
+                  {{row.role}}
+                </td>
+                <td>
+                  {{row.organization.name}}
+                </td>
+                <td>
+                  {{row.mailAddress.value}}
+                </td>
+                <td>
+                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
+                  <span class="auk-u-text-small auk-u-muted">
+                    {{dayjs-format row.modified outputFormat="HH:mm"}}
+                  </span>
+                </td>
+                <td>
+                  <Auk::Button
+                    @icon="close"
+                    @skin="borderless"
+                    {{on "click" (fn this.removeSource row)}}
+                  />
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <Auk::Panel>
+          <Auk::Panel::Body>
+            <Auk::EmptyState @message={{@noDataMessage}} />
+          </Auk::Panel::Body>
+        </Auk::Panel>
+      {{/if}}
+    </div>
+  </div>
+</div>
