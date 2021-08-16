@@ -1,6 +1,8 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 
@@ -8,30 +10,48 @@ export default class PressReleaseSourcesModalComponent extends Component {
   @service store;
 
   @tracked sources = [];
-  @tracked selectedSource;
+  @tracked selectedSources = [];
 
   constructor() {
     super(...arguments);
     this.loadContacts.perform();
+    this.selectedSources = this.args.selectedSources;
   }
 
   @task
-  *loadContacts() {
-    this.sources = yield this.store.findAll('contact');
-  }
+  *loadContacts(searchText) {
+    const filter = {};
 
-  @action
-  onSelectContact(source) {
-    this.selectedSource = source;
-  }
-
-  @action
-  onAddContact() {
-    const sources = this.args.sources.slice(0);
-    const index = sources.indexOf(this.selectedSource);
-    if (index < 0) {
-      sources.addObject(this.selectedSource);
+    if (searchText) {
+      filter['full-name'] = searchText;
     }
-    this.args.onChange(sources);
+
+    this.sources = yield this.store.query('contact', {
+      'page[size]': 100,
+      sort: 'full-name',
+      filter
+    });
+  }
+
+  @restartableTask
+  *debouncedSearch(searchText) {
+      yield timeout(300);
+      this.loadContacts.perform(searchText);
+  }
+
+  @action
+  selectSources(selectedSources) {
+    this.selectedSources = selectedSources;
+  }
+
+  @action
+  addContacts() {
+    this.args.onChange(this.selectedSources);
+  }
+
+  @action
+  cancel() {
+    this.selectedSources = this.args.selectedSources;
+    this.args.onCancel();
   }
 }
