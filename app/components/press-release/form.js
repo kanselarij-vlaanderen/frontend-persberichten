@@ -7,6 +7,7 @@ export default class PressReleaseFormComponent extends Component {
 
   @tracked selectedPublicationChannels = [];
   @tracked showSourceModal = false;
+  @tracked showUploadModal = false;
 
   constructor() {
     super(...arguments);
@@ -60,6 +61,12 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  uploadFile(file) {
+    console.log(file)
+    debugger
+  }
+
+  @action
   removeSource(sources) {
     this.args.pressRelease.sources = sources;
   }
@@ -77,5 +84,15 @@ export default class PressReleaseFormComponent extends Component {
   @action
   closeSourceModal() {
     this.showSourceModal = false;
+  }
+
+  @action
+  openUploadModel() {
+    this.showUploadModal = true;
+  }
+
+  @action
+  closeUploadModal() {
+    this.showUploadModal = false;
   }
 }

@@ -87,6 +87,21 @@
           @noDataMessage="Geen bronnen gevonden"
         />
       </div>
+      <div class="auk-form-group">
+        <div class="auk-o-flex auk-o-flex--justify-between">
+          <Auk::Label>
+            Bijlagen
+          </Auk::Label>
+          <Auk::Button
+            @icon="add"
+            @skin="primary"
+            {{on "click" this.openUploadModel}}
+          >
+            Bijlage toevoegen
+          </Auk::Button>
+        </div>
+        {{!-- file table here --}}
+      </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
         <h4 class="auk-h4">Publicatiekanalen</h4>
@@ -103,5 +118,12 @@
     @onCancel={{this.closeSourceModal}}
     @onChange={{this.setSources}}
     @loading={{this.setSources.isRunning}}
+  />
+{{/if}}
+{{#if this.showUploadModal}}
+  <Auk::FileUploader
+    {{!-- @fileQueueName={{this.fileQueueName}} --}}
+    @multiple={{false}}
+    @onUpload={{this.uploadFile}}
   />
 {{/if}}

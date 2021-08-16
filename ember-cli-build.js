@@ -6,7 +6,7 @@ module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
     'ember-cli-string-helpers': {
-      only: ['capitalize']
+      only: ['capitalize', 'html-safe']
     },
     'ember-dayjs': {
       locales: ['nl-be'],
