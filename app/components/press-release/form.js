@@ -67,7 +67,9 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  removeSource(sources) {
+  removeSource(source) {
+    const sources = this.args.pressRelease.sources.slice(0);
+    sources.removeObject(source);
     this.args.pressRelease.sources = sources;
   }
 

@@ -114,10 +114,9 @@
 </div>
 {{#if this.showSourceModal}}
   <PressRelease::SourcesModal
-    @sources={{@pressRelease.sources}}
+    @selectedSources={{@pressRelease.sources}}
     @onCancel={{this.closeSourceModal}}
     @onChange={{this.setSources}}
-    @loading={{this.setSources.isRunning}}
   />
 {{/if}}
 {{#if this.showUploadModal}}
