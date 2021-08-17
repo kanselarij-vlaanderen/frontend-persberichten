@@ -1,27 +1,14 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
 import { guidFor } from '@ember/object/internals';
 
 export default class PressReleaseFormComponent extends Component {
-
-  @tracked selectedPublicationChannels = [];
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
 
-  constructor() {
-    super(...arguments);
-    this.loadSelectedPublicationChannels.perform();
-  }
-
   get fileQueueName() {
     return `${guidFor(this)}-file-queue`;
-  }
-
-  @task
-  *loadSelectedPublicationChannels() {
-    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
   }
 
   @action
@@ -60,24 +47,23 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  setSources(sources) {
-    this.args.pressRelease.sources = sources;
+  async addSources(newSources) {
+    const sources = await this.args.pressRelease.sources;
+    sources.pushObjects(newSources);
     this.showSourceModal = false;
   }
 
   @action
-  uploadFile(file) {
-    const attachments = this.args.pressRelease.attachments;
+  async uploadFile(file) {
+    const attachments = await this.args.pressRelease.attachments;
     attachments.addObject(file);
-    this.args.pressRelease.attachments = attachments;
     this.showUploadModal = false;
   }
 
   @action
-  removeSource(source) {
-    const sources = this.args.pressRelease.sources.slice(0);
+  async removeSource(source) {
+    const sources = await this.args.pressRelease.sources;
     sources.removeObject(source);
-    this.args.pressRelease.sources = sources;
   }
 
   @action

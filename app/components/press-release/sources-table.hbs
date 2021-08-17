@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th>
-                Naam contact
+                Naam
               </th>
               <th>
                 Functie
@@ -17,7 +17,7 @@
               <th>
                 E-mailadres
               </th>
-              <th>
+              <th class="auk-u-text-nowrap">
                 Laatst bewerkt
               </th>
               <th>
@@ -26,9 +26,9 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @model as |row|}}
+            {{#each (sort-by "fullName" @model) as |row|}}
               <tr>
-                <td>
+                <td class="auk-u-text-nowrap">
                   {{row.fullName}}
                 </td>
                 <td>
@@ -40,7 +40,7 @@
                 <td>
                   {{row.mailAddress.value}}
                 </td>
-                <td>
+                <td class="auk-u-text-nowrap">
                   {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
                   <span class="auk-u-text-small auk-u-muted">
                     {{dayjs-format row.modified outputFormat="HH:mm"}}
@@ -48,9 +48,10 @@
                 </td>
                 <td>
                   <Auk::Button
-                    @icon="close"
-                    @skin="borderless"
-                    {{on "click" (fn this.removeSource row)}}
+                    @layout="icon-only"
+                    @icon="delete"
+                    @skin="danger-borderless"
+                    {{on "click" (fn @onRemoveSource row)}}
                   />
                 </td>
               </tr>

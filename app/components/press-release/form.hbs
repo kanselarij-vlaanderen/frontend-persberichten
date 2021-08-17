@@ -69,13 +69,11 @@
           />
       </div>
       <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--justify-between">
-          <Auk::Label>
-            Bron
-          </Auk::Label>
+        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+          <h4 class="auk-h4">Bron</h4>
           <Auk::Button
             @icon="add"
-            @skin="primary"
+            @skin="secondary"
             {{on "click" this.openSourceModal}}
           >
             Bron toevoegen
@@ -84,7 +82,7 @@
         <PressRelease::SourcesTable
           @onRemoveSource={{this.removeSource}}
           @model={{@pressRelease.sources}}
-          @noDataMessage="Geen bronnen gevonden"
+          @noDataMessage="Er is nog geen bron toegevoegd."
         />
       </div>
       <div class="auk-form-group">
@@ -118,9 +116,8 @@
 </div>
 {{#if this.showSourceModal}}
   <PressRelease::SourcesModal
-    @selectedSources={{@pressRelease.sources}}
     @onCancel={{this.closeSourceModal}}
-    @onChange={{this.setSources}}
+    @onAddSources={{this.addSources}}
   />
 {{/if}}
 {{#if this.showUploadModal}}

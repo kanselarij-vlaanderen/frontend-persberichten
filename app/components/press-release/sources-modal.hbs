@@ -1,36 +1,35 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Contactpersoon toevoegen"
-    @onClose={{this.cancel}}
+    @title="Bronnen toevoegen"
+    @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
     <div class="auk-form-group-layout auk-form-group-layout--standard">
       <div class="auk-form-group">
         <Auk::Label for="publication-date">
-          Contactpersonen
+          Bronnen
         </Auk::Label>
         <PowerSelectMultiple
           @options={{this.sources}}
           @selected={{this.selectedSources}}
           @noMatchesMessage="Geen resultaten gevonden"
-          @placeholder="Contacten zoeken"
+          @placeholder="Bronnen zoeken"
           @onChange={{this.selectSources}}
           @allowClear={{true}}
           @searchEnabled={{true}}
           @onInput={{perform this.debouncedSearch}}
           @searchField="fullName"
           as |source|>
-          {{ source.fullName }}
+          {{source.fullName}}
         </PowerSelectMultiple>
       </div>
     </div>
   </Auk::Modal::Body>
-  <Auk::Modal::Footer @onCancel={{this.cancel}}>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button
       @skin="primary"
-      @loading={{@loading}}
-      @disabled={{(not this.selectedSources)}}
-      {{on "click" this.addContacts}}
+      @disabled={{not this.selectedSources}}
+      {{on "click" (fn @onAddSources this.selectedSources)}}
     >
       Toevoegen
     </Auk::Button>
