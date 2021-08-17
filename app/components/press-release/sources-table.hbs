@@ -48,8 +48,9 @@
                 </td>
                 <td>
                   <Auk::Button
-                    @icon="close"
-                    @skin="borderless"
+                    @layout="icon-only"
+                    @icon="delete"
+                    @skin="danger-borderless"
                     {{on "click" (fn @onRemoveSource row)}}
                   />
                 </td>
