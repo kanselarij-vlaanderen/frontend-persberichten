@@ -20,7 +20,7 @@
           @onInput={{perform this.debouncedSearch}}
           @searchField="fullName"
           as |source|>
-          {{ source.fullName }}
+          {{source.fullName}}
         </PowerSelectMultiple>
       </div>
     </div>
@@ -28,7 +28,7 @@
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button
       @skin="primary"
-      @disabled={{(not this.selectedSources)}}
+      @disabled={{not this.selectedSources}}
       {{on "click" (fn @onAddSources this.selectedSources)}}
     >
       Toevoegen
