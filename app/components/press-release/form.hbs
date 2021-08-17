@@ -97,8 +97,7 @@
 </div>
 {{#if this.showSourceModal}}
   <PressRelease::SourcesModal
-    @selectedSources={{@pressRelease.sources}}
     @onCancel={{this.closeSourceModal}}
-    @onChange={{this.setSources}}
+    @onAddSources={{this.addSources}}
   />
 {{/if}}

@@ -1,7 +1,7 @@
 <Auk::Modal>
   <Auk::Modal::Header
     @title="Bronnen toevoegen"
-    @onClose={{this.cancel}}
+    @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
     <div class="auk-form-group-layout auk-form-group-layout--standard">
@@ -25,12 +25,11 @@
       </div>
     </div>
   </Auk::Modal::Body>
-  <Auk::Modal::Footer @onCancel={{this.cancel}}>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button
       @skin="primary"
-      @loading={{@loading}}
       @disabled={{(not this.selectedSources)}}
-      {{on "click" this.addSources}}
+      {{on "click" (fn @onAddSources this.selectedSources)}}
     >
       Toevoegen
     </Auk::Button>

@@ -53,8 +53,9 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  setSources(sources) {
-    this.args.pressRelease.sources = sources;
+  async addSources(newSources) {
+    const sources = await this.args.pressRelease.sources;
+    sources.pushObjects(newSources);
     this.showSourceModal = false;
   }
 

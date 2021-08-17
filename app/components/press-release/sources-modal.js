@@ -15,7 +15,6 @@ export default class PressReleaseSourcesModalComponent extends Component {
   constructor() {
     super(...arguments);
     this.loadSources.perform();
-    this.selectedSources = this.args.selectedSources;
   }
 
   @task
@@ -42,16 +41,5 @@ export default class PressReleaseSourcesModalComponent extends Component {
   @action
   selectSources(selectedSources) {
     this.selectedSources = selectedSources;
-  }
-
-  @action
-  addSources() {
-    this.args.onChange(this.selectedSources);
-  }
-
-  @action
-  cancel() {
-    this.selectedSources = this.args.selectedSources;
-    this.args.onCancel();
   }
 }
