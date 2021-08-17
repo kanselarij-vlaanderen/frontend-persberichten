@@ -14,12 +14,12 @@ export default class PressReleaseSourcesModalComponent extends Component {
 
   constructor() {
     super(...arguments);
-    this.loadContacts.perform();
+    this.loadSources.perform();
     this.selectedSources = this.args.selectedSources;
   }
 
   @task
-  *loadContacts(searchText) {
+  *loadSources(searchText) {
     const filter = {};
 
     if (searchText) {
@@ -36,7 +36,7 @@ export default class PressReleaseSourcesModalComponent extends Component {
   @restartableTask
   *debouncedSearch(searchText) {
       yield timeout(300);
-      this.loadContacts.perform(searchText);
+      this.loadSources.perform(searchText);
   }
 
   @action
@@ -45,7 +45,7 @@ export default class PressReleaseSourcesModalComponent extends Component {
   }
 
   @action
-  addContacts() {
+  addSources() {
     this.args.onChange(this.selectedSources);
   }
 
