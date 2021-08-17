@@ -1,21 +1,9 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleaseFormComponent extends Component {
-  @tracked selectedPublicationChannels = [];
   @tracked showSourceModal = false;
-
-  constructor() {
-    super(...arguments);
-    this.loadSelectedPublicationChannels.perform();
-  }
-
-  @task
-  *loadSelectedPublicationChannels() {
-    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
-  }
 
   @action
   setInputValue(record, attribute, event) {
