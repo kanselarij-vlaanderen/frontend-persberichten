@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class ContactModel extends Model {
+  @attr() uri;
   @attr() fullName;
   @attr() givenName;
   @attr() familyName;

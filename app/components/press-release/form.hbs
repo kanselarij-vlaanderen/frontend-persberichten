@@ -68,6 +68,23 @@
           @onChange={{this.setThemes}}
           />
       </div>
+      <div class="auk-form-group">
+        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+          <h4 class="auk-h4">Bron</h4>
+          <Auk::Button
+            @icon="add"
+            @skin="secondary"
+            {{on "click" this.openSourceModal}}
+          >
+            Bron toevoegen
+          </Auk::Button>
+        </div>
+        <PressRelease::SourcesTable
+          @onRemoveSource={{this.removeSource}}
+          @model={{@pressRelease.sources}}
+          @noDataMessage="Er is nog geen bron toegevoegd."
+        />
+      </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
         <h4 class="auk-h4">Publicatiekanalen</h4>
@@ -78,3 +95,9 @@
     </div>
   </div>
 </div>
+{{#if this.showSourceModal}}
+  <PressRelease::SourcesModal
+    @onCancel={{this.closeSourceModal}}
+    @onAddSources={{this.addSources}}
+  />
+{{/if}}

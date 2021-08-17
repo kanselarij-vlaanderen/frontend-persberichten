@@ -1,21 +1,9 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleaseFormComponent extends Component {
-
-  @tracked selectedPublicationChannels = [];
-
-  constructor() {
-    super(...arguments);
-    this.loadSelectedPublicationChannels.perform();
-  }
-
-  @task
-  *loadSelectedPublicationChannels() {
-    this.selectedPublicationChannels = yield this.args.pressRelease.publicationChannels;
-  }
+  @tracked showSourceModal = false;
 
   @action
   setInputValue(record, attribute, event) {
@@ -53,7 +41,30 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  async addSources(newSources) {
+    const sources = await this.args.pressRelease.sources;
+    sources.pushObjects(newSources);
+    this.showSourceModal = false;
+  }
+
+  @action
+  async removeSource(source) {
+    const sources = await this.args.pressRelease.sources;
+    sources.removeObject(source);
+  }
+
+  @action
   setThemes(themes) {
     this.args.pressRelease.themes = themes;
+  }
+
+  @action
+  openSourceModal() {
+    this.showSourceModal = true;
+  }
+
+  @action
+  closeSourceModal() {
+    this.showSourceModal = false;
   }
 }
