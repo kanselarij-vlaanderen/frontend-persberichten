@@ -35,8 +35,8 @@ export default class PressReleaseSourcesModalComponent extends Component {
 
   @restartableTask
   *debouncedSearch(searchText) {
-      yield timeout(300);
-      this.loadSources.perform(searchText);
+    yield timeout(300);
+    this.loadSources.perform(searchText);
   }
 
   @action
