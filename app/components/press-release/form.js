@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
+import { guidFor } from '@ember/object/internals';
 
 export default class PressReleaseFormComponent extends Component {
 
@@ -12,6 +13,10 @@ export default class PressReleaseFormComponent extends Component {
   constructor() {
     super(...arguments);
     this.loadSelectedPublicationChannels.perform();
+  }
+
+  get fileQueueName() {
+    return `${guidFor(this)}-file-queue`;
   }
 
   @task
@@ -62,8 +67,10 @@ export default class PressReleaseFormComponent extends Component {
 
   @action
   uploadFile(file) {
-    console.log(file)
-    debugger
+    const attachments = this.args.pressRelease.attachments;
+    attachments.addObject(file);
+    this.args.pressRelease.attachments = attachments;
+    this.showUploadModal = false;
   }
 
   @action

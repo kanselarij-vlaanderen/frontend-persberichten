@@ -1,0 +1,29 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Bijlage toegoegen"
+    @onClose={{this.closeModal}}
+  />
+  <Auk::Modal::Body>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label>
+          Bijlage
+        </Auk::Label>
+          <Auk::FileUploader
+            @fileQueueName={{@fileQueueName}}
+            @multiple={{false}}
+            @onUpload={{this.addFile}}
+          />
+      </div>
+    </div>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{this.closeModal}}>
+    <Auk::Button
+      @skin="primary"
+      @loading={{@loading}}
+      {{on "click" (fn @onUpload this.file)}}
+    >
+      Toevoegen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

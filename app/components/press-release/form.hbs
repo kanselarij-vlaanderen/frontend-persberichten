@@ -100,7 +100,11 @@
             Bijlage toevoegen
           </Auk::Button>
         </div>
-        {{!-- file table here --}}
+        <PressRelease::FilesTable
+          @onRemoveSource={{this.removeAttachments}}
+          @model={{@pressRelease.attachments}}
+          @noDataMessage="Er zijn nog geen bijlagen"
+        />
       </div>
       <h3 class="auk-h3">Ontvangers</h3>
       <div class="auk-form-group">
@@ -120,9 +124,9 @@
   />
 {{/if}}
 {{#if this.showUploadModal}}
-  <Auk::FileUploader
-    {{!-- @fileQueueName={{this.fileQueueName}} --}}
-    @multiple={{false}}
+  <PressRelease::FilesModal
+    @fileQueueName={{this.fileQueueName}}
     @onUpload={{this.uploadFile}}
+    @onCancel={{this.closeUploadModal}}
   />
 {{/if}}

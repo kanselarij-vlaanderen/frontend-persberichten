@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class FileModel extends Model {
+  @attr('string') uri;
   @attr('string') name;
   @attr('string') format;
   @attr('number') size;
