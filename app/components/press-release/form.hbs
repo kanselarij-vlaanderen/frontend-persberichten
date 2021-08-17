@@ -92,14 +92,14 @@
           </Auk::Label>
           <Auk::Button
             @icon="add"
-            @skin="primary"
+            @skin="secondary"
             {{on "click" this.openUploadModel}}
           >
             Bijlage toevoegen
           </Auk::Button>
         </div>
         <PressRelease::FilesTable
-          @onRemoveSource={{this.removeAttachments}}
+          @onRemoveAttachment={{this.removeAttachments}}
           @model={{@pressRelease.attachments}}
           @noDataMessage="Er zijn nog geen bijlagen toegevoegd"
         />

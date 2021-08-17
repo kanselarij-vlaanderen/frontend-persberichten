@@ -54,16 +54,23 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  async uploadFile(file) {
+  async removeSource(source) {
+    const sources = await this.args.pressRelease.sources;
+    sources.removeObject(source);
+  }
+
+  @action
+  async uploadFile(attachment) {
     const attachments = await this.args.pressRelease.attachments;
-    attachments.addObject(file);
+    attachments.pushObject(attachment);
     this.showUploadModal = false;
   }
 
   @action
-  async removeSource(source) {
-    const sources = await this.args.pressRelease.sources;
-    sources.removeObject(source);
+  async removeAttachments(attachment) {
+    const attachments = await this.args.pressRelease.attachments;
+    attachments.removeObject(attachment);
+    await attachment.deleteRecord();
   }
 
   @action
