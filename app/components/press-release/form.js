@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleaseFormComponent extends Component {
-
   @tracked selectedPublicationChannels = [];
   @tracked showSourceModal = false;
 
@@ -60,10 +59,9 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  removeSource(source) {
-    const sources = this.args.pressRelease.sources.slice(0);
+  async removeSource(source) {
+    const sources = await this.args.pressRelease.sources;
     sources.removeObject(source);
-    this.args.pressRelease.sources = sources;
   }
 
   @action
