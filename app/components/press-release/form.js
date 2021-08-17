@@ -70,7 +70,6 @@ export default class PressReleaseFormComponent extends Component {
   async removeAttachments(attachment) {
     const attachments = await this.args.pressRelease.attachments;
     attachments.removeObject(attachment);
-    await attachment.deleteRecord();
   }
 
   @action

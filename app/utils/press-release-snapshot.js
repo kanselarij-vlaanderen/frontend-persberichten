@@ -56,11 +56,6 @@ export default class PressReleaseSnapshot {
     this.pressRelease.governmentFields = this.governmentFields;
     this.pressRelease.themes = this.themes;
     this.pressRelease.sources = this.sources;
-    if (this.attachments) {
-      this.attachments.forEach(file => {
-        file.rollbackAttributes()
-      });
-    }
     this.pressRelease.attachments = this.attachments;
   }
 
@@ -71,13 +66,6 @@ export default class PressReleaseSnapshot {
       publicationEvent.publicationChannels = publicationChannels;
       await publicationEvent.save();
     }
-    const files = await this.pressRelease.attachments;
-    if (files.length) {
-      files.forEach(async file => {
-          await file.save();
-      });
-    }
-
 
     const now = new Date();
     if (this.pressRelease.isNew) {
