@@ -76,8 +76,7 @@
           {{/if}}
         </DropdownMenu>
       </Auk::Toolbar::Item>
-      {{!-- {{#if (not this.pressRelease.publicationEvent.isPublished)}} --}}
-      {{#if (unless this.pressRelease.publicationEvent.isPublished true)}}
+      {{#unless this.pressRelease.publicationEvent.isPublished }}
         <Auk::Toolbar::Item>
           <DropdownMenu
             @skin="primary"
@@ -95,7 +94,7 @@
             </Menu.Item>
           </DropdownMenu>
         </Auk::Toolbar::Item>
-      {{/if}}
+      {{/unless}}
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
 </Auk::Navbar>
