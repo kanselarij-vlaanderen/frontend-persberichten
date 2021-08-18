@@ -5,6 +5,7 @@ import { restartableTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
+import CONFIG from '../../config/constants';
 
 export default class PressReleaseSourcesModalComponent extends Component {
   @service store;
@@ -19,7 +20,11 @@ export default class PressReleaseSourcesModalComponent extends Component {
 
   @task
   *loadSources(searchText) {
-    const filter = {}; //enkel actief
+    const filter = {
+      'status': {
+        ':uri:': CONFIG.CONTACT_STATUS.ACTIVE
+      }
+    }; //enkel actief
 
     if (searchText) {
       filter['full-name'] = searchText;

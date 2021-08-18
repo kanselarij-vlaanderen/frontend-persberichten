@@ -76,23 +76,26 @@
           {{/if}}
         </DropdownMenu>
       </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
-        <DropdownMenu
-          @skin="primary"
-          @label="Publiceren"
-          as |Menu|>
-          <Menu.Item {{on "click" this.openPublicationModal}}>
-            Nu publiceren
-          </Menu.Item>
-          <Menu.Item {{on "click" this.openPublicationPlanningModal}}>
-            {{#if this.model.publicationEvent.isPlanned}}
-              Planning bewerken
-            {{else}}
-              Later publiceren
-            {{/if}}
-          </Menu.Item>
-        </DropdownMenu>
-      </Auk::Toolbar::Item>
+      {{!-- {{#if (not this.pressRelease.publicationEvent.isPublished)}} --}}
+      {{#if (unless this.pressRelease.publicationEvent.isPublished true)}}
+        <Auk::Toolbar::Item>
+          <DropdownMenu
+            @skin="primary"
+            @label="Publiceren"
+            as |Menu|>
+            <Menu.Item {{on "click" this.openPublicationModal}}>
+              Nu publiceren
+            </Menu.Item>
+            <Menu.Item {{on "click" this.openPublicationPlanningModal}}>
+              {{#if this.model.publicationEvent.isPlanned}}
+                Planning bewerken
+              {{else}}
+                Later publiceren
+              {{/if}}
+            </Menu.Item>
+          </DropdownMenu>
+        </Auk::Toolbar::Item>
+      {{/if}}
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
 </Auk::Navbar>

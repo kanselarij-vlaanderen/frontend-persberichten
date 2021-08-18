@@ -56,6 +56,16 @@ export default class PressReleaseSnapshot {
     this.pressRelease.governmentFields = this.governmentFields;
     this.pressRelease.themes = this.themes;
     this.pressRelease.sources = this.sources;
+
+    //destroys and record which is added but not saved
+    if (this.pressRelease.attachments.length) {
+      this.pressRelease.attachments.forEach(attachment => {
+        const isNewlyAdded = this.attachments.indexOf(attachment) === -1;
+        if (isNewlyAdded) {
+          attachment.destroyRecord();
+        }
+      })
+    }
     this.pressRelease.attachments = this.attachments;
   }
 
@@ -65,6 +75,16 @@ export default class PressReleaseSnapshot {
     if (publicationEvent) {
       publicationEvent.publicationChannels = publicationChannels;
       await publicationEvent.save();
+    }
+
+    //deletes any files from the database which are in a deleted state but not actually deleted
+    const attachments = this.attachments;
+    if (attachments.length) {
+      attachments.forEach(attachment => {
+        if (attachment.hasDirtyAttributes) {
+          attachment.destroyRecord();
+        }
+      })
     }
 
     const now = new Date();

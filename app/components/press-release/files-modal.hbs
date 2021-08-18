@@ -20,9 +20,9 @@
   <Auk::Modal::Footer @onCancel={{this.closeModal}}>
     <Auk::Button
       @skin="primary"
-      @loading={{@loading}}
+      @loading={{this.upload.isRunning}}
       @disabled={{not this.file}}
-      {{on "click" (fn @onUpload this.file)}}
+      {{on "click" (perform this.upload)}}
     >
       Toevoegen
     </Auk::Button>

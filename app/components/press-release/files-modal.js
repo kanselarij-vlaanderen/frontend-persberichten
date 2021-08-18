@@ -28,4 +28,9 @@ export default class PressReleaseFilesModalComponent extends Component {
   *destroyFile(file) {
     yield file.destroyRecord();
   }
+
+  @task
+  *upload() {
+    yield this.args.onUpload(this.file);
+  }
 }
