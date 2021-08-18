@@ -19,7 +19,7 @@ export default class PressReleaseSourcesModalComponent extends Component {
 
   @task
   *loadSources(searchText) {
-    const filter = {};
+    const filter = {}; //enkel actief
 
     if (searchText) {
       filter['full-name'] = searchText;

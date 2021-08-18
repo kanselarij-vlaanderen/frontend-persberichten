@@ -29,7 +29,7 @@
                   {{row.humanReadableSize}}
                 </td>
                 <td>
-                  {{row.format}}
+                  <Utils::FileTypePill @extension={{row.extension}}/>
                 </td>
                 <td>
                   <Auk::Button

@@ -1,15 +1,10 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { guidFor } from '@ember/object/internals';
 
 export default class PressReleaseFormComponent extends Component {
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
-
-  get fileQueueName() {
-    return `${guidFor(this)}-file-queue`;
-  }
 
   @action
   setInputValue(record, attribute, event) {
@@ -60,14 +55,14 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
-  async uploadFile(attachment) {
+  async addAttachment(attachment) {
     const attachments = await this.args.pressRelease.attachments;
     attachments.pushObject(attachment);
     this.showUploadModal = false;
   }
 
   @action
-  async removeAttachments(attachment) {
+  async removeAttachment(attachment) {
     const attachments = await this.args.pressRelease.attachments;
     attachments.removeObject(attachment);
   }

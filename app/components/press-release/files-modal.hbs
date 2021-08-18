@@ -10,7 +10,7 @@
           Bijlage
         </Auk::Label>
           <Auk::FileUploader
-            @fileQueueName={{@fileQueueName}}
+            @fileQueueName={{this.fileQueueName}}
             @multiple={{false}}
             @onUpload={{this.addFile}}
           />
@@ -21,6 +21,7 @@
     <Auk::Button
       @skin="primary"
       @loading={{@loading}}
+      @disabled={{not this.file}}
       {{on "click" (fn @onUpload this.file)}}
     >
       Toevoegen
