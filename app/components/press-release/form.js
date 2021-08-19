@@ -66,7 +66,6 @@ export default class PressReleaseFormComponent extends Component {
     const attachments = await this.args.pressRelease.attachments;
     attachments.removeObject(attachment);
     attachment.deleteRecord();
-    console.log(attachment.hasDirtyAttributes)
     //we don't destroy the record to make sure a rollback is possible
   }
 

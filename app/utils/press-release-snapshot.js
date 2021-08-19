@@ -58,14 +58,23 @@ export default class PressReleaseSnapshot {
     this.pressRelease.sources = this.sources;
 
     //destroys and record which is added but not saved
-    if (this.pressRelease.attachments.length) {
-      this.pressRelease.attachments.forEach(attachment => {
-        const isNewlyAdded = this.attachments.indexOf(attachment) === -1;
+    const attachments = await this.pressRelease.attachments;
+    await Promise.all(
+      attachments.map(async attachment => {
+        const isNewlyAdded = !this.attachments.includes(attachment);
         if (isNewlyAdded) {
-          attachment.destroyRecord();
+          return await attachment.destroyRecord();
         }
       })
-    }
+    );
+
+    //Rollback on any attachments which are changed but not saved
+    this.attachments.forEach(attachment => {
+      if (attachment.hasDirtyAttributes) {
+        attachment.rollbackAttributes();
+      }
+    })
+
     this.pressRelease.attachments = this.attachments;
   }
 
@@ -78,14 +87,13 @@ export default class PressReleaseSnapshot {
     }
 
     //deletes any files from the database which are in a deleted state but not actually deleted
-    const attachments = this.attachments;
-    if (attachments.length) {
-      attachments.forEach(attachment => {
+    await Promise.all(
+      this.attachments.map(async attachment => {
         if (attachment.hasDirtyAttributes) {
-          attachment.destroyRecord();
+          return await attachment.destroyRecord();
         }
       })
-    }
+    )
 
     const now = new Date();
     if (this.pressRelease.isNew) {
