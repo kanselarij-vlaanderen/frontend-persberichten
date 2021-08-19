@@ -9,14 +9,16 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   @service store;
 
   @tracked publicationChannels = [];
+  @tracked subscribersFlandersBe;
+  @tracked disableFlandersBeChannel;
 
   constructor() {
     super(...arguments);
-    this.loadPublicationChannels.perform();
+    this.loadPublicationChannelsAndInit.perform();
   }
 
   @task
-  *loadPublicationChannels() {
+  *loadPublicationChannelsAndInit() {
     let publicationChannels = yield this.store.query('publication-channel', {
       'page[size]': 100,
       sort: 'name'
@@ -25,6 +27,15 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
+    this.subscribersFlandersBe = this.publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIBERS_FLANDERS_BE);
+    this.disableFlandersBeChannel = this.setDisableFlandersBeChannel(this.args.publicationChannels);
+  }
+
+  setDisableFlandersBeChannel(selectedChannels) {
+    if (selectedChannels.length > 1 && selectedChannels.includes(this.subscribersFlandersBe)) {
+      return true;
+    }
+    return false;
   }
 
   @action
@@ -36,6 +47,10 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     } else {
       selectedPublicationChannels.addObject(publicationChannel);
     }
+    if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.subscribersFlandersBe)) {
+      selectedPublicationChannels.addObject(this.subscribersFlandersBe)
+    }
+    this.disableFlandersBeChannel = this.setDisableFlandersBeChannel(selectedPublicationChannels);
     this.args.onChange(selectedPublicationChannels);
   }
 }

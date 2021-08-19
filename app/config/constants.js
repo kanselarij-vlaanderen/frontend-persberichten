@@ -8,5 +8,6 @@ export default {
   },
   PUBLICATION_CHANNEL: {
     MAILING_LIST: 'http://themis.vlaanderen.be/id/publicatiekanaal/c184f026-feaa-4899-ba06-fd3a03df599c',
+    SUBSCRIBERS_FLANDERS_BE: 'http://themis.vlaanderen.be/id/publicatiekanaal/c06c30f5-d9e9-490e-822c-43faa9d0b25e'
   }
 };

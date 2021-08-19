@@ -81,6 +81,7 @@
           <DropdownMenu
             @skin="primary"
             @label="Publiceren"
+            @disabled={{not this.pressRelease.publicationChannels.length}}
             as |Menu|>
             <Menu.Item {{on "click" this.openPublicationModal}}>
               Nu publiceren
