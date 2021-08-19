@@ -9,8 +9,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   @service store;
 
   @tracked publicationChannels = [];
-  @tracked subscribersFlandersBe;
-  @tracked disableFlandersBeChannel;
+  @tracked websiteFlandersBe;
 
   constructor() {
     super(...arguments);
@@ -27,19 +26,11 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
-    this.subscribersFlandersBe = this.publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIBERS_FLANDERS_BE);
-    this.disableFlandersBeChannel = this.setDisableFlandersBeChannel(this.args.publicationChannels);
-  }
-
-  setDisableFlandersBeChannel(selectedChannels) {
-    if (selectedChannels.length > 1 && selectedChannels.includes(this.subscribersFlandersBe)) {
-      return true;
-    }
-    return false;
+    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.WEBSITE_FLANDERS_BE);
   }
 
   @action
-  getSelectedPublicationChannels(publicationChannel) {
+  updateSelectedPublicationChannels(publicationChannel) {
     const selectedPublicationChannels = this.args.publicationChannels.slice(0);
     const index = selectedPublicationChannels.indexOf(publicationChannel);
     if (index > -1) {
@@ -47,10 +38,19 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     } else {
       selectedPublicationChannels.addObject(publicationChannel);
     }
-    if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.subscribersFlandersBe)) {
-      selectedPublicationChannels.addObject(this.subscribersFlandersBe)
+
+    // if any publication-channel is selected, website Flanders publication-channel must be automatically added
+    if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.websiteFlandersBe)) {
+      selectedPublicationChannels.addObject(this.websiteFlandersBe)
     }
-    this.disableFlandersBeChannel = this.setDisableFlandersBeChannel(selectedPublicationChannels);
     this.args.onChange(selectedPublicationChannels);
+  }
+
+  get isDisabledWebsiteFlandersBeChannel() {
+    const selectedPublicationChannels = this.args.publicationChannels.slice(0);
+    if (selectedPublicationChannels.length > 1 && selectedPublicationChannels.includes(this.websiteFlandersBe)) {
+      return true;
+    }
+    return false;
   }
 }
