@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class PressReleaseFormComponent extends Component {
   @tracked showSourceModal = false;
+  @tracked showUploadModal = false;
 
   @action
   setInputValue(record, attribute, event) {
@@ -54,6 +55,21 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  async addAttachment(attachment) {
+    const attachments = await this.args.pressRelease.attachments;
+    attachments.pushObject(attachment);
+    this.showUploadModal = false;
+  }
+
+  @action
+  async removeAttachment(attachment) {
+    const attachments = await this.args.pressRelease.attachments;
+    attachments.removeObject(attachment);
+    attachment.deleteRecord();
+    //we don't destroy the record to make sure a rollback is possible
+  }
+
+  @action
   setThemes(themes) {
     this.args.pressRelease.themes = themes;
   }
@@ -66,5 +82,15 @@ export default class PressReleaseFormComponent extends Component {
   @action
   closeSourceModal() {
     this.showSourceModal = false;
+  }
+
+  @action
+  openUploadModel() {
+    this.showUploadModal = true;
+  }
+
+  @action
+  closeUploadModal() {
+    this.showUploadModal = false;
   }
 }
