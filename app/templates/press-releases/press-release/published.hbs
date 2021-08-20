@@ -1,0 +1,37 @@
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          @route="press-releases.overview.published"
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Persberichten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.model.pressRelease.title}}
+          <Auk::Pill class="auk-u-ml">
+            Gepubliceerd op {{dayjs-format this.model.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+          </Auk::Pill>
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        <Auk::StatusPill @status="done">
+          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
+        </Auk::StatusPill>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<PressRelease::FormPublished @pressRelease={{this.model}}/>
+
+{{outlet}}

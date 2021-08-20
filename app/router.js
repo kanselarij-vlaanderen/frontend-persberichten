@@ -23,7 +23,10 @@ Router.map(function () {
       this.route('planned', { path: 'gepland' });
       this.route('published', { path: 'gepubliceerd' });
     });
-    this.route('press-release', { path: '/:press_release_id' });
+    this.route('press-release', { path: '/:press_release_id' }, function() {
+      this.route('edit');
+      this.route('published');
+    });
   });
 
   this.route('contacts', { path: 'contacten' }, function() {});
