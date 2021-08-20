@@ -47,10 +47,9 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
   }
 
   get isDisabledWebsiteFlandersBeChannel() {
-    const selectedPublicationChannels = this.args.publicationChannels.slice(0);
-    if (selectedPublicationChannels.length > 1 && selectedPublicationChannels.includes(this.websiteFlandersBe)) {
-      return true;
-    }
-    return false;
+    const selectedPublicationChannels = this.args.publicationChannels;
+
+    // checks if websiteFlandersBe AND any other channel is selected, to be able to disable checkbox
+    return (selectedPublicationChannels.length > 1 && selectedPublicationChannels.includes(this.websiteFlandersBe));
   }
 }
