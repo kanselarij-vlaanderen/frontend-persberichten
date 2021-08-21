@@ -11,7 +11,7 @@
           type="text"
           id="title"
           @block={{true}}
-          value={{@pressRelease.pressRelease.title}}
+          value={{@pressRelease.title}}
         />
       </div>
       <div class="auk-form-group">
@@ -24,7 +24,7 @@
           id="message"
           @block={{true}}
           @rows={{10}}
-          value={{@pressRelease.pressRelease.htmlContent}}
+          value={{@pressRelease.htmlContent}}
         />
       </div>
       <div class="auk-form-group">
@@ -37,14 +37,14 @@
           id="abstract"
           @block={{true}}
           @rows={{5}}
-          value={{@pressRelease.pressRelease.abstract}}
+          value={{@pressRelease.abstract}}
         />
       </div>
       <div class="auk-form-group">
         <Auk::Label>
           Kernwoorden
         </Auk::Label>
-        {{#each @pressRelease.pressRelease.keywords as |keyword|}}
+        {{#each @pressRelease.keywords as |keyword|}}
           <Auk::Pill class="auk-u-ml">
             {{keyword}}
           </Auk::Pill>
