@@ -22,7 +22,7 @@ export default class PressReleasesOverviewController extends Controller {
     });
     yield pressRelease.save();
     this.showNewPressReleaseModal = false;
-    this.transitionToRoute('press-releases.press-release', pressRelease.id);
+    this.transitionToRoute('press-releases.press-release.edit', pressRelease.id);
   }
 
   @action

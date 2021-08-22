@@ -1,100 +1,97 @@
 <div class="auk-u-mt-8 auk-container auk-container--center">
   <div class="auk-u-mt-8">
-    <h2 class="auk-h2">Bericht</h2>
-    <div class="auk-form-group-layout auk-form-group-layout--standard">
+    <div class="auk-form-group-layout auk-form-group-layout--horizontal">
       <div class="auk-form-group">
         <Auk::Label for="title">
           Titel
         </Auk::Label>
-        <Auk::Input
-          @disabled={{true}}
-          type="text"
-          id="title"
-          @block={{true}}
-          value={{@pressRelease.title}}
-        />
-      </div>
-      <div class="auk-form-group">
-        <Auk::Label for="message">
-          Bericht
-        </Auk::Label>
-        <Auk::Textarea
-          @disabled={{true}}
-          type="text"
-          id="message"
-          @block={{true}}
-          @rows={{10}}
-          value={{@pressRelease.htmlContent}}
-        />
+        <h2 class="auk-h2">{{@pressRelease.title}}</h2>
       </div>
       <div class="auk-form-group">
         <Auk::Label for="abstract">
           Samenvatting
         </Auk::Label>
-        <Auk::Textarea
-          @disabled={{true}}
-          type="text"
-          id="abstract"
-          @block={{true}}
-          @rows={{5}}
-          value={{@pressRelease.abstract}}
-        />
+        <p>{{@pressRelease.abstract}}</p>
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="message">
+          Inhoud
+        </Auk::Label>
+        <p>{{@pressRelease.htmlContent}}</p>
       </div>
       <div class="auk-form-group">
         <Auk::Label>
-          Kernwoorden
+          Bron
         </Auk::Label>
-        {{#each @pressRelease.keywords as |keyword|}}
-          <Auk::Pill class="auk-u-ml">
-            {{keyword}}
-          </Auk::Pill>
-        {{/each}}
+        <ul>
+          {{#each @pressRelease.sources as |source|}}
+            <li>
+              {{source.fullName}}
+              {{!-- {{source.organization}} --}}
+              {{!-- uncomment when link is made --}}
+            </li>
+          {{/each}}
+        </ul>
       </div>
       <div class="auk-form-group">
         <Auk::Label>
           Beleidsbevoegdheden
         </Auk::Label>
-        {{#each @pressRelease.governmentFields as |governmentField|}}
-          <Auk::Pill class="auk-u-ml">
-            {{governmentField.prefLabel}}
-          </Auk::Pill>
-        {{/each}}
+        <ul>
+          {{#each @pressRelease.governmentFields as |governmentField|}}
+            <li>
+              {{governmentField.prefLabel}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label>
+          Kernwoorden
+        </Auk::Label>
+        <ul>
+          {{#each @pressRelease.keywords as |keyword|}}
+            <li>
+              {{keyword}}
+            </li>
+          {{/each}}
+        </ul>
       </div>
       <div class="auk-form-group">
         <Auk::Label>
           Thema's
         </Auk::Label>
-        <InputField::ThemesSelection
-          @disabled={{true}}
-          @selectedThemes={{@pressRelease.themes}}
-          />
+        <ul>
+          {{#each @pressRelease.themes as |theme|}}
+            <li>
+              {{theme.label}}
+            </li>
+          {{/each}}
+        </ul>
       </div>
       <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-          <h4 class="auk-h4">Bron</h4>
-        </div>
-        <PressRelease::SourcesTable
-          @disabled={{true}}
-          @model={{@pressRelease.sources}}
-          @noDataMessage="Er is geen bron toegevoegd."
-        />
+        <Auk::Label>
+          Publicatiekanalen
+        </Auk::Label>
+        <ul>
+          {{#each @pressRelease.publicationChannels as |publicationChannel|}}
+            <li>
+              {{publicationChannel.name}}
+            </li>
+          {{/each}}
+        </ul>
       </div>
       <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-          <h3 class="auk-h3">Bijlagen</h3>
-        </div>
-        <PressRelease::FilesTable
-          @disabled={{true}}
-          @model={{@pressRelease.attachments}}
-          @noDataMessage="Er zijn geen bijlagen toegevoegd."
-        />
-      </div>
-      <h3 class="auk-h3">Ontvangers</h3>
-      <div class="auk-form-group">
-        <h4 class="auk-h4">Publicatiekanalen</h4>
-        <InputField::PressReleasePublicationChannels
-          @disabled={{true}}
-          @publicationChannels={{@pressRelease.publicationChannels}}/>
+        <Auk::Label>
+          Bijlagen
+        </Auk::Label>
+        <ul>
+          {{#each @pressRelease.attachments as |attachment|}}
+            <li>
+              <Utils::FileTypePill @extension={{attachment.extension}}/> {{attachment.name}}
+            </li>
+          {{/each}}
+        </ul>
       </div>
     </div>
   </div>
