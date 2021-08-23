@@ -14,11 +14,9 @@
               <th>
                 Type bestand
               </th>
-              {{#unless @disabled}}
-                <th>
-                  {{!-- remove source --}}
-                </th>
-              {{/unless}}
+              <th>
+                {{!-- remove source --}}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -33,16 +31,14 @@
                 <td>
                   <Utils::FileTypePill @extension={{row.extension}}/>
                 </td>
-                {{#unless @disabled}}
-                  <td>
-                    <Auk::Button
-                      @layout="icon-only"
-                      @icon="delete"
-                      @skin="danger-borderless"
-                      {{on "click" (fn @onRemoveAttachment row)}}
-                    />
-                  </td>
-                {{/unless}}
+                <td>
+                  <Auk::Button
+                    @layout="icon-only"
+                    @icon="delete"
+                    @skin="danger-borderless"
+                    {{on "click" (fn @onRemoveAttachment row)}}
+                  />
+                </td>
               </tr>
             {{/each}}
           </tbody>

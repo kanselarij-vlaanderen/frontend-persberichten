@@ -4,7 +4,7 @@
     <Auk::Checkbox
       @type="checkbox"
       @checked={{includes publicationChannel @publicationChannels}}
-      @disabled={{if (or @disabled (and (eq publicationChannel this.websiteFlandersBe) this.isDisabledWebsiteFlandersBeChannel)) true}}
+      @disabled={{if (and (eq publicationChannel this.websiteFlandersBe) this.isDisabledWebsiteFlandersBeChannel) true}}
       @label={{publicationChannel.name}}
       {{on "change" (fn this.updateSelectedPublicationChannels publicationChannel)}}
       />
