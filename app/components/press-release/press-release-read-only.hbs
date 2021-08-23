@@ -1,29 +1,29 @@
 <div class="auk-u-mt-8 auk-container auk-container--center">
   <div class="auk-u-mt-8">
-    <div class="auk-form-group-layout auk-form-group-layout--horizontal">
-      <div class="auk-form-group">
-        <Auk::Label for="title">
+        <div class="auk-o-flex auk-o-flex--vertical">
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="title" class="auk-o-grid-col-3">
           Titel
         </Auk::Label>
-        <h2 class="auk-h2">{{@pressRelease.title}}</h2>
+        <h2 class="auk-h2 auk-o-grid-col-9">{{@pressRelease.title}}</h2>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label for="abstract">
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="abstract" class="auk-o-grid-col-3">
           Samenvatting
         </Auk::Label>
-        <p>{{@pressRelease.abstract}}</p>
+        <p class="auk-o-grid-col-9">{{@pressRelease.abstract}}</p>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label for="message">
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="message" class="auk-o-grid-col-3">
           Inhoud
         </Auk::Label>
-        <p>{{@pressRelease.htmlContent}}</p>
+        <p class="auk-o-grid-col-9">{{@pressRelease.htmlContent}}</p>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Bron
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.sources as |source|}}
             <li>
               {{source.fullName}}
@@ -33,11 +33,11 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Beleidsbevoegdheden
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.governmentFields as |governmentField|}}
             <li>
               {{governmentField.prefLabel}}
@@ -45,11 +45,11 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Kernwoorden
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.keywords as |keyword|}}
             <li>
               {{keyword}}
@@ -57,11 +57,11 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Thema's
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.themes as |theme|}}
             <li>
               {{theme.label}}
@@ -69,11 +69,11 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Publicatiekanalen
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.publicationChannels as |publicationChannel|}}
             <li>
               {{publicationChannel.name}}
@@ -81,11 +81,11 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-form-group">
-        <Auk::Label>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
           Bijlagen
         </Auk::Label>
-        <ul>
+        <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.attachments as |attachment|}}
             <li>
               <Utils::FileTypePill @extension={{attachment.extension}}/> {{attachment.name}}
