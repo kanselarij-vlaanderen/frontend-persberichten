@@ -14,6 +14,7 @@ export default class ContactModel extends Model {
   @belongsTo('telephone') telephone;
   @belongsTo('mail-address') mailAddress;
   @belongsTo('organization') organization;
+  @belongsTo('organization') creator;
 
   @hasMany('press-release') pressReleases;
 }
