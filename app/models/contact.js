@@ -13,7 +13,8 @@ export default class ContactModel extends Model {
   @belongsTo('mobile-phone') mobilePhone;
   @belongsTo('telephone') telephone;
   @belongsTo('mail-address') mailAddress;
-  @belongsTo('organization') organization;
+  @belongsTo('organization', { inverse: 'members' }) organization;
+  @belongsTo('organization', { inverse: 'contacts' }) creator;
 
   @hasMany('press-release') pressReleases;
 }
