@@ -9,7 +9,7 @@ export default class OrganizationModel extends Model {
   @hasMany('contact') sources;
   @hasMany('mobile-phone') mobilePhones;
   @hasMany('telephone') telephones;
-  @hasMany('mail-addresses') mailAddresses;
+  @hasMany('mail-address') mailAddresses;
   @hasMany('press-release') pressReleases;
   @hasMany('collaboration-activity', { inverse: 'collaborators' }) collaborations;
   @hasMany('collaboration-activity', { inverse: 'editor' }) editorCollaborations;
