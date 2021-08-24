@@ -20,9 +20,11 @@
               <th class="auk-u-text-nowrap">
                 Laatst bewerkt
               </th>
-              <th>
-                {{!-- remove source --}}
-              </th>
+              {{#unless @disabled}}
+                <th>
+                  {{!-- remove source --}}
+                </th>
+              {{/unless}}
             </tr>
           </thead>
           <tbody>
@@ -46,14 +48,16 @@
                     {{dayjs-format row.modified outputFormat="HH:mm"}}
                   </span>
                 </td>
-                <td>
-                  <Auk::Button
-                    @layout="icon-only"
-                    @icon="delete"
-                    @skin="danger-borderless"
-                    {{on "click" (fn @onRemoveSource row)}}
-                  />
-                </td>
+                {{#unless @disabled}}
+                  <td>
+                    <Auk::Button
+                      @layout="icon-only"
+                      @icon="delete"
+                      @skin="danger-borderless"
+                      {{on "click" (fn @onRemoveSource row)}}
+                    />
+                  </td>
+                {{/unless}}
               </tr>
             {{/each}}
           </tbody>

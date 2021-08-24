@@ -3,22 +3,22 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | press-release/press-release-read-only', function(hooks) {
+module('Integration | Component | press-release/read-only', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<PressRelease::PressReleaseReadOnly />`);
+    await render(hbs`<PressRelease::ReadOnly />`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      <PressRelease::PressReleaseReadOnly>
+      <PressRelease::ReadOnly>
         template block text
-      </PressRelease::PressReleaseReadOnly>
+      </PressRelease::ReadOnly>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');
