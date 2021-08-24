@@ -1,0 +1,30 @@
+{{page-title "Overzicht"}}
+
+<Auk::Navbar @skin="gray-100" @auto={{true}}>
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <div class="o-flex o-flex--vertical auk-u-mt-2">
+          <div class="o-flex o-flex--vertical-center">
+            <h4 class="auk-toolbar-complex__title">Contacten</h4>
+          </div>
+          <Auk::Tabs @reversed="true">
+            <Auk::Tab
+              @route="contacts.overview.mailing-lists">
+              Verzendlijsten
+            </Auk::Tab>
+            <Auk::Tab
+              @route="contacts.overview.persons">
+              Contactpersonen
+            </Auk::Tab>
+          </Auk::Tabs>
+        </div>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      {{!-- buttons here --}}
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+{{outlet}}

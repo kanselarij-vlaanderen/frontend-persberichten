@@ -29,7 +29,12 @@ Router.map(function () {
     });
   });
 
-  this.route('contacts', { path: 'contacten' }, function() {});
+  this.route('contacts', { path: 'contacten' }, function() {
+    this.route('overview', { path: 'overzicht' }, function() {
+      this.route('mailing-lists', { path: 'verzendlijsten' });
+      this.route('persons', { path: 'contactpersonen' });
+    });
+  });
 
   this.route('login', { path: 'aanmelden' });
   this.route('mock-login');
