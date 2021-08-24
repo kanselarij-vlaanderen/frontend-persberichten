@@ -1,18 +1,24 @@
 import Route from '@ember/routing/route';
 import SourceSnapshot from '../../utils/source-snapshot';
 import CONFIG from '../../config/constants';
+import { inject as service } from '@ember/service';
 
 export default class SourcesNewRoute extends Route {
+  @service session;
+
   async model() {
+    const creator = await this.session.currentSession.organization;
+
     const status = await this.store.findRecordByUri('contact-status', CONFIG.CONTACT_STATUS.ACTIVE);
-    const telephone = this.store.createRecord('telephone', {});
-    const mobilePhone = this.store.createRecord('mobile-phone', {});
-    const mailAddress = this.store.createRecord('mail-address', {});
+    const telephone = this.store.createRecord('telephone', {creator});
+    const mobilePhone = this.store.createRecord('mobile-phone', {creator});
+    const mailAddress = this.store.createRecord('mail-address', {creator});
     const source = this.store.createRecord('contact', {
       status,
       telephone,
       mobilePhone,
-      mailAddress
+      mailAddress,
+      creator
     });
 
     const snapshot = new SourceSnapshot(source);
