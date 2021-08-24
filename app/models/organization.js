@@ -5,8 +5,8 @@ export default class OrganizationModel extends Model {
   @attr('string') name;
   @attr('string') identifier;
 
-  @hasMany('contact') contacts;
-  @hasMany('contact') sources;
+  @hasMany('contact', { inverse: 'organization' }) members;
+  @hasMany('contact', { inverse: 'creator' }) contacts;
   @hasMany('mobile-phone') mobilePhones;
   @hasMany('telephone') telephones;
   @hasMany('mail-address') mailAddresses;
