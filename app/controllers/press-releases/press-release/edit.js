@@ -12,14 +12,21 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
 
-  @tracked fromRoute;
-
   get snapshot() {
     return this.model;
   }
 
   get pressRelease() {
     return this.snapshot.pressRelease;
+  }
+
+  transitionBack() {
+    // If no route where you returned from go to the concept page
+    if (history.length > 1) {
+      history.back();
+    } else {
+      this.router.transitionTo('press-releases.overview.concept');
+    }
   }
 
   @task
@@ -35,7 +42,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @action
   async saveChangesAndNavigateBack() {
     await this.savePressRelease.perform();
-    this.transitionToRoute(this.fromRoute);
+    this.transitionBack();
   }
 
   @task
@@ -44,7 +51,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     if (isDirty) {
       this.showConfirmationModal = true;
     } else {
-      this.transitionToRoute(this.fromRoute);
+      this.transitionBack();
     }
   }
 
@@ -52,7 +59,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   *confirmNavigationBack() {
     yield this.snapshot.rollback();
     this.showConfirmationModal = false;
-    this.transitionToRoute(this.fromRoute);
+    this.transitionBack();
   }
 
   @action

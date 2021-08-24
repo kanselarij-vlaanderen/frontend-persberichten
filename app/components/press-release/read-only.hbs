@@ -23,15 +23,13 @@
         <Auk::Label class="auk-o-grid-col-3">
           Bron
         </Auk::Label>
-        <ul class="auk-o-grid-col-9">
-          {{#each @pressRelease.sources as |source|}}
-            <li>
-              {{source.fullName}}
-              {{!-- {{source.organization}} --}}
-              {{!-- uncomment when link is made --}}
-            </li>
-          {{/each}}
-        </ul>
+        <div class="auk-o-grid-col-9">
+          <PressRelease::SourcesTable
+            @disabled={{true}}
+            @model={{@pressRelease.sources}}
+            @noDataMessage="Geen bronnen gevonden."
+          />
+        </div>
       </div>
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">

@@ -24,8 +24,8 @@ Router.map(function () {
       this.route('published', { path: 'gepubliceerd' });
     });
     this.route('press-release', { path: '/:press_release_id' }, function() {
-      this.route('edit');
-      this.route('published');
+      this.route('edit', { path: 'bewerk' });
+      this.route('published', { path: 'gepubliceerd' });
     });
   });
 

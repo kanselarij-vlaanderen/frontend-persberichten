@@ -1,19 +1,18 @@
 import Route from '@ember/routing/route';
+import PressReleaseSnapshot from '../../../utils/press-release-snapshot';
 
 export default class PressReleasesPressReleaseEditRoute extends Route {
-  beforeModel(transition) {
-    if (transition.from) {
-      if (transition.from.name === 'press-releases.overview.published') {
-        this.transitionTo('press-releases.press-release.published')
-      }
-      this.fromRoute = transition.from.name;
-    } else {
-      this.fromRoute = 'press-releases.overview.concept';
+  async beforeModel() {
+    const isPublished = (await this.modelFor('press-releases.press-release')).publicationEvent.get('isPublished');
+    if (isPublished) {
+      this.transitionTo('press-releases.press-release.published');
     }
   }
 
-  setupController(controller, model) {
-    super.setupController(controller, model);
-    controller.fromRoute = this.fromRoute;
+  async model() {
+    const pressRelease = await this.modelFor('press-releases.press-release');
+    const snapshot = new PressReleaseSnapshot(pressRelease);
+    await snapshot.commit();
+    return snapshot;
   }
 }
