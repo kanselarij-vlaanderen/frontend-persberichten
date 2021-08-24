@@ -1,0 +1,96 @@
+<div class="auk-u-mt-8 auk-container auk-container--center">
+  <div class="auk-u-mt-8">
+        <div class="auk-o-flex auk-o-flex--vertical">
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="title" class="auk-o-grid-col-3">
+          Titel
+        </Auk::Label>
+        <h2 class="auk-h2 auk-o-grid-col-9">{{@pressRelease.title}}</h2>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="abstract" class="auk-o-grid-col-3">
+          Samenvatting
+        </Auk::Label>
+        <p class="auk-o-grid-col-9">{{@pressRelease.abstract}}</p>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label for="message" class="auk-o-grid-col-3">
+          Inhoud
+        </Auk::Label>
+        <p class="auk-o-grid-col-9">{{@pressRelease.htmlContent}}</p>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Bron
+        </Auk::Label>
+        <div class="auk-o-grid-col-9">
+          <PressRelease::SourcesTable
+            @disabled={{true}}
+            @model={{@pressRelease.sources}}
+            @noDataMessage="Geen bronnen gevonden."
+          />
+        </div>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Beleidsbevoegdheden
+        </Auk::Label>
+        <ul class="auk-o-grid-col-9">
+          {{#each @pressRelease.governmentFields as |governmentField|}}
+            <li>
+              {{governmentField.prefLabel}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Kernwoorden
+        </Auk::Label>
+        <ul class="auk-o-grid-col-9">
+          {{#each @pressRelease.keywords as |keyword|}}
+            <li>
+              {{keyword}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Thema's
+        </Auk::Label>
+        <ul class="auk-o-grid-col-9">
+          {{#each @pressRelease.themes as |theme|}}
+            <li>
+              {{theme.label}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Publicatiekanalen
+        </Auk::Label>
+        <ul class="auk-o-grid-col-9">
+          {{#each @pressRelease.publicationChannels as |publicationChannel|}}
+            <li>
+              {{publicationChannel.name}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="auk-o-grid auk-u-mb-4">
+        <Auk::Label class="auk-o-grid-col-3">
+          Bijlagen
+        </Auk::Label>
+        <ul class="auk-o-grid-col-9">
+          {{#each @pressRelease.attachments as |attachment|}}
+            <li>
+              <Utils::FileTypePill @extension={{attachment.extension}}/> {{attachment.name}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

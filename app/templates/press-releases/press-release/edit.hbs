@@ -1,0 +1,130 @@
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" (perform this.navigateBack)}}
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Persberichten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.pressRelease.title}}
+          {{#if this.pressRelease.publicationEvent}}
+            {{#if this.pressRelease.publicationEvent.isPublished}}
+              <Auk::Pill class="auk-u-ml">
+                Gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+            {{#if this.pressRelease.publicationEvent.isPlanned}}
+              <Auk::Pill class="auk-u-ml">
+                Wordt gepubliceerd op {{dayjs-format this.pressRelease.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
+              </Auk::Pill>
+            {{/if}}
+          {{else}}
+            {{#if this.pressRelease.collaboration}}
+              <Auk::Pill class="auk-u-ml">
+                Gedeeld persbericht
+              </Auk::Pill>
+            {{else}}
+              <Auk::Pill class="auk-u-ml">
+                Concept
+              </Auk::Pill>
+            {{/if}}
+          {{/if}}
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        {{#if this.savePressRelease.last.isError}}
+          <Auk::StatusPill @status="error">
+            Opslaan mislukt
+          </Auk::StatusPill>
+        {{else}}
+        <Auk::StatusPill @status="done">
+          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
+        </Auk::StatusPill>
+        {{/if}}
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <DropdownMenu
+          @label="Acties"
+          as |Menu|>
+          <Menu.Item {{on "click" this.saveChanges}}>
+            Opslaan
+          </Menu.Item>
+          <Menu.Item  {{on "click" this.saveChangesAndNavigateBack}}>
+            Opslaan en sluiten
+          </Menu.Item>
+          {{#if this.pressRelease.publicationEvent.isPlanned}}
+            {{!-- expand if with or when more danger colored buttens are added --}}
+            <Menu.Divider />
+          {{/if}}
+          {{#if this.pressRelease.publicationEvent.isPlanned}}
+            <Menu.Item
+              class="auk-menu__item auk-menu__item--danger"
+              {{on "click" (perform this.revokePressRelease)}}>
+                Intrekken
+            </Menu.Item>
+          {{/if}}
+        </DropdownMenu>
+      </Auk::Toolbar::Item>
+      {{#unless this.pressRelease.publicationEvent.isPublished}}
+        <Auk::Toolbar::Item>
+          <DropdownMenu
+            @skin="primary"
+            @label="Publiceren"
+            @disabled={{not this.pressRelease.publicationChannels.length}}
+            as |Menu|>
+            <Menu.Item {{on "click" this.openPublicationModal}}>
+              Nu publiceren
+            </Menu.Item>
+            <Menu.Item {{on "click" this.openPublicationPlanningModal}}>
+              {{#if this.model.publicationEvent.isPlanned}}
+                Planning bewerken
+              {{else}}
+                Later publiceren
+              {{/if}}
+            </Menu.Item>
+          </DropdownMenu>
+        </Auk::Toolbar::Item>
+      {{/unless}}
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<PressRelease::Form @pressRelease={{this.pressRelease}} />
+
+{{#if this.showPublicationModal}}
+  <PressRelease::PublicationModal
+    @onCancel={{this.closePublicationModal}}
+    @onPublish={{perform this.publish}}
+    @loading={{this.publish.isRunning}}
+  />
+{{/if}}
+
+{{#if this.showPublicationPlanningModal}}
+  <PressRelease::PublicationPlanningModal
+    @plannedDate={{this.model.publicationEvent.plannedStartDate}}
+    @onCancel={{this.closePublicationPlanningModal}}
+    @onPublish={{perform this.publish}}
+    @loading={{this.publish.isRunning}}
+  />
+{{/if}}
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}
+
+{{outlet}}
