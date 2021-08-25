@@ -41,7 +41,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
     // if any publication-channel is selected, website Flanders publication-channel must be automatically added
     if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.websiteFlandersBe)) {
-      selectedPublicationChannels.addObject(this.websiteFlandersBe)
+      selectedPublicationChannels.addObject(this.websiteFlandersBe);
     }
     this.args.onChange(selectedPublicationChannels);
   }

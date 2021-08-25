@@ -57,23 +57,25 @@ export default class PressReleaseSnapshot {
     this.pressRelease.themes = this.themes;
     this.pressRelease.sources = this.sources;
 
-    //destroys and record which is added but not saved
+    // Destroys attachments that are added without saving
     const attachments = await this.pressRelease.attachments;
     await Promise.all(
       attachments.map(async attachment => {
         const isNewlyAdded = !this.attachments.includes(attachment);
         if (isNewlyAdded) {
           return await attachment.destroyRecord();
+        } else {
+          return null;
         }
       })
     );
 
-    //Rollback on any attachments which are changed but not saved
+    // Rollback on every attachment that is marked for deletion without saving
     this.attachments.forEach(attachment => {
       if (attachment.hasDirtyAttributes) {
         attachment.rollbackAttributes();
       }
-    })
+    });
 
     this.pressRelease.attachments = this.attachments;
   }
@@ -86,14 +88,17 @@ export default class PressReleaseSnapshot {
       await publicationEvent.save();
     }
 
-    //deletes any files from the database which are in a deleted state but not actually deleted
+    // Destroys the attachments (incl. file on disk)
+    // for the attachments marked for deletion
     await Promise.all(
       this.attachments.map(async attachment => {
-        if (attachment.hasDirtyAttributes) {
+        if (attachment.isDeleted) {
           return await attachment.destroyRecord();
+        } else {
+          return null;
         }
       })
-    )
+    );
 
     const now = new Date();
     if (this.pressRelease.isNew) {
