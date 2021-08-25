@@ -6,19 +6,19 @@ import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesOverviewController extends Controller {
   @service store;
-  @service session;
+  @service currentSession;
 
   @tracked showNewPressReleaseModal = false;
 
   @task
   *createNewPressRelease(title) {
     const now = new Date();
-    const organization = yield this.session.currentSession.organization;
+    const creator = this.currentSession.organization;
     const pressRelease = this.store.createRecord('press-release', {
       title,
       created: now,
       modified: now,
-      creator: organization
+      creator
     });
     yield pressRelease.save();
     this.showNewPressReleaseModal = false;

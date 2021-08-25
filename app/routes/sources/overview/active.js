@@ -5,11 +5,11 @@ import CONFIG from '../../../config/constants';
 import { inject as service } from '@ember/service';
 
 export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRouteMixin) {
-  @service session;
+  @service currentSession;
   modelName = 'contact';
 
-  async beforeModel() {
-    this.creator = await this.session.currentSession.organization;
+  beforeModel() {
+    this.creator = this.currentSession.organization;
   }
 
   mergeQueryOptions(params){
