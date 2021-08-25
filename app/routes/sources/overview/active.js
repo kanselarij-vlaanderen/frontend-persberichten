@@ -2,9 +2,15 @@ import Route from '@ember/routing/route';
 // eslint-disable-next-line ember/no-mixins
 import DataTableRouteMixin from 'ember-data-table/mixins/route';
 import CONFIG from '../../../config/constants';
+import { inject as service } from '@ember/service';
 
 export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRouteMixin) {
+  @service currentSession;
   modelName = 'contact';
+
+  beforeModel() {
+    this.creator = this.currentSession.organization;
+  }
 
   mergeQueryOptions(params){
     const queryParams = {
@@ -13,6 +19,9 @@ export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRo
       filter: {
         'status': {
           ':uri:': CONFIG.CONTACT_STATUS.ACTIVE
+        },
+        'creator': {
+          ':uri:': this.creator.uri
         }
       },
     };
