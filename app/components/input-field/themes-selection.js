@@ -18,7 +18,10 @@ export default class InputFieldThemesSelectionComponent extends Component {
   *loadThemes() {
     this.themes = yield this.store.query('theme', {
       'page[size]': 100,
-      sort: 'label'
+      sort: 'label',
+      filter: {
+        'is-deprecated': false
+      }
     });
   }
 
