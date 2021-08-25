@@ -4,10 +4,10 @@ import CONFIG from '../../config/constants';
 import { inject as service } from '@ember/service';
 
 export default class SourcesNewRoute extends Route {
-  @service session;
+  @service currentSession;
 
   async model() {
-    const creator = await this.session.currentSession.organization;
+    const creator = this.currentSession.organization;
 
     const status = await this.store.findRecordByUri('contact-status', CONFIG.CONTACT_STATUS.ACTIVE);
     const telephone = this.store.createRecord('telephone', {creator});
