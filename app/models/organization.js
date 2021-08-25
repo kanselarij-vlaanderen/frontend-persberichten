@@ -3,6 +3,7 @@ import Model, { attr, hasMany } from '@ember-data/model';
 export default class OrganizationModel extends Model {
   @attr('string') uri;
   @attr('string') name;
+  @attr('string') shortName;
   @attr('string') identifier;
 
   @hasMany('contact', { inverse: 'organization' }) members;

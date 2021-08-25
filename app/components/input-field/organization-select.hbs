@@ -7,9 +7,9 @@
       @options={{this.organizations}}
       @selected={{@selected}}
       @searchEnabled={{true}}
-      @searchField="name"
+      @searchField="shortName"
       @onChange={{@onChange}} as |organization|>
-      {{organization.name}}
+      {{or organization.shortName organization.name}}
     </PowerSelect>
   {{/unless}}
 </div>

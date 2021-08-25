@@ -21,7 +21,7 @@ export default class InputFieldOrganizationSelectComponent extends Component {
   *loadOrganizations() {
     this.organizations = yield this.store.query('organization', {
       'page[size]': 100,
-      sort: 'name'
+      sort: 'short-name'
     });
   }
 }

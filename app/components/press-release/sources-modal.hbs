@@ -20,7 +20,7 @@
           @onInput={{perform this.debouncedSearch}}
           @searchField="fullName"
           as |source|>
-          {{source.fullName}}
+          {{source.fullName}} {{#if source.role}}({{source.role}}){{/if}}
         </PowerSelectMultiple>
       </div>
     </div>

@@ -19,7 +19,7 @@
               />
               <Utils::ThSortable
                 @label="Organisatie"
-                @field="organization.name"
+                @field="organization.shortName"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
@@ -47,7 +47,7 @@
                   {{row.role}}
                 </td>
                 <td>
-                  {{row.organization.name}}
+                  {{or row.organization.shortName row.organization.name}}
                 </td>
                 <td>
                   {{row.mailAddress.value}}
