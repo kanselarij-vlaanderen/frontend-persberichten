@@ -1,0 +1,99 @@
+{{page-title "New"}}
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" this.navigateBack}}
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Verzendlijsten
+        </div>
+        <h2 class="auk-toolbar__title">
+          Niuewe verzendlijst
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group>
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<div class="auk-u-m-8">
+  <Auk::ProgressBar @progress={{this.progress}}/>
+  <Auk::Toolbar @size="large">
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <h1 class="auk-h1">{{this.title}}</h1>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
+  <div>
+    {{#if (eq this.step 0)}}
+      <div class="auk-o-grid-col-6 auk-form-group">
+        <Auk::Label for="name">
+          Titel verzendlijst
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="name"
+          @block={{true}}
+          value={{this.model.name}}
+          {{on "input" (fn this.setInputValue this.model "name")}}
+        />
+      </div>
+    {{/if}}
+    {{#if (eq this.step 1)}}
+      <div class="auk-o-grid-col-6 auk-form-group">
+        <Auk::Label for="name">
+          Kies een input type
+        </Auk::Label>
+        <Auk::Radio
+          @name="inputType"
+          @label="CSV of tabel tekst bestand"
+          @sublabel="Importeer ontvangers van een .csv of .txt bestand"
+          @checked={{(not this.isManualInput)}}
+          {{on 'change' this.setInputType}}
+          />
+        <Auk::Radio
+          @name="inputType"
+          @label="Manuele input"
+          @sublabel="Geef de contact informatie per ontvanger manueel in"
+          @checked={{this.isManualInput}}
+          {{on 'change' this.setInputType}}
+          />
+
+      </div>
+    {{/if}}
+    <div class="auk-o-grid-col-6 auk-form-group">
+      {{#if (gt this.step 0)}}
+        <Auk::Button
+          @skin="muted"
+          @icon="chevron-left"
+          {{on 'click' this.previousStep}}>
+          Vorige stap
+        </Auk::Button>
+      {{/if}}
+      {{#if (lt this.step 2)}}
+        <Auk::Button
+          @skin="muted"
+          @icon="chevron-right"
+          @layout="icon-right"
+          {{on 'click' this.nextStep}}>
+          Volgende stap
+        </Auk::Button>
+      {{/if}}
+      {{#if (eq this.step 2)}}
+        <Auk::Button
+          @skin="primary">
+          Verzendlijst aanmaken
+        </Auk::Button>
+      {{/if}}
+    </div>
+  </div>
+
+</div>

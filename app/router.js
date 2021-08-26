@@ -34,6 +34,7 @@ Router.map(function () {
       this.route('mailing-lists', { path: 'verzendlijsten' });
       this.route('persons', { path: 'contactpersonen' });
     });
+    this.route('new');
   });
 
   this.route('login', { path: 'aanmelden' });
