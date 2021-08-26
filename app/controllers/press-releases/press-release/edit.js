@@ -3,9 +3,9 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
+import { isBlank } from '@ember/utils';
 
 export default class PressReleasesPressReleaseEditController extends Controller {
-
   @service router;
 
   @tracked showPublicationModal = false;
@@ -18,6 +18,12 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
   get pressRelease() {
     return this.snapshot.pressRelease;
+  }
+
+  get isPublishDisabled() {
+    return isBlank(this.pressRelease.title)
+      || isBlank(this.pressRelease.htmlContent)
+      || !this.pressRelease.publicationChannels.length;
   }
 
   transitionBack() {
