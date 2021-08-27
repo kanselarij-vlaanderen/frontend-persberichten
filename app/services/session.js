@@ -9,18 +9,18 @@ export default class ExtendedSessionService extends SessionService {
   async handleAuthentication() {
     try {
       await this.currentSession.load();
-    } catch (error) { // eslint-disable-line no-unused-vars
+    } catch (error) {
       this.invalidate();
     }
     super.handleAuthentication('index');
   }
 
   handleInvalidation() {
-    const logoutUrl = ENV.torii?.providers?.['acmidm-oauth2'].logoutUrl;
+    const logoutUrl = ENV.torii?.providers?.['acmidm-oauth2']?.logoutUrl;
     try {
       const url = new URL(logoutUrl);
       window.location.replace(url.toString());
-    } catch (error) { // eslint-disable-line no-unused-vars
+    } catch (error) {
       this.router.transitionTo('login');
     }
   }

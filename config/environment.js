@@ -22,6 +22,25 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
+
+    torii: {
+      disableRedirectInitializer: true,
+      providers: {
+        'acmidm-oauth2': {
+          apiKey: 'bd0483de-67e3-4ccf-8fcc-1aff6ff29675',
+          baseUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/auth',
+          redirectUri: 'https://VLIVIA-dev.vlaanderen.be/authorization/callback',
+          logoutUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/logout',
+          scope: [
+            'vo',
+            'profile',
+            'openid',
+            'phone',
+            'dkbuzavlivia'
+          ].join(' '),
+        }
+      }
+    }
   };
 
   if (environment === 'development') {
