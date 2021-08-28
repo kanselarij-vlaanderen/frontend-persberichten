@@ -89,7 +89,6 @@ export default class ContactsNewController extends Controller {
         contactList: this.model
       });
 
-
       if (contact.telephone) {
         const telephone = this.store.createRecord('telephone', {creator, value: contact.telephone});
         await telephone.save();

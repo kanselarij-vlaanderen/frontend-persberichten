@@ -12,7 +12,6 @@ export default class ContactItemModel extends Model {
   @hasMany('press-release') pressReleases;
   @hasMany('publication-event') publicationEvents;
 
-
   get fullName() {
     return [this.givenName, this.familyName].filter(s => s != null).join(' ');
   }
