@@ -1,0 +1,99 @@
+<Auk::Modal @size="small">
+  <Auk::Modal::Header
+    @title="Contactpersoon toevoegen"
+    @onClose={{@onCancel}}
+  />
+  <Auk::Modal::Body>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label for="givenName">
+          Voornaam
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="givenName"
+          @block={{true}}
+          value={{this.contact.givenName}}
+          {{on "input" (fn this.setInputValue "givenName")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="familyName">
+          Achternaam
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="familyName"
+          @block={{true}}
+          value={{this.contact.familyName}}
+          {{on "input" (fn this.setInputValue "familyName")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="mailAddress">
+          E-mailadres
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="mailAddress"
+          @block={{true}}
+          value={{this.contact.mailAddress}}
+          {{on "input" (fn this.setInputValue "mailAddress")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="telephone">
+          Telefoon
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="telephone"
+          @block={{true}}
+          value={{this.contact.telephone}}
+          {{on "input" (fn this.setInputValue "telephone")}}
+        />
+      </div>
+      <div class="auk-form-group">
+        <Auk::Label for="organizationName">
+          Organisatie
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="organizationName"
+          @block={{true}}
+          value={{this.contact.organizationName}}
+          {{on "input" (fn this.setInputValue "organizationName")}}
+        />
+      </div>
+    </div>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <div class="auk-o-flex auk-o-flex--horizontal-align">
+      {{#if @selectedContact}}
+        <Auk::Button
+          class="auk-u-mr"
+          @skin="danger-primary"
+          {{on "click" (fn @onDeleteContact this.contact)}}
+        >
+          Verwijderen
+        </Auk::Button>
+      {{/if}}
+      {{#if @selectedContact}}
+        <Auk::Button
+          @skin="primary"
+          {{on "click" (fn @onChangeContact this.contact)}}
+        >
+            Wijzigen
+        </Auk::Button>
+      {{else}}
+        <Auk::Button
+          @skin="primary"
+          @disabled={{this.isAddDisabled}}
+          {{on "click" (fn @onAddContact this.contact)}}
+        >
+          Contactpersoon toevoegen
+        </Auk::Button>
+      {{/if}}
+    </div>
+  </Auk::Modal::Footer>
+</Auk::Modal>

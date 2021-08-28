@@ -1,7 +1,6 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class ContactItemModel extends Model {
-  @attr('string') fullName;
   @attr('string') givenName;
   @attr('string') familyName;
   @attr('string') organizationName;
@@ -12,4 +11,9 @@ export default class ContactItemModel extends Model {
 
   @hasMany('press-release') pressReleases;
   @hasMany('publication-event') publicationEvents;
+
+
+  get fullName() {
+    return [this.givenName, this.familyName].filter(s => s != null).join(' ');
+  }
 }
