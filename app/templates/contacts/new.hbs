@@ -1,4 +1,4 @@
-{{page-title "New"}}
+{{page-title "Nieuwe verzendlijst"}}
 <Auk::Navbar @skin="gray-100" @size="large">
   <Auk::Toolbar>
     <Auk::Toolbar::Group  @position="left">
@@ -16,7 +16,7 @@
           Verzendlijsten
         </div>
         <h2 class="auk-toolbar__title">
-          Niuewe verzendlijst
+          Nieuwe verzendlijst
         </h2>
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group>
@@ -24,17 +24,17 @@
 </Auk::Navbar>
 
 <div class="auk-u-m-8">
-  <Auk::ProgressBar @progress={{this.progress}}/>
+  <Auk::ProgressBar @progress={{this.progress}} @disablePercentage={{true}}/>
   <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-        <h1 class="auk-h1">{{this.title}}</h1>
-        {{#if (and (eq this.step 2) this.isManualInput)}}
-              <Auk::Button
-                @skin="secondary"
-                @icon="add"
-                {{on 'click' this.openContactItemModal}}>
-                contactpersoon toevoegen
-              </Auk::Button>
-        {{/if}}
+    <h1 class="auk-h1">{{this.title}}</h1>
+    {{#if (and (eq this.step 2) this.isManualInput)}}
+      <Auk::Button
+        @skin="secondary"
+        @icon="add"
+        {{on "click" this.openContactItemModal}}>
+          Contactpersoon toevoegen
+      </Auk::Button>
+    {{/if}}
   </div>
   <div>
     {{#if (eq this.step 0)}}
@@ -56,64 +56,73 @@
         <Auk::Label for="name">
           Kies een input type
         </Auk::Label>
-        <Auk::Radio
-          @name="inputType"
-          @label="CSV of tabel tekst bestand"
-          @sublabel="Importeer ontvangers van een .csv of .txt bestand"
-          @checked={{(not this.isManualInput)}}
-          {{on 'change' this.setInputType}}
-          />
-        <Auk::Radio
-          @name="inputType"
-          @label="Manuele input"
-          @sublabel="Geef de contact informatie per ontvanger manueel in"
-          @checked={{this.isManualInput}}
-          {{on 'change' this.setInputType}}
-          />
+        <Auk::RadioList as |list|>
+          <list.Radio
+            @label="CSV of tabel tekst bestand"
+            @sublabel="Importeer ontvangers van een .csv of .txt bestand"
+            @checked={{(eq this.isManualInput "csv")}}
+            value="csv"
+            {{on "change" this.setInputType}}/>
+          <list.Radio
+            @label="Manuele input"
+            @sublabel="Geef de contact informatie per ontvanger manueel in"
+            @checked={{(eq this.isManualInput "manual")}}
+            value="manual"
+            {{on "change" this.setInputType}}/>
+        </Auk::RadioList>
       </div>
     {{/if}}
     {{#if (eq this.step 2)}}
-      <Contact::ContactItemTable
+      <Contact::ContactItem::ContactItemTable
         @onOpenContactItem={{this.openContactItem}}
         @model={{this.contacts}}
-        @noDataMessage="Er is nog geen contactpersoon toegevoegd."
+        @noDataMessage="Er zijn nog geen contactpersonen."
       />
+      {{#if showContactItemModal}}
+        <Contact::ContactItem::ContactItemModal
+          @contact={{this.selectedContact}}
+          @onCancel={{this.closeContactItemModal}}
+          @onAddContact={{this.addContact}}
+          @onChangeContact={{this.changeContact}}
+          @onDeleteContact={{this.deleteContact}}
+        />
+      {{/if}}
     {{/if}}
-    <div class="auk-o-grid-col-6 auk-form-group">
-      {{#if (gt this.step 0)}}
+    <div class="auk-o-grid-col-8 auk-form-group">
+      {{#if this.hasPrevious}}
         <Auk::Button
-          @skin="muted"
+          @skin="borderless"
           @icon="chevron-left"
-          {{on 'click' this.previousStep}}>
+          {{on "click" this.previousStep}}>
           Vorige stap
         </Auk::Button>
       {{/if}}
-      {{#if (lt this.step 2)}}
+      {{#if this.hasNext}}
         <Auk::Button
-          @skin="muted"
+          @skin="borderless"
           @icon="chevron-right"
           @layout="icon-right"
-          {{on 'click' this.nextStep}}>
-          Volgende stap
+          @disabled={{this.isDisabledNextStep}}
+          {{on "click" this.nextStep}}>
+            Volgende stap
         </Auk::Button>
       {{/if}}
-      {{#if (eq this.step 2)}}
+      {{#if this.isLast}}
         <Auk::Button
           @skin="primary"
           @disabled={{(not this.contacts.length)}}
-          {{on 'click' this.saveContactList}}>
+          @loading={{this.saveContactList.isRunning}}
+          {{on "click" (perform this.saveContactList)}}>
           Verzendlijst aanmaken
         </Auk::Button>
       {{/if}}
     </div>
   </div>
 </div>
-{{#if showContactItemModal}}
-  <Contact::ContactItemModal
-    @selectedContact={{this.selectedContact}}
-    @onCancel={{this.closeContactItemModal}}
-    @onAddContact={{this.addContact}}
-    @onChangeContact={{this.changeContact}}
-    @onDeleteContact={{this.deleteContact}}
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
   />
 {{/if}}

@@ -1,30 +1,51 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
 
 export default class ContactsNewController extends Controller {
-  @service currentSession;
+  TITLES_ARRAY = ['Basis informatie', 'Ontvangers', 'Contactgegevens'];
 
   @tracked step = 0;
-  @tracked isManualInput = true;
+  @tracked isManualInput = '';
   @tracked showContactItemModal = false;
+  @tracked showConfirmationModal = false;
   @tracked selectedContact;
 
   @tracked contacts = A([]);
 
+  get hasPrevious() {
+    return this.step > 0;
+  }
+
+  get hasNext() {
+    return this.step < this.TITLES_ARRAY.length - 1;
+  }
+
+  get isLast() {
+    return this.step === this.TITLES_ARRAY.length - 1;
+  }
+
   get title() {
-    return ['Basis informatie', 'Ontvangers', 'Contactgegevens'][this.step];
+    return this.TITLES_ARRAY[this.step];
   }
 
   get progress() {
-    return (this.step + 1) * 25;
+    return this.step * 100 / this.TITLES_ARRAY.length;
+  }
+
+  get isDisabledNextStep() {
+    if (this.step === 0) {
+      return !this.model.name;
+    } else if (this.step === 1) {
+      return !this.isManualInput;
+    }
   }
 
   @action
-  setInputType() {
-    this.isManualInput = !this.isManualInput;
+  setInputType(event) {
+    this.isManualInput = event.target.value;
   }
 
   @action
@@ -39,11 +60,19 @@ export default class ContactsNewController extends Controller {
   }
 
   @action
-  async navigateBack() {
-    await this.model.destroyRecord();
-    this.selectedContact = null;
-    this.contacts = A([]);
-    this.step = 0;
+  navigateBack() {
+    this.showConfirmationModal = true;
+  }
+
+  @action
+  cancelNavigationBack() {
+    this.showConfirmationModal = false;
+  }
+
+  @task
+  *confirmNavigationBack() {
+    yield this.model.destroyRecord();
+    this.showConfirmationModal = false;
     this.transitionToRoute('contacts.overview');
   }
 
@@ -77,38 +106,18 @@ export default class ContactsNewController extends Controller {
     this.showContactItemModal = false;
   }
 
-  @action
-  async saveContactList() {
-    const creator = this.currentSession.organization;
+  @task
+  *saveContactList() {
+    yield this.model.save();
 
-    this.contacts.map(async contact => {
-      const contactItem = this.store.createRecord('contact-item', {
-        givenName: contact.givenName,
-        familyName: contact.familyName,
-        organizationName: contact.organizationName,
-        contactList: this.model
-      });
-
-      if (contact.telephone) {
-        const telephone = this.store.createRecord('telephone', {creator, value: contact.telephone});
-        await telephone.save();
-        contactItem.telephone = telephone;
-      }
-
-      if (contact.mailAddress) {
-        const mailAddress = this.store.createRecord('mail-address', {creator, value: contact.mailAddress});
-        await mailAddress.save();
-        contactItem.mailAddress = mailAddress;
-      }
-
-      await contactItem.save();
-      this.model.contactItems.addObject(contactItem);
-    });
-    await this.model.save();
-
-    this.selectedContact = null;
-    this.contacts = A([]);
-    this.step = 0;
+    yield Promise.all(this.contacts.map(async contact => {
+      contact.contactList = this.model;
+      await Promise.all([
+        (await contact.telephone).save(),
+        (await contact.mailAddress).save()
+      ]);
+      return await contact.save();
+    }));
     this.transitionToRoute('contacts.overview');
   }
 

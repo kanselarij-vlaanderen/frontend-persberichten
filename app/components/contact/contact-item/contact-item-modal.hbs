@@ -15,6 +15,7 @@
           @block={{true}}
           value={{this.contact.givenName}}
           {{on "input" (fn this.setInputValue "givenName")}}
+          {{on "change" this.setFullName}}
         />
       </div>
       <div class="auk-form-group">
@@ -27,6 +28,7 @@
           @block={{true}}
           value={{this.contact.familyName}}
           {{on "input" (fn this.setInputValue "familyName")}}
+          {{on "change" this.setFullName}}
         />
       </div>
       <div class="auk-form-group">
@@ -37,8 +39,8 @@
           type="text"
           id="mailAddress"
           @block={{true}}
-          value={{this.contact.mailAddress}}
-          {{on "input" (fn this.setInputValue "mailAddress")}}
+          value={{this.contact.mailAddress.value}}
+          {{on "input" (fn this.setRelationInputValue "mailAddress")}}
         />
       </div>
       <div class="auk-form-group">
@@ -49,8 +51,8 @@
           type="text"
           id="telephone"
           @block={{true}}
-          value={{this.contact.telephone}}
-          {{on "input" (fn this.setInputValue "telephone")}}
+          value={{this.contact.telephone.value}}
+          {{on "input" (fn this.setRelationInputValue "telephone")}}
         />
       </div>
       <div class="auk-form-group">
@@ -69,7 +71,7 @@
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <div class="auk-o-flex auk-o-flex--horizontal-align">
-      {{#if @selectedContact}}
+      {{#if @contact}}
         <Auk::Button
           class="auk-u-mr"
           @skin="danger-primary"
@@ -78,7 +80,7 @@
           Verwijderen
         </Auk::Button>
       {{/if}}
-      {{#if @selectedContact}}
+      {{#if @contact}}
         <Auk::Button
           @skin="primary"
           {{on "click" (fn @onChangeContact this.contact)}}

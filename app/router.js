@@ -30,11 +30,11 @@ Router.map(function () {
   });
 
   this.route('contacts', { path: 'contacten' }, function() {
+    this.route('new', { path: 'nieuw'});
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('mailing-lists', { path: 'verzendlijsten' });
       this.route('persons', { path: 'contactpersonen' });
     });
-    this.route('new');
   });
 
   this.route('login', { path: 'aanmelden' });
