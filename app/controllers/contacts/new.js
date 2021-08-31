@@ -69,8 +69,13 @@ export default class ContactsNewController extends Controller {
   }
 
   @action
+  closeContactItemModalAndReset() {
+    this.rollbackContact();
+  }
+  @action
   closeContactItemModal() {
-    this.resetContact();
+    this.isNewContact = false;
+    this.selectedContact = null;
     this.showContactItemModal = false;
   }
 
@@ -99,8 +104,7 @@ export default class ContactsNewController extends Controller {
   @action
   addContact() {
     this.contacts.pushObject(this.selectedContact);
-    this.selectedContact = null;
-    this.showContactItemModal = false;
+    this.closeContactItemModal();
   }
 
   @action
@@ -114,16 +118,12 @@ export default class ContactsNewController extends Controller {
   @action
   deleteContact() {
     this.contacts.removeObject(this.selectedContact);
-    this.isNewContact = false;
-    this.selectedContact = null;
-    this.showContactItemModal = false;
+    this.closeContactItemModal();
   }
 
   @action
   changeContact() {
-    this.isNewContact = false;
-    this.selectedContact = null;
-    this.showContactItemModal = false;
+    this.closeContactItemModal();
   }
 
   async snapShotContact(contact) {
@@ -138,7 +138,7 @@ export default class ContactsNewController extends Controller {
     };
   }
 
-  async resetContact() {
+  async rollbackContact() {
     const telephone = await this.selectedContact.telephone;
     const mailAddress = await this.selectedContact.mailAddress;
 
@@ -147,8 +147,7 @@ export default class ContactsNewController extends Controller {
     this.selectedContact.organizationName = this.tempContact.organizationName;
     telephone.value = this.tempContact.telephone;
     mailAddress.value = this.tempContact.mailAddress;
-    this.tempContact = null;
-    this.selectedContact = null;
+    this.closeContactItemModal();
   }
 
   @task
