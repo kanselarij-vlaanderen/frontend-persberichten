@@ -73,13 +73,16 @@
       </div>
     {{/if}}
     {{#if (eq this.step 2)}}
-      <ContactItem::Table
-        @onOpenContactItem={{this.openContactItem}}
-        @model={{this.contacts}}
-        @noDataMessage="Er zijn nog geen contactpersonen."
-      />
+      {{#if (eq this.inputType "manual")}}
+        <ContactItem::Table
+          @onOpenContactItem={{this.openContactItem}}
+          @model={{this.contacts}}
+          @noDataMessage="Er zijn nog geen contactpersonen."
+        />
+      {{/if}}
       {{#if showContactItemModal}}
         <ContactItem::Modal
+          @isNewContact={{this.isNewContact}}
           @contact={{this.selectedContact}}
           @onCancel={{this.closeContactItemModal}}
           @onAddContact={{this.addContact}}

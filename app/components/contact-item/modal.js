@@ -32,19 +32,19 @@ export default class ContactItemModalComponent extends Component {
 
   @action
   setInputValue(attribute, event) {
-    this.contact[attribute] = event.target.value;
+    this.args.contact[attribute] = event.target.value;
   }
 
   @action
   async setRelationInputValue(attribute, event) {
-    (await this.contact[attribute]).value = event.target.value;
+    (await this.args.contact[attribute]).value = event.target.value;
   }
 
   @action
   setFullName() {
-    const fullName = [this.contact.givenName, this.contact.familyName]
+    const fullName = [this.args.contact.givenName, this.args.contact.familyName]
       .filter(n => !isBlank(n))
       .join(" ");
-    this.contact.fullName = fullName;
+    this.args.contact.fullName = fullName;
   }
 }

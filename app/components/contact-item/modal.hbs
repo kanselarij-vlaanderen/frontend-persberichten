@@ -71,7 +71,7 @@
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <div class="auk-o-flex auk-o-flex--horizontal-align">
-      {{#if @contact}}
+      {{#unless @isNewContact}}
         <Auk::Button
           class="auk-u-mr"
           @skin="danger-primary"
@@ -79,21 +79,21 @@
         >
           Verwijderen
         </Auk::Button>
-      {{/if}}
-      {{#if @contact}}
+      {{/unless}}
+      {{#if @isNewContact}}
+        <Auk::Button
+          @skin="primary"
+          @disabled={{this.isAddDisabled}}
+          {{on "click" (fn @onAddContact)}}
+        >
+          Contactpersoon toevoegen
+        </Auk::Button>
+      {{else}}
         <Auk::Button
           @skin="primary"
           {{on "click" (fn @onChangeContact)}}
         >
             Wijzigen
-        </Auk::Button>
-      {{else}}
-        <Auk::Button
-          @skin="primary"
-          @disabled={{this.isAddDisabled}}
-          {{on "click" (fn @onAddContact this.contact)}}
-        >
-          Contactpersoon toevoegen
         </Auk::Button>
       {{/if}}
     </div>

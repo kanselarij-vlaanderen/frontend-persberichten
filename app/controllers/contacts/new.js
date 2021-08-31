@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -8,11 +9,17 @@ import { isBlank } from '@ember/utils';
 export default class ContactsNewController extends Controller {
   TITLES_ARRAY = ['Basis informatie', 'Ontvangers', 'Contactgegevens'];
 
+  @service currentSession;
+  @service store;
+
   @tracked step = 0;
   @tracked inputType = '';
   @tracked showContactItemModal = false;
   @tracked showConfirmationModal = false;
+  @tracked isNewContact = true;
   @tracked selectedContact;
+
+  tempContact = {};
 
   @tracked contacts = A([]);
 
@@ -53,13 +60,17 @@ export default class ContactsNewController extends Controller {
 
   @action
   openContactItemModal() {
-    this.selectedContact = null;
+    const creator = this.currentSession.organization;
+    const telephone = this.store.createRecord('telephone', {creator});
+    const mailAddress = this.store.createRecord('mail-address', {creator});
+    this.selectedContact = this.store.createRecord('contact-item', {telephone, mailAddress});
+    this.isNewContact = true;
     this.showContactItemModal = true;
   }
 
   @action
   closeContactItemModal() {
-    this.selectedContact = null;
+    this.resetContact();
     this.showContactItemModal = false;
   }
 
@@ -86,26 +97,58 @@ export default class ContactsNewController extends Controller {
   }
 
   @action
-  addContact(contact) {
-    this.contacts.pushObject(contact);
-    this.closeContactItemModal();
+  addContact() {
+    this.contacts.pushObject(this.selectedContact);
+    this.selectedContact = null;
+    this.showContactItemModal = false;
   }
 
   @action
   openContactItem(contact) {
+    this.snapShotContact(contact);
     this.selectedContact = contact;
+    this.isNewContact = false;
     this.showContactItemModal = true;
   }
 
   @action
   deleteContact() {
     this.contacts.removeObject(this.selectedContact);
-    this.closeContactItemModal();
+    this.isNewContact = false;
+    this.selectedContact = null;
+    this.showContactItemModal = false;
   }
 
   @action
   changeContact() {
-    this.closeContactItemModal();
+    this.isNewContact = false;
+    this.selectedContact = null;
+    this.showContactItemModal = false;
+  }
+
+  async snapShotContact(contact) {
+    const telephone = (await contact.telephone).value;
+    const mailAddress = (await contact.mailAddress).value;
+    this.tempContact = {
+      givenName: contact.givenName,
+      familyName: contact.familyName,
+      organizationName: contact.organizationName,
+      telephone,
+      mailAddress
+    };
+  }
+
+  async resetContact() {
+    const telephone = await this.selectedContact.telephone;
+    const mailAddress = await this.selectedContact.mailAddress;
+
+    this.selectedContact.givenName = this.tempContact.givenName;
+    this.selectedContact.familyName = this.tempContact.familyName;
+    this.selectedContact.organizationName = this.tempContact.organizationName;
+    telephone.value = this.tempContact.telephone;
+    mailAddress.value = this.tempContact.mailAddress;
+    this.tempContact = null;
+    this.selectedContact = null;
   }
 
   @task
