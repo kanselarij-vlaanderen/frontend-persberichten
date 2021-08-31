@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isBlank } from '@ember/utils';
 
-export default class ContactContactItemModalComponent extends Component {
+export default class ContactItemModalComponent extends Component {
   @service currentSession;
   @service store;
 
@@ -23,11 +23,11 @@ export default class ContactContactItemModalComponent extends Component {
   }
 
   get isAddDisabled() {
-    return !this.contact.givenName &&
-           !this.contact.familyName &&
-           !this.contact.telephone &&
-           !this.contact.mailAddress &&
-           !this.contact.organizationName;
+    return isBlank(this.contact.givenName) &&
+           isBlank(this.contact.familyName) &&
+           isBlank(this.contact.telephone.get("value")) &&
+           isBlank(this.contact.mailAddress.get("value")) &&
+           isBlank(this.contact.organizationName);
   }
 
   @action

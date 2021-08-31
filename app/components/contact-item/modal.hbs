@@ -75,7 +75,7 @@
         <Auk::Button
           class="auk-u-mr"
           @skin="danger-primary"
-          {{on "click" (fn @onDeleteContact this.contact)}}
+          {{on "click" (fn @onDeleteContact)}}
         >
           Verwijderen
         </Auk::Button>
@@ -83,7 +83,7 @@
       {{#if @contact}}
         <Auk::Button
           @skin="primary"
-          {{on "click" (fn @onChangeContact this.contact)}}
+          {{on "click" (fn @onChangeContact)}}
         >
             Wijzigen
         </Auk::Button>

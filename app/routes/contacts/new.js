@@ -7,9 +7,9 @@ export default class ContactsNewRoute extends Route {
   }
 
   setupController(controller) {
-    super.setupController(...arguments)
+    super.setupController(...arguments);
     controller.step = 0;
-    controller.isManualInput = '';
+    controller.inputType = null;
     controller.selectedContact = null;
     controller.contacts = A([]);
   }

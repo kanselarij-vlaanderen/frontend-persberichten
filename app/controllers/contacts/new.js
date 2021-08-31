@@ -3,12 +3,13 @@ import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
+import { isBlank } from '@ember/utils';
 
 export default class ContactsNewController extends Controller {
   TITLES_ARRAY = ['Basis informatie', 'Ontvangers', 'Contactgegevens'];
 
   @tracked step = 0;
-  @tracked isManualInput = '';
+  @tracked inputType = '';
   @tracked showContactItemModal = false;
   @tracked showConfirmationModal = false;
   @tracked selectedContact;
@@ -37,15 +38,17 @@ export default class ContactsNewController extends Controller {
 
   get isDisabledNextStep() {
     if (this.step === 0) {
-      return !this.model.name;
+      return isBlank(this.model.name);
     } else if (this.step === 1) {
-      return !this.isManualInput;
+      return isBlank(this.inputType);
+    } else {
+      return false;
     }
   }
 
   @action
   setInputType(event) {
-    this.isManualInput = event.target.value;
+    this.inputType = event.target.value;
   }
 
   @action
@@ -56,6 +59,7 @@ export default class ContactsNewController extends Controller {
 
   @action
   closeContactItemModal() {
+    this.selectedContact = null;
     this.showContactItemModal = false;
   }
 
@@ -84,26 +88,24 @@ export default class ContactsNewController extends Controller {
   @action
   addContact(contact) {
     this.contacts.pushObject(contact);
-    this.showContactItemModal = false;
+    this.closeContactItemModal();
   }
 
   @action
-  openContactItem(index) {
-    this.selectedContact = this.contacts[index];
+  openContactItem(contact) {
+    this.selectedContact = contact;
     this.showContactItemModal = true;
   }
 
   @action
   deleteContact() {
     this.contacts.removeObject(this.selectedContact);
-    this.showContactItemModal = false;
+    this.closeContactItemModal();
   }
 
   @action
-  changeContact(contact) {
-    this.contacts.removeObject(this.selectedContact);
-    this.contacts.addObject(contact);
-    this.showContactItemModal = false;
+  changeContact() {
+    this.closeContactItemModal();
   }
 
   @task

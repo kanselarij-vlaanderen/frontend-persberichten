@@ -27,7 +27,7 @@
   <Auk::ProgressBar @progress={{this.progress}} @disablePercentage={{true}}/>
   <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
     <h1 class="auk-h1">{{this.title}}</h1>
-    {{#if (and (eq this.step 2) this.isManualInput)}}
+    {{#if (and (eq this.step 2) this.inputType)}}
       <Auk::Button
         @skin="secondary"
         @icon="add"
@@ -60,26 +60,26 @@
           <list.Radio
             @label="CSV of tabel tekst bestand"
             @sublabel="Importeer ontvangers van een .csv of .txt bestand"
-            @checked={{(eq this.isManualInput "csv")}}
+            @checked={{(eq this.inputType "csv")}}
             value="csv"
             {{on "change" this.setInputType}}/>
           <list.Radio
             @label="Manuele input"
             @sublabel="Geef de contact informatie per ontvanger manueel in"
-            @checked={{(eq this.isManualInput "manual")}}
+            @checked={{(eq this.inputType "manual")}}
             value="manual"
             {{on "change" this.setInputType}}/>
         </Auk::RadioList>
       </div>
     {{/if}}
     {{#if (eq this.step 2)}}
-      <Contact::ContactItem::ContactItemTable
+      <ContactItem::Table
         @onOpenContactItem={{this.openContactItem}}
         @model={{this.contacts}}
         @noDataMessage="Er zijn nog geen contactpersonen."
       />
       {{#if showContactItemModal}}
-        <Contact::ContactItem::ContactItemModal
+        <ContactItem::Modal
           @contact={{this.selectedContact}}
           @onCancel={{this.closeContactItemModal}}
           @onAddContact={{this.addContact}}
