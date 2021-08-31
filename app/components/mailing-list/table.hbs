@@ -1,0 +1,73 @@
+<div class="auk-scroll-wrapper">
+  <div class="auk-scroll-wrapper__body">
+    <div class="auk-u-my-4">
+      {{#if @model.length}}
+        <table class="auk-table">
+          <thead>
+            <tr>
+              <Utils::ThSortable
+                @label="Titel verzendlijst"
+                @field="name"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+              <Utils::ThSortable
+                @label="Laatst bewerkt"
+                @field="modified"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+            </tr>
+          </thead>
+          <tbody>
+            {{#each @model as |row|}}
+              <tr>
+                <td>
+                  {{row.name}}
+                </td>
+                <td>
+                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
+                  <span class="auk-u-text-small auk-u-muted">
+                    {{dayjs-format row.modified outputFormat="HH:mm"}}
+                  </span>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+
+        <Auk::Toolbar>
+          <Auk::Toolbar::Group  @position="left">
+            <Auk::Toolbar::Item>
+              <Auk::Pagination
+                @page={{@page}}
+                @size={{@size}}
+                @nbOfItems={{@model.length}}
+                @total={{@model.meta.count}}
+                @onNextPage={{@onNextPage}}
+                @onPreviousPage={{@onPreviousPage}}
+              />
+            </Auk::Toolbar::Item>
+          </Auk::Toolbar::Group >
+          <Auk::Toolbar::Group  @position="right">
+            <Auk::Toolbar::Item>
+              Verzendlijsten per pagina
+            </Auk::Toolbar::Item>
+            <Auk::Toolbar::Item>
+              <WebComponents::AuPageSize
+                @selectedSize={{@size}}
+                @onChange={{@onPageSizeChange}}
+              />
+            </Auk::Toolbar::Item>
+          </Auk::Toolbar::Group >
+        </Auk::Toolbar>
+      {{else}}
+        <Auk::Panel>
+          <Auk::Panel::Body>
+            <Auk::EmptyState @message={{@noDataMessage}} />
+          </Auk::Panel::Body>
+        </Auk::Panel>
+      {{/if}}
+    </div>
+  </div>
+</div>
