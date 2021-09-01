@@ -7,5 +7,4 @@ export default class CollaborationActivityModel extends Model {
   @belongsTo('press-release') pressRelease;
 
   @hasMany('organization', { inverse: 'collaborations' }) collaborators;
-  @hasMany('token-claim') tokenClaims;
 }
