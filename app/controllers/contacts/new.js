@@ -109,7 +109,7 @@ export default class ContactsNewController extends Controller {
 
   @action
   openContactItem(contact) {
-    this.snapShotContact(contact);
+    this.snapshotContact(contact);
     this.selectedContact = contact;
     this.isNewContact = false;
     this.showContactItemModal = true;
@@ -126,7 +126,13 @@ export default class ContactsNewController extends Controller {
     this.closeContactItemModal();
   }
 
-  async snapShotContact(contact) {
+  /**
+     Generating a snapshot of the contact record in order to be able
+     to rollback the changes in case the user discards edits on a new contact-item.
+     Regular rollbackAttributes() doesn't work on new ember-data records:
+     it will rollback all attributes to the blank state instead of to the previous value.
+  */
+  async snapshotContact(contact) {
     const telephone = (await contact.telephone).value;
     const mailAddress = (await contact.mailAddress).value;
     this.tempContact = {
