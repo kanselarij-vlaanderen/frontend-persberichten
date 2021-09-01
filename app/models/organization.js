@@ -13,4 +13,6 @@ export default class OrganizationModel extends Model {
   @hasMany('press-release') pressReleases;
   @hasMany('collaboration-activity', { inverse: 'collaborators' }) collaborations;
   @hasMany('collaboration-activity', { inverse: 'editor' }) editorCollaborations;
+  @hasMany('approval-activity', { inverse: 'collaborator' }) approvalActivities;
+  @hasMany('press-release-activity') pressReleaseActivities;
 }
