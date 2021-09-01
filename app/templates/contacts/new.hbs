@@ -27,7 +27,7 @@
   <Auk::ProgressBar @progress={{this.progress}} @disablePercentage={{true}}/>
   <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
     <h1 class="auk-h1">{{this.title}}</h1>
-    {{#if (and (eq this.step 2) this.inputType)}}
+    {{#if (and (eq this.step 2) (eq this.inputType "manual"))}}
       <Auk::Button
         @skin="secondary"
         @icon="add"
@@ -80,7 +80,7 @@
           @noDataMessage="Er zijn nog geen contactpersonen."
         />
       {{/if}}
-      {{#if showContactItemModal}}
+      {{#if this.showContactItemModal}}
         <ContactItem::Modal
           @isNewContact={{this.isNewContact}}
           @contact={{this.selectedContact}}

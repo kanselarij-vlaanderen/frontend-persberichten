@@ -12,8 +12,8 @@ export default class ContactsNewController extends Controller {
   @service currentSession;
   @service store;
 
-  @tracked step = 0;
-  @tracked inputType = '';
+  @tracked step;
+  @tracked inputType;
   @tracked showContactItemModal = false;
   @tracked showConfirmationModal = false;
   @tracked isNewContact = true;
@@ -21,7 +21,7 @@ export default class ContactsNewController extends Controller {
 
   tempContact = {};
 
-  @tracked contacts = A([]);
+  @tracked contacts;
 
   get hasPrevious() {
     return this.step > 0;
@@ -72,6 +72,7 @@ export default class ContactsNewController extends Controller {
   closeContactItemModalAndReset() {
     this.rollbackContact();
   }
+
   @action
   closeContactItemModal() {
     this.isNewContact = false;
@@ -152,6 +153,7 @@ export default class ContactsNewController extends Controller {
 
   @task
   *saveContactList() {
+    this.model.modified = new Date();
     yield this.model.save();
 
     yield Promise.all(this.contacts.map(async contact => {

@@ -13,7 +13,7 @@
           type="text"
           id="givenName"
           @block={{true}}
-          value={{this.contact.givenName}}
+          value={{@contact.givenName}}
           {{on "input" (fn this.setInputValue "givenName")}}
           {{on "change" this.setFullName}}
         />
@@ -26,7 +26,7 @@
           type="text"
           id="familyName"
           @block={{true}}
-          value={{this.contact.familyName}}
+          value={{@contact.familyName}}
           {{on "input" (fn this.setInputValue "familyName")}}
           {{on "change" this.setFullName}}
         />
@@ -39,7 +39,7 @@
           type="text"
           id="mailAddress"
           @block={{true}}
-          value={{this.contact.mailAddress.value}}
+          value={{@contact.mailAddress.value}}
           {{on "input" (fn this.setRelationInputValue "mailAddress")}}
         />
       </div>
@@ -51,7 +51,7 @@
           type="text"
           id="telephone"
           @block={{true}}
-          value={{this.contact.telephone.value}}
+          value={{@contact.telephone.value}}
           {{on "input" (fn this.setRelationInputValue "telephone")}}
         />
       </div>
@@ -63,7 +63,7 @@
           type="text"
           id="organizationName"
           @block={{true}}
-          value={{this.contact.organizationName}}
+          value={{@contact.organizationName}}
           {{on "input" (fn this.setInputValue "organizationName")}}
         />
       </div>
