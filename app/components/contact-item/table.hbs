@@ -1,0 +1,61 @@
+<div class="auk-scroll-wrapper">
+  <div class="auk-scroll-wrapper__body">
+    <div class="auk-u-my-4">
+      {{#if @model.length}}
+        <table class="auk-table">
+          <thead>
+            <tr>
+              <th>
+                Naam contactpersoon
+              </th>
+              <th>
+                E-mailadres
+              </th>
+              <th>
+                Telefoonnummer
+              </th>
+              <th>
+                Organisatie
+              </th>
+              <th>
+                {{!-- remove contact --}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each (sort-by "givenName" @model) as |row|}}
+              <tr>
+                <td class="auk-u-text-nowrap">
+                  {{row.givenName}} {{row.familyName}}
+                </td>
+                <td>
+                  {{row.mailAddress.value}}
+                </td>
+                <td>
+                  {{row.telephone.value}}
+                </td>
+                <td>
+                  {{row.organizationName}}
+                </td>
+                <td>
+                  <Auk::Button
+                    @layout="icon-only"
+                    @icon="chevron-right"
+                    @skin="borderless"
+                    {{on "click" (fn @onOpenContactItem row)}}
+                  />
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <Auk::Panel>
+          <Auk::Panel::Body>
+            <Auk::EmptyState @message={{@noDataMessage}} />
+          </Auk::Panel::Body>
+        </Auk::Panel>
+      {{/if}}
+    </div>
+  </div>
+</div>
