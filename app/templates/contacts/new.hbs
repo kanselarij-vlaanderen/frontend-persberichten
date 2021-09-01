@@ -60,13 +60,13 @@
           <list.Radio
             @label="CSV of tabel tekst bestand"
             @sublabel="Importeer ontvangers van een .csv of .txt bestand"
-            @checked={{(eq this.inputType "csv")}}
+            @checked={{eq this.inputType "csv"}}
             value="csv"
             {{on "change" this.setInputType}}/>
           <list.Radio
             @label="Manuele input"
             @sublabel="Geef de contact informatie per ontvanger manueel in"
-            @checked={{(eq this.inputType "manual")}}
+            @checked={{eq this.inputType "manual"}}
             value="manual"
             {{on "change" this.setInputType}}/>
         </Auk::RadioList>
@@ -113,7 +113,7 @@
       {{#if this.isLast}}
         <Auk::Button
           @skin="primary"
-          @disabled={{(not this.contacts.length)}}
+          @disabled={{not this.contacts.length}}
           @loading={{this.saveContactList.isRunning}}
           {{on "click" (perform this.saveContactList)}}>
           Verzendlijst aanmaken

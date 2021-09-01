@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#each (sort-by "givenName" @model) as |row index|}}
+            {{#each (sort-by "givenName" @model) as |row|}}
               <tr>
                 <td class="auk-u-text-nowrap">
                   {{row.givenName}} {{row.familyName}}
