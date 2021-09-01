@@ -96,6 +96,10 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
     yield publicationEvent.save();
 
+    if (publicationDate < new Date()) { // press-release is published immediately
+      this.transitionToRoute('press-releases.press-release.published', this.snapshot.pressRelease.id);
+    }
+
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
 
