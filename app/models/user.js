@@ -6,7 +6,7 @@ export default class UserModel extends Model {
 
   @belongsTo('account') account;
   @belongsTo('user-group') group;
-  @hasMany('press-release-activity', { inverse: 'creator' }) pressReleaseActivities;
+  @hasMany('press-release-activity') pressReleaseActivities;
 
   get fullName() {
     return [this.firstName, this.familyName].filter(s => s != null).join(' ');
