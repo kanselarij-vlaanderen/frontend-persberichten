@@ -11,7 +11,7 @@ export default class PressReleaseFormComponent extends Component {
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
   @tracked showContactListModal = false;
-  @tracked mailingList;
+  @tracked mailingListPublicationChannel;
 
   constructor() {
     super(...arguments);
@@ -20,7 +20,7 @@ export default class PressReleaseFormComponent extends Component {
 
   @task
   *loadMailingListPublicationChannel() {
-    this.mailingList = yield this.store.findRecordByUri(
+    this.mailingListPublicationChannel = yield this.store.findRecordByUri(
       'publication-channel',
       CONFIG.PUBLICATION_CHANNEL.MAILING_LIST
     );
@@ -79,7 +79,7 @@ export default class PressReleaseFormComponent extends Component {
     const contactLists = await this.args.pressRelease.contactLists;
     const publicationChannels = await this.args.pressRelease.publicationChannels;
     contactLists.pushObjects(newContactLists);
-    publicationChannels.pushObject(this.mailingList);
+    publicationChannels.pushObject(this.mailingListPublicationChannel);
     this.showContactListModal = false;
   }
 
@@ -89,7 +89,7 @@ export default class PressReleaseFormComponent extends Component {
     contactLists.removeObject(contactList);
     if (contactLists.length === 0) {
       const publicationChannels = await this.args.pressRelease.publicationChannels;
-      publicationChannels.removeObject(this.mailingList);
+      publicationChannels.removeObject(this.mailingListPublicationChannel);
     }
   }
 
@@ -105,7 +105,7 @@ export default class PressReleaseFormComponent extends Component {
     const attachments = await this.args.pressRelease.attachments;
     attachments.removeObject(attachment);
     attachment.deleteRecord();
-    //we don't destroy the record to make sure a rollback is possible
+    // we don't destroy the record to make sure a rollback is possible
   }
 
   @action
