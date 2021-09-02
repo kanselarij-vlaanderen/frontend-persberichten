@@ -1,0 +1,37 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Verzendlijsten toevoegen"
+    @onClose={{@onCancel}}
+  />
+  <Auk::Modal::Body>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label for="publication-date">
+          Verzendlijsten
+        </Auk::Label>
+        <PowerSelectMultiple
+          @options={{this.contactLists}}
+          @selected={{this.selectedContactList}}
+          @noMatchesMessage="Geen resultaten gevonden"
+          @placeholder="Verzendlijsten zoeken"
+          @onChange={{this.selectContactList}}
+          @allowClear={{true}}
+          @searchEnabled={{true}}
+          @onInput={{perform this.debouncedSearch}}
+          @searchField="name"
+          as |contactList|>
+          {{contactList.name}}
+        </PowerSelectMultiple>
+      </div>
+    </div>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @disabled={{not this.selectedContactList}}
+      {{on "click" (fn @onAddContactLists this.selectedContactList)}}
+    >
+      Toevoegen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

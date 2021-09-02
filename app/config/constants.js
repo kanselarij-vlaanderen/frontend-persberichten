@@ -8,6 +8,8 @@ export default {
   },
   PUBLICATION_CHANNEL: {
     MAILING_LIST: 'http://themis.vlaanderen.be/id/publicatiekanaal/c184f026-feaa-4899-ba06-fd3a03df599c',
-    WEBSITE_FLANDERS_BE: 'http://themis.vlaanderen.be/id/publicatiekanaal/25421c3d-9d3c-4378-91e5-a13103ad3e43'
+    WEBSITE_FLANDERS_BE: 'http://themis.vlaanderen.be/id/publicatiekanaal/25421c3d-9d3c-4378-91e5-a13103ad3e43',
+    SUBSCRIPBERS_FLANDERS_BE :'http://themis.vlaanderen.be/id/publicatiekanaal/c06c30f5-d9e9-490e-822c-43faa9d0b25e',
+    BELGA: 'http://themis.vlaanderen.be/id/publicatiekanaal/04a5d121-c991-493c-b645-b0c67cc53cf6'
   }
 };

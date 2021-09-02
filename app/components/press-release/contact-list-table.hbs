@@ -6,41 +6,23 @@
           <thead>
             <tr>
               <th>
-                Naam
-              </th>
-              <th>
-                Functie
-              </th>
-              <th>
-                Organisatie
-              </th>
-              <th>
-                E-mailadres
+                Naam verzendlijst
               </th>
               <th class="auk-u-text-nowrap">
                 Laatst bewerkt
               </th>
               {{#unless @disabled}}
                 <th>
-                  {{!-- remove source --}}
+                  {{!-- remove contactlist --}}
                 </th>
               {{/unless}}
             </tr>
           </thead>
           <tbody>
-            {{#each (sort-by "fullName" @model) as |row|}}
+            {{#each (sort-by "name" @model) as |row|}}
               <tr>
                 <td class="auk-u-text-nowrap">
-                  {{row.fullName}}
-                </td>
-                <td>
-                  {{row.role}}
-                </td>
-                <td>
-                  {{or row.organization.shortName row.organization.name}}
-                </td>
-                <td>
-                  {{row.mailAddress.value}}
+                  {{row.name}}
                 </td>
                 <td class="auk-u-text-nowrap">
                   {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
@@ -54,7 +36,7 @@
                       @layout="icon-only"
                       @icon="delete"
                       @skin="danger-borderless"
-                      {{on "click" (fn @onRemoveSource row)}}
+                      {{on "click" (fn @onRemoveContactList row)}}
                     />
                   </td>
                 {{/unless}}

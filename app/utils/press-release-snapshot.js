@@ -8,7 +8,7 @@ function serializeRelation(relations) {
  * Snapshot of a PressRelease (Pers bericht) record and related records to keep track of changes,
  * because ember-data lacks dirty tracking for relationships and attributes of type 'array'.
  *
- * Tracks relationship publicationChannels, governmentFields, sources, themes and attachments, to be able to find any changes, and detect those in the isDirty check.
+ * Tracks relationship publicationChannels, governmentFields, sources, themes, attachments and contactLists, to be able to find any changes, and detect those in the isDirty check.
  *
  * Contains application-specific logic to track the dirty state of relationships.
  * If the model of a PressRelease changes in the future, this class will probably require an update as well.
@@ -20,11 +20,11 @@ export default class PressReleaseSnapshot {
   @tracked themes = [];
   @tracked sources = [];
   @tracked attachments = [];
+  @tracked contactLists = [];
 
   constructor(pressRelease) {
     this.pressRelease = pressRelease;
   }
-
 
   async commit() {
     this.publicationChannels = (await this.pressRelease.publicationChannels).slice(0);
@@ -32,6 +32,7 @@ export default class PressReleaseSnapshot {
     this.themes = (await this.pressRelease.themes).slice(0);
     this.sources = (await this.pressRelease.sources).slice(0);
     this.attachments = (await this.pressRelease.attachments).slice(0);
+    this.contactLists = (await this.pressRelease.contactLists).slice(0);
   }
 
   /**
@@ -44,7 +45,8 @@ export default class PressReleaseSnapshot {
       || serializeRelation(this.governmentFields) !== serializeRelation(await this.pressRelease.governmentFields)
       || serializeRelation(this.themes) !== serializeRelation(await this.pressRelease.themes)
       || serializeRelation(this.sources) !== serializeRelation(await this.pressRelease.sources)
-      || serializeRelation(this.attachments) !== serializeRelation(await this.pressRelease.attachments);
+      || serializeRelation(this.attachments) !== serializeRelation(await this.pressRelease.attachments)
+      || serializeRelation(this.contactLists) !== serializeRelation(await this.pressRelease.contactLists);
   }
 
   /**
@@ -56,6 +58,7 @@ export default class PressReleaseSnapshot {
     this.pressRelease.governmentFields = this.governmentFields;
     this.pressRelease.themes = this.themes;
     this.pressRelease.sources = this.sources;
+    this.pressRelease.contactLists = this.contactLists;
 
     // Destroys attachments that are added without saving
     const attachments = await this.pressRelease.attachments;
@@ -82,9 +85,13 @@ export default class PressReleaseSnapshot {
 
   async save() {
     const publicationChannels = await this.pressRelease.publicationChannels;
+    const contactLists = await this.pressRelease.contactLists;
     const publicationEvent = await this.pressRelease.publicationEvent;
     if (publicationEvent) {
       publicationEvent.publicationChannels = publicationChannels;
+      if (contactLists) {
+        publicationEvent.contactLists = contactLists;
+      }
       await publicationEvent.save();
     }
 

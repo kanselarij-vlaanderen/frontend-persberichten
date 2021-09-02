@@ -10,6 +10,8 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @tracked publicationChannels = [];
   @tracked websiteFlandersBe;
+  @tracked subscribersFlandersBe;
+  @tracked belga;
 
   constructor() {
     super(...arguments);
@@ -22,7 +24,8 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
       'page[size]': 100,
       sort: 'name'
     });
-
+    this.belga = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.BELGA);
+    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIPBERS_FLANDERS_BE);
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
@@ -40,7 +43,8 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     }
 
     // if any publication-channel is selected, website Flanders publication-channel must be automatically added
-    if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.websiteFlandersBe)) {
+    if ((selectedPublicationChannels.includes(this.belga) || selectedPublicationChannels.includes(this.subscribersFlandersBe))
+        && !selectedPublicationChannels.includes(this.websiteFlandersBe)) {
       selectedPublicationChannels.addObject(this.websiteFlandersBe);
     }
     this.args.onChange(selectedPublicationChannels);
@@ -50,6 +54,8 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     const selectedPublicationChannels = this.args.publicationChannels;
 
     // checks if websiteFlandersBe AND any other channel is selected, to be able to disable checkbox
-    return (selectedPublicationChannels.length > 1 && selectedPublicationChannels.includes(this.websiteFlandersBe));
+    return (selectedPublicationChannels.length > 1
+            && selectedPublicationChannels.includes(this.websiteFlandersBe)
+            && (selectedPublicationChannels.includes(this.belga) || selectedPublicationChannels.includes(this.subscribersFlandersBe)));
   }
 }
