@@ -158,7 +158,9 @@ export default class ContactsNewController extends Controller {
 
   @task
   *saveContactList() {
-    this.model.modified = new Date();
+    const newDate = new Date();
+    this.model.created = newDate;
+    this.model.modified = newDate;
     yield this.model.save();
 
     yield Promise.all(this.contacts.map(async contact => {
@@ -167,6 +169,9 @@ export default class ContactsNewController extends Controller {
         (await contact.telephone).save(),
         (await contact.mailAddress).save()
       ]);
+
+      contact.created = newDate;
+      contact.modified = newDate;
       return await contact.save();
     }));
     this.transitionToRoute('contacts.overview');

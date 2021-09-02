@@ -4,12 +4,4 @@ import DataTableRouteMixin from 'ember-data-table/mixins/route';
 
 export default class ContactsOverviewMailingListsRoute extends Route.extend(DataTableRouteMixin) {
   modelName = 'contact-list';
-
-  mergeQueryOptions(params) {
-    const queryParams = {
-      sort: params.sort
-    };
-
-    return queryParams;
-  }
 }
