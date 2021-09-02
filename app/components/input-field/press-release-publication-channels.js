@@ -20,16 +20,17 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @task
   *loadPublicationChannelsAndInit() {
-    let publicationChannels = yield this.store.query('publication-channel', {
+    const publicationChannels = yield this.store.query('publication-channel', {
       'page[size]': 100,
       sort: 'name'
     });
-    this.belga = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.BELGA);
-    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIBERS_FLANDERS_BE);
-    this.publicationChannels = publicationChannels.filter(publicationChannel => {
-      return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
-    });
-    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.WEBSITE_FLANDERS_BE);
+
+    const { BELGA, SUBSCRIBERS_FLANDERS_BE, WEBSITE_FLANDERS_BE, MAILING_LIST } = CONFIG.PUBLICATION_CHANNEL;
+    this.belga = publicationChannels.find(channel => channel.uri === BELGA);
+    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === SUBSCRIBERS_FLANDERS_BE);
+    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === WEBSITE_FLANDERS_BE);
+
+    this.publicationChannels = publicationChannels.filter(channel => channel.uri !== MAILING_LIST);
   }
 
   @action
