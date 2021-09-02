@@ -84,14 +84,10 @@ export default class PressReleaseSnapshot {
   }
 
   async save() {
-    const publicationChannels = await this.pressRelease.publicationChannels;
-    const contactLists = await this.pressRelease.contactLists;
     const publicationEvent = await this.pressRelease.publicationEvent;
     if (publicationEvent) {
-      publicationEvent.publicationChannels = publicationChannels;
-      if (contactLists) {
-        publicationEvent.contactLists = contactLists;
-      }
+      publicationEvent.publicationChannels = await this.pressRelease.publicationChannels;
+      publicationEvent.contactLists = await this.pressRelease.contactLists;
       await publicationEvent.save();
     }
 
