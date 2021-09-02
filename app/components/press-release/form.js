@@ -20,11 +20,10 @@ export default class PressReleaseFormComponent extends Component {
 
   @task
   *loadMailingListPublicationChannel() {
-    let publicationChannels = yield this.store.query('publication-channel', {
-      'page[size]': 100,
-      sort: 'name'
-    });
-    this.mailingList = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.MAILING_LIST);
+    this.mailingList = yield this.store.findRecordByUri(
+      'publication-channel',
+      CONFIG.PUBLICATION_CHANNEL.MAILING_LIST
+    );
   }
 
   @action
