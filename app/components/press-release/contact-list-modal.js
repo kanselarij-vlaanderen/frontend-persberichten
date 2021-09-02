@@ -22,7 +22,7 @@ export default class PressReleaseContactListModalComponent extends Component {
     const filter = {};
 
     if (searchText) {
-      filter['full-name'] = searchText;
+      filter['name'] = searchText;
     }
 
     this.contactLists = yield this.store.query('contact-list', {
