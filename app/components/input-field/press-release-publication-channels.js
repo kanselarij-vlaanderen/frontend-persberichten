@@ -25,7 +25,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
       sort: 'name'
     });
     this.belga = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.BELGA);
-    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIPBERS_FLANDERS_BE);
+    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.SUBSCRIBERS_FLANDERS_BE);
     this.publicationChannels = publicationChannels.filter(publicationChannel => {
       return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
     });
