@@ -10,6 +10,8 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @tracked publicationChannels = [];
   @tracked websiteFlandersBe;
+  @tracked subscribersFlandersBe;
+  @tracked belga;
 
   constructor() {
     super(...arguments);
@@ -18,38 +20,43 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
 
   @task
   *loadPublicationChannelsAndInit() {
-    let publicationChannels = yield this.store.query('publication-channel', {
+    const publicationChannels = yield this.store.query('publication-channel', {
       'page[size]': 100,
       sort: 'name'
     });
 
-    this.publicationChannels = publicationChannels.filter(publicationChannel => {
-      return publicationChannel.uri !== CONFIG.PUBLICATION_CHANNEL.MAILING_LIST;
-    });
-    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === CONFIG.PUBLICATION_CHANNEL.WEBSITE_FLANDERS_BE);
+    const { BELGA, SUBSCRIBERS_FLANDERS_BE, WEBSITE_FLANDERS_BE, MAILING_LIST } = CONFIG.PUBLICATION_CHANNEL;
+    this.belga = publicationChannels.find(channel => channel.uri === BELGA);
+    this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === SUBSCRIBERS_FLANDERS_BE);
+    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === WEBSITE_FLANDERS_BE);
+
+    this.publicationChannels = publicationChannels.filter(channel => channel.uri !== MAILING_LIST);
   }
 
   @action
   updateSelectedPublicationChannels(publicationChannel) {
-    const selectedPublicationChannels = this.args.publicationChannels.slice(0);
-    const index = selectedPublicationChannels.indexOf(publicationChannel);
+    const selection = this.args.publicationChannels.slice(0);
+    const index = selection.indexOf(publicationChannel);
     if (index > -1) {
-      selectedPublicationChannels.removeObject(publicationChannel);
+      selection.removeObject(publicationChannel);
     } else {
-      selectedPublicationChannels.addObject(publicationChannel);
+      selection.addObject(publicationChannel);
     }
 
-    // if any publication-channel is selected, website Flanders publication-channel must be automatically added
-    if (selectedPublicationChannels.length && !selectedPublicationChannels.includes(this.websiteFlandersBe)) {
-      selectedPublicationChannels.addObject(this.websiteFlandersBe);
+    // if Belga or Subscribers Flanders is selected, Website Flanders must be automatically added
+    if ((selection.includes(this.belga) || selection.includes(this.subscribersFlandersBe))
+        && !selection.includes(this.websiteFlandersBe)) {
+      selection.addObject(this.websiteFlandersBe);
     }
-    this.args.onChange(selectedPublicationChannels);
+
+    this.args.onChange(selection);
   }
 
+  // Checks whether one of Belga or Subscribers Flanders is selected together with Website Flanders.
+  // In that case Website Flanders publication channel might not be deselected.
   get isDisabledWebsiteFlandersBeChannel() {
-    const selectedPublicationChannels = this.args.publicationChannels;
-
-    // checks if websiteFlandersBe AND any other channel is selected, to be able to disable checkbox
-    return (selectedPublicationChannels.length > 1 && selectedPublicationChannels.includes(this.websiteFlandersBe));
+    const selection = this.args.publicationChannels;
+    return (selection.includes(this.belga) || selection.includes(this.subscribersFlandersBe))
+      && selection.includes(this.websiteFlandersBe);
   }
 }

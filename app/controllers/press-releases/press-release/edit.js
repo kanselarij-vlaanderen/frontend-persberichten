@@ -81,17 +81,20 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
     let publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     const publicationChannels = (yield this.pressRelease.publicationChannels).slice(0);
+    const contactLists = (yield this.pressRelease.contactLists).slice(0);
 
 
     if (!publicationEvent) {
       publicationEvent = this.store.createRecord('publication-event', {
         plannedStartDate: publicationDate,
         pressRelease: this.snapshot.pressRelease,
-        publicationChannels: publicationChannels
+        publicationChannels: publicationChannels,
+        contactLists: contactLists
       });
     } else {
       publicationEvent.plannedStartDate = publicationDate;
       publicationEvent.publicationChannels = publicationChannels;
+      publicationEvent.contactLists = contactLists;
     }
 
     yield publicationEvent.save();
