@@ -85,9 +85,18 @@
         </Auk::Label>
         <ul class="auk-o-grid-col-9">
           {{#each @pressRelease.attachments as |attachment|}}
-            <li>
-              <Utils::FileTypePill @extension={{attachment.extension}}/> {{attachment.name}}
-            </li>
+            <div class="auk-o-flex auk-o-flex--align-baseline">
+              <li>
+                <Utils::FileTypePill @extension={{attachment.extension}}/> {{attachment.name}}
+              </li>
+              <Auk::Button
+                @layout="icon-only"
+                @icon="download"
+                @skin="borderless"
+                @href={{attachment.namedDownloadLink}}
+                download={{attachment.name}}
+              />
+            </div>
           {{/each}}
         </ul>
       </div>
