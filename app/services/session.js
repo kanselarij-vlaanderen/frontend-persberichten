@@ -16,12 +16,16 @@ export default class ExtendedSessionService extends SessionService {
   }
 
   handleInvalidation() {
-    const logoutUrl = ENV.torii?.providers?.['acmidm-oauth2']?.logoutUrl;
     try {
+      const config = ENV.torii?.providers?.['acmidm-oauth2'];
+      const logoutUrl = `${config.logoutUrl}?cliend_id=${config.clientId}&post_logout_redirect_uri=${encodeURIComponent(config.returnUrl)}`;
       const url = new URL(logoutUrl);
       window.location.replace(url.toString());
     } catch (error) {
-      this.router.transitionTo('login');
+      if (ENV.environment == 'development')
+        this.router.transitionTo('mock-login');
+      else
+        this.router.transitionTo('login');
     }
   }
 }

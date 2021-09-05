@@ -31,11 +31,13 @@ module.exports = function (environment) {
           baseUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/auth',
           redirectUri: 'https://VLIVIA-dev.vlaanderen.be/authorization/callback',
           logoutUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/logout',
+          returnUrl: 'https://VLIVIA-dev.vlaanderen.be',
           scope: [
             'vo',
             'profile',
             'openid',
             'phone',
+            'email',
             'dkbuzavlivia'
           ].join(' '),
         }
