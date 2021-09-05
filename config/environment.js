@@ -27,11 +27,11 @@ module.exports = function (environment) {
       disableRedirectInitializer: true,
       providers: {
         'acmidm-oauth2': {
-          apiKey: 'bd0483de-67e3-4ccf-8fcc-1aff6ff29675',
-          baseUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/auth',
-          redirectUri: 'https://VLIVIA-dev.vlaanderen.be/authorization/callback',
-          logoutUrl: 'https://authenticatie-ti.vlaanderen.be/op/v1/logout',
-          returnUrl: 'https://VLIVIA-dev.vlaanderen.be',
+          apiKey: '{{OAUTH_API_KEY}}',
+          baseUrl: '{{OAUTH_BASE_URL}}',
+          redirectUri: '{{OAUTH_REDIRECT_URL}}',
+          logoutUrl: '{{OAUTH_LOGOUT_URL}}',
+          returnUrl: '{{OAUTH_RETURN_URL}}',
           scope: [
             'vo',
             'profile',
