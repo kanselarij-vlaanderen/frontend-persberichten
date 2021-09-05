@@ -19,4 +19,5 @@ export default class PressReleaseModel extends Model {
   @hasMany('government-field') governmentFields;
   @hasMany('contact-item') contactItems;
   @hasMany('contact-list') contactLists;
+  @hasMany('press-release-activity') pressReleaseActivities;
 }

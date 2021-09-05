@@ -5,6 +5,8 @@ export default class ContactItemModel extends Model {
   @attr('string') givenName;
   @attr('string') familyName;
   @attr('string') organizationName;
+  @attr('datetime') created;
+  @attr('datetime') modified;
 
   @belongsTo('contact-list') contactList;
   @belongsTo('telephone') telephone;

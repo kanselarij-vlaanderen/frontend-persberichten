@@ -1,0 +1,131 @@
+{{page-title "Nieuwe verzendlijst"}}
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" this.navigateBack}}
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Verzendlijsten
+        </div>
+        <h2 class="auk-toolbar__title">
+          Nieuwe verzendlijst
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group>
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<div class="auk-u-m-8">
+  <Auk::ProgressBar @progress={{this.progress}} @disablePercentage={{true}}/>
+  <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+    <h1 class="auk-h1">{{this.title}}</h1>
+    {{#if (and (eq this.step 2) (eq this.inputType "manual"))}}
+      <Auk::Button
+        @skin="secondary"
+        @icon="add"
+        {{on "click" this.openContactItemModal}}>
+          Contactpersoon toevoegen
+      </Auk::Button>
+    {{/if}}
+  </div>
+  <div>
+    {{#if (eq this.step 0)}}
+      <div class="auk-o-grid-col-6 auk-form-group">
+        <Auk::Label for="name">
+          Titel verzendlijst
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          id="name"
+          @block={{true}}
+          value={{this.model.name}}
+          {{on "input" (fn this.setInputValue this.model "name")}}
+        />
+      </div>
+    {{/if}}
+    {{#if (eq this.step 1)}}
+      <div class="auk-o-grid-col-6 auk-form-group">
+        <Auk::Label for="name">
+          Kies een input type
+        </Auk::Label>
+        <Auk::RadioList as |list|>
+          <list.Radio
+            @label="CSV of tabel tekst bestand"
+            @sublabel="Importeer ontvangers van een .csv of .txt bestand"
+            @checked={{eq this.inputType "csv"}}
+            value="csv"
+            {{on "change" this.setInputType}}/>
+          <list.Radio
+            @label="Manuele input"
+            @sublabel="Geef de contact informatie per ontvanger manueel in"
+            @checked={{eq this.inputType "manual"}}
+            value="manual"
+            {{on "change" this.setInputType}}/>
+        </Auk::RadioList>
+      </div>
+    {{/if}}
+    {{#if (eq this.step 2)}}
+      {{#if (eq this.inputType "manual")}}
+        <ContactItem::Table
+          @onOpenContactItem={{this.openContactItem}}
+          @model={{this.contacts}}
+          @noDataMessage="Er zijn nog geen contactpersonen."
+        />
+      {{/if}}
+      {{#if this.showContactItemModal}}
+        <ContactItem::Modal
+          @isNewContact={{this.isNewContact}}
+          @contact={{this.selectedContact}}
+          @onCancel={{this.closeContactItemModalAndReset}}
+          @onAddContact={{this.addContact}}
+          @onChangeContact={{this.changeContact}}
+          @onDeleteContact={{this.deleteContact}}
+        />
+      {{/if}}
+    {{/if}}
+    <div class="auk-o-grid-col-8 auk-form-group">
+      {{#if this.hasPrevious}}
+        <Auk::Button
+          @skin="borderless"
+          @icon="chevron-left"
+          {{on "click" this.previousStep}}>
+          Vorige stap
+        </Auk::Button>
+      {{/if}}
+      {{#if this.hasNext}}
+        <Auk::Button
+          @skin="borderless"
+          @icon="chevron-right"
+          @layout="icon-right"
+          @disabled={{this.isDisabledNextStep}}
+          {{on "click" this.nextStep}}>
+            Volgende stap
+        </Auk::Button>
+      {{/if}}
+      {{#if this.isLast}}
+        <Auk::Button
+          @skin="primary"
+          @disabled={{not this.contacts.length}}
+          @loading={{this.saveContactList.isRunning}}
+          {{on "click" (perform this.saveContactList)}}>
+          Verzendlijst aanmaken
+        </Auk::Button>
+      {{/if}}
+    </div>
+  </div>
+</div>
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}

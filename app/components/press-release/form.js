@@ -1,10 +1,30 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
+import CONFIG from '../../config/constants';
 
 export default class PressReleaseFormComponent extends Component {
+  @service store;
+
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
+  @tracked showContactListModal = false;
+  @tracked mailingListPublicationChannel;
+
+  constructor() {
+    super(...arguments);
+    this.loadMailingListPublicationChannel.perform();
+  }
+
+  @task
+  *loadMailingListPublicationChannel() {
+    this.mailingListPublicationChannel = yield this.store.findRecordByUri(
+      'publication-channel',
+      CONFIG.PUBLICATION_CHANNEL.MAILING_LIST
+    );
+  }
 
   @action
   setInputValue(record, attribute, event) {
@@ -55,6 +75,25 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  async addContactLists(newContactLists) {
+    const contactLists = await this.args.pressRelease.contactLists;
+    const publicationChannels = await this.args.pressRelease.publicationChannels;
+    contactLists.pushObjects(newContactLists);
+    publicationChannels.pushObject(this.mailingListPublicationChannel);
+    this.showContactListModal = false;
+  }
+
+  @action
+  async removeContactList(contactList) {
+    const contactLists = await this.args.pressRelease.contactLists;
+    contactLists.removeObject(contactList);
+    if (contactLists.length === 0) {
+      const publicationChannels = await this.args.pressRelease.publicationChannels;
+      publicationChannels.removeObject(this.mailingListPublicationChannel);
+    }
+  }
+
+  @action
   async addAttachment(attachment) {
     const attachments = await this.args.pressRelease.attachments;
     attachments.pushObject(attachment);
@@ -66,7 +105,7 @@ export default class PressReleaseFormComponent extends Component {
     const attachments = await this.args.pressRelease.attachments;
     attachments.removeObject(attachment);
     attachment.deleteRecord();
-    //we don't destroy the record to make sure a rollback is possible
+    // we don't destroy the record to make sure a rollback is possible
   }
 
   @action
@@ -77,6 +116,16 @@ export default class PressReleaseFormComponent extends Component {
   @action
   openSourceModal() {
     this.showSourceModal = true;
+  }
+
+  @action
+  openContactListModal() {
+    this.showContactListModal = true;
+  }
+
+  @action
+  closeContactListModal() {
+    this.showContactListModal = false;
   }
 
   @action

@@ -109,6 +109,23 @@
           @publicationChannels={{@pressRelease.publicationChannels}}
           @onChange={{this.setPublicationChannels}}/>
       </div>
+      <div class="auk-form-group">
+        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+          <h4 class="auk-h4">Eigen verzendlijsten</h4>
+          <Auk::Button
+            @icon="add"
+            @skin="secondary"
+            {{on "click" this.openContactListModal}}
+          >
+            Verzendlijst toevoegen
+          </Auk::Button>
+        </div>
+        <PressRelease::ContactListTable
+          @onRemoveContactList={{this.removeContactList}}
+          @model={{@pressRelease.contactLists}}
+          @noDataMessage="Er is nog geen verzendlijst toegevoegd."
+        />
+      </div>
     </div>
   </div>
 </div>
@@ -122,5 +139,11 @@
   <PressRelease::FilesModal
     @onUpload={{this.addAttachment}}
     @onCancel={{this.closeUploadModal}}
+  />
+{{/if}}
+{{#if this.showContactListModal}}
+  <PressRelease::ContactListModal
+    @onAddContactLists={{this.addContactLists}}
+    @onCancel={{this.closeContactListModal}}
   />
 {{/if}}

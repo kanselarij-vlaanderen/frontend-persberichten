@@ -6,44 +6,43 @@
           <thead>
             <tr>
               <th>
-                Naam bijlage
+                Naam contactpersoon
               </th>
               <th>
-                Grootte bestand
+                E-mailadres
               </th>
               <th>
-                Type bestand
+                Telefoonnummer
               </th>
               <th>
-                {{!-- remove source --}}
+                Organisatie
+              </th>
+              <th>
+                {{!-- remove contact --}}
               </th>
             </tr>
           </thead>
           <tbody>
-            {{#each (sort-by "name" @model) as |row|}}
+            {{#each (sort-by "givenName" @model) as |row|}}
               <tr>
                 <td class="auk-u-text-nowrap">
-                  {{row.name}}
+                  {{row.givenName}} {{row.familyName}}
                 </td>
                 <td>
-                  {{row.humanReadableSize}}
+                  {{row.mailAddress.value}}
                 </td>
                 <td>
-                  <Utils::FileTypePill @extension={{row.extension}}/>
+                  {{row.telephone.value}}
+                </td>
+                <td>
+                  {{row.organizationName}}
                 </td>
                 <td>
                   <Auk::Button
                     @layout="icon-only"
-                    @icon="delete"
-                    @skin="danger-borderless"
-                    {{on "click" (fn @onRemoveAttachment row)}}
-                  />
-                  <Auk::Button
-                    @layout="icon-only"
-                    @icon="download"
+                    @icon="chevron-right"
                     @skin="borderless"
-                    @href={{row.namedDownloadLink}}
-                    download={{row.name}}
+                    {{on "click" (fn @onOpenContactItem row)}}
                   />
                 </td>
               </tr>

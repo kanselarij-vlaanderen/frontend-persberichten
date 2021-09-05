@@ -66,7 +66,7 @@
                   {{/each}}
                 </td>
                 <td>
-                  {{row.creator.name}}
+                  {{or row.creator.shortName row.create.name}}
                 </td>
 
                 {{#if (and (not @plannedRoute) (not @publishedRoute))}}
