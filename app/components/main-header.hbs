@@ -71,7 +71,7 @@
                     {{this.currentSession.user.fullName}}
                   </p>
                   <p class="auk-u-muted auk-u-text-small">
-                    {{this.currentSession.group.name}}
+                    {{or this.currentSession.group.name this.currentSession.group.identifier}}
                   </p>
                 </Auk::Avatar>
               </Menu.Item>

@@ -1,12 +1,15 @@
-<Auk::Navbar @skin="white" @noPadding={{true}} id="c-main-nav">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group @position="left">
-      <Auk::Toolbar::Item>
-        <Auk::Brand @logotype="Vlivia" />
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group>
-  </Auk::Toolbar>
-</Auk::Navbar>
+{{#unless this.session.isAuthenticated}}
+  {{!-- Prevent a double top navbar to be shown as soon as the user logs in --}}
+  <Auk::Navbar @skin="white" @noPadding={{true}} id="c-main-nav">
+    <Auk::Toolbar>
+      <Auk::Toolbar::Group @position="left">
+        <Auk::Toolbar::Item>
+          <Auk::Brand @logotype="Vlivia" />
+        </Auk::Toolbar::Item>
+      </Auk::Toolbar::Group>
+    </Auk::Toolbar>
+  </Auk::Navbar>
+{{/unless}}
 <div class="auk-scroll-wrapper">
   <div class="auk-scroll-wrapper__body">
     <div class="auk-u-p-4">
