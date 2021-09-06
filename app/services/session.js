@@ -18,7 +18,7 @@ export default class ExtendedSessionService extends SessionService {
   handleInvalidation() {
     try {
       const config = ENV.torii?.providers?.['acmidm-oauth2'];
-      const logoutUrl = `${config.logoutUrl}?cliend_id=${config.clientId}&post_logout_redirect_uri=${encodeURIComponent(config.returnUrl)}`;
+      const logoutUrl = `${config.logoutUrl}?client_id=${config.apiKey}&post_logout_redirect_uri=${encodeURIComponent(config.returnUrl)}`;
       const url = new URL(logoutUrl);
       window.location.replace(url.toString());
     } catch (error) {
