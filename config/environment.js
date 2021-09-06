@@ -46,6 +46,13 @@ module.exports = function (environment) {
   };
 
   if (environment === 'development') {
+    const authConfig = ENV.torii.providers['acmidm-oauth2'];
+    authConfig.apiKey = 'bd0483de-67e3-4ccf-8fcc-1aff6ff29675';
+    authConfig.baseUrl = 'https://authenticatie-ti.vlaanderen.be/op/v1/auth';
+    authConfig.redirectUri = 'https://VLIVIA-dev.vlaanderen.be/authorization/callback';
+    authConfig.logoutUrl = 'https://authenticatie-ti.vlaanderen.be/op/v1/logout';
+    authConfig.returnUrl = 'https://VLIVIA-dev.vlaanderen.be';
+
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
