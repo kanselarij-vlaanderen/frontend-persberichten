@@ -29,9 +29,11 @@
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
-              <th>
-                {{!-- open detail --}}
-              </th>
+              {{#if @isEditEnabled}}
+                <th>
+                  {{!-- open detail --}}
+                </th>
+              {{/if}}
             </tr>
           </thead>
           <tbody>
@@ -49,14 +51,16 @@
                 <td>
                   {{row.organizationName}}
                 </td>
-                <td>
-                  <Auk::Button
-                    @layout="icon-only"
-                    @icon="chevron-right"
-                    @skin="borderless"
-                    {{on "click" (fn @onOpenContactItem row)}}
-                  />
-                </td>
+                {{#if @isEditEnabled}}
+                  <td>
+                    <Auk::Button
+                      @layout="icon-only"
+                      @icon="chevron-right"
+                      @skin="borderless"
+                      {{on "click" (fn @onOpenContactItem row)}}
+                    />
+                  </td>
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>
