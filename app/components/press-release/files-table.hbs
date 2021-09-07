@@ -38,6 +38,13 @@
                     @skin="danger-borderless"
                     {{on "click" (fn @onRemoveAttachment row)}}
                   />
+                  <Auk::Button
+                    @layout="icon-only"
+                    @icon="download"
+                    @skin="borderless"
+                    @href={{row.namedDownloadLink}}
+                    download={{row.name}}
+                  />
                 </td>
               </tr>
             {{/each}}
