@@ -7,13 +7,13 @@
             <tr>
               <Utils::ThSortable
                 @label="Naam contactpersoon"
-                @field="givenName"
+                @field="full-name"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
               <Utils::ThSortable
                 @label="E-mailadres"
-                @field="mailAddress.value"
+                @field="mail-address.value"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
@@ -25,7 +25,7 @@
               />
               <Utils::ThSortable
                 @label="Organisatie"
-                @field="organizationName"
+                @field="organization-name"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
@@ -37,10 +37,10 @@
             </tr>
           </thead>
           <tbody>
-            {{#each (sort-by @sort @model) as |row|}}
+            {{#each @model as |row|}}
               <tr>
                 <td class="auk-u-text-nowrap">
-                  {{row.fullName}}
+                  {{row.givenName}}
                 </td>
                 <td>
                   {{row.mailAddress.value}}

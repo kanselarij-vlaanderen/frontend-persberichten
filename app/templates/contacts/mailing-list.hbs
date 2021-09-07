@@ -16,7 +16,7 @@
           Verzendlijsten
         </div>
         <h2 class="auk-toolbar__title">
-          {{@model.name}}
+          {{this.contactList.name}}
         </h2>
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
@@ -24,7 +24,7 @@
       {{#if this.isEditEnabled}}
         <Auk::Toolbar::Item>
           <Auk::StatusPill @status="done">
-            {{dayjs-from-now @model.modified}} opgeslagen
+            {{dayjs-from-now this.contactList.modified}} opgeslagen
           </Auk::StatusPill>
         </Auk::Toolbar::Item>
       {{/if}}
@@ -63,7 +63,7 @@
         type="text"
         id="name"
         @block={{true}}
-        value={{@model.name}}
+        value={{this.contactList.name}}
         {{on "input" (fn this.setInputValue "name")}}
         />
     </div>
@@ -81,8 +81,8 @@
     {{/if}}
   </div>
 
-  <MailingList::SortableTable
-    @model={{@model.contactItems}}
+  <ContactItem::SortableTable
+    @model={{@model}}
     @sort={{this.sort}}
     @page={{this.page}}
     @size={{this.size}}
