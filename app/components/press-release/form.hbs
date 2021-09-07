@@ -126,6 +126,18 @@
           @noDataMessage="Er is nog geen verzendlijst toegevoegd."
         />
       </div>
+      <div class="auk-form-group">
+        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+          <h4 class="auk-h4">Contacten</h4>
+          <Auk::Button
+            @icon="add"
+            @skin="secondary"
+            {{on "click" this.openContactItemModal}}
+          >
+            Contact toevoegen
+          </Auk::Button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -145,5 +157,11 @@
   <PressRelease::ContactListModal
     @onAddContactLists={{this.addContactLists}}
     @onCancel={{this.closeContactListModal}}
+  />
+{{/if}}
+{{#if this.showContactItemModal}}
+  <PressRelease::ContactItemModal
+    @onAddContactItems={{this.addContactItems}}
+    @onCancel={{this.closeContactItemModal}}
   />
 {{/if}}

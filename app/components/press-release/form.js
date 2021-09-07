@@ -11,6 +11,7 @@ export default class PressReleaseFormComponent extends Component {
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
   @tracked showContactListModal = false;
+  @tracked showContactItemModal = false;
   @tracked mailingListPublicationChannel;
 
   constructor() {
@@ -75,6 +76,21 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  async addContactItems(newContactItems) {
+    console.log(newContactItems)
+    // const sources = await this.args.pressRelease.sources;
+    // sources.pushObjects(newSources);
+    // this.showSourceModal = false;
+  }
+
+  @action
+  async removeContactItems(source) {
+    const sources = await this.args.pressRelease.sources;
+    sources.removeObject(source);
+  }
+
+
+  @action
   async addContactLists(newContactLists) {
     const contactLists = await this.args.pressRelease.contactLists;
     const publicationChannels = await this.args.pressRelease.publicationChannels;
@@ -126,6 +142,16 @@ export default class PressReleaseFormComponent extends Component {
   @action
   closeContactListModal() {
     this.showContactListModal = false;
+  }
+
+  @action
+  openContactItemModal() {
+    this.showContactItemModal = true;
+  }
+
+  @action
+  closeContactItemModal() {
+    this.showContactItemModal = false;
   }
 
   @action
