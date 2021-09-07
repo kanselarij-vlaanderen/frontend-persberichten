@@ -146,7 +146,6 @@ export default class ContactsMailingListController extends Controller {
   @task
   *saveAndDisableEdit() {
     const contactList = yield this.contactList;
-    console.log(contactList)
     if (contactList.hasDirtyAttributes) {
       yield this.saveModelWithNewDate();
     }
