@@ -1,0 +1,113 @@
+{{page-title "Verzendlijst"}}
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" this.navigateBack}}
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Verzendlijsten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{@model.name}}
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+    <Auk::Toolbar::Group  @position="right">
+      {{#if this.isEditEnabled}}
+        <Auk::Toolbar::Item>
+          <Auk::StatusPill @status="done">
+            {{dayjs-from-now @model.modified}} opgeslagen
+          </Auk::StatusPill>
+        </Auk::Toolbar::Item>
+      {{/if}}
+      <Auk::Toolbar::Item>
+      </Auk::Toolbar::Item>
+        <Auk::Toolbar::Item>
+          {{#if this.isEditEnabled}}
+            <Auk::Button
+              @skin="primary"
+              @loading={{this.saveAndDisableEdit.isRunning}}
+              {{on "click" (perform this.saveAndDisableEdit)}}
+              >
+              Verzendlijst opslaan
+            </Auk::Button>
+          {{else}}
+            <Auk::Button
+              @skin="primary"
+              {{on "click" this.enableEdit}}
+              >
+              Verzendlijst bewerken
+            </Auk::Button>
+          {{/if}}
+        </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<div class="auk-u-m-8">
+  <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+    {{#if this.isEditEnabled}}
+    <div class="auk-form-group">
+      <Auk::Label>
+        Naam verzendlijst
+      </Auk::Label>
+      <Auk::Input
+        type="text"
+        id="name"
+        @block={{true}}
+        value={{@model.name}}
+        {{on "input" (fn this.setInputValue "name")}}
+        />
+    </div>
+    {{else}}
+      <h1 class="auk-h1">Verzendlijsten</h1>
+    {{/if}}
+    {{#if this.isEditEnabled}}
+      <Auk::Button
+        @skin="secondary"
+        @icon="add"
+        {{on "click" this.openContactItemModal}}
+        >
+        Contactpersoon toevoegen
+      </Auk::Button>
+    {{/if}}
+  </div>
+
+  <MailingList::SortableTable
+    @model={{@model.contactItems}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+    @size={{this.size}}
+    @onSortChange={{this.setSort}}
+    @onNextPage={{this.nextPage}}
+    @onPreviousPage={{this.prevPage}}
+    @onPageSizeChange={{this.setPageSize}}
+    @onOpenContactItem={{this.openContactItem}}
+    @noDataMessage="Geen verzendlijsten gevonden"
+  />
+</div>
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{this.confirmNavigationBack}}
+  />
+{{/if}}
+{{#if this.showContactItemModal}}
+  <ContactItem::Modal
+    @isNewContact={{this.isNewContact}}
+    @contact={{this.selectedContact}}
+    @onCancel={{this.closeContactItemModalAndReset}}
+    @onAddContact={{this.addContact}}
+    @onChangeContact={{this.changeContact}}
+    @onDeleteContact={{this.deleteContact}}
+  />
+{{/if}}
+{{outlet}}

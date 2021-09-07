@@ -6,14 +6,26 @@
           <thead>
             <tr>
               <Utils::ThSortable
-                @label="Titel verzendlijst"
-                @field="name"
+                @label="Naam contactpersoon"
+                @field="givenName"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
               <Utils::ThSortable
-                @label="Laatst bewerkt"
-                @field="modified"
+                @label="E-mailadres"
+                @field="mailAddress.value"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+              <Utils::ThSortable
+                @label="Telefoonnummer"
+                @field="telephone.value"
+                @currentSorting={{@sort}}
+                @onChange={{@onSortChange}}
+              />
+              <Utils::ThSortable
+                @label="Organisatie"
+                @field="organizationName"
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
@@ -23,26 +35,27 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @model as |row|}}
+            {{#each (sort-by @sort @model) as |row|}}
               <tr>
-                <td>
-                  {{row.name}}
+                <td class="auk-u-text-nowrap">
+                  {{row.fullName}}
                 </td>
                 <td>
-                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
-                  <span class="auk-u-text-small auk-u-muted">
-                    {{dayjs-format row.modified outputFormat="HH:mm"}}
-                  </span>
+                  {{row.mailAddress.value}}
                 </td>
                 <td>
-                  <LinkTo
-                    @route="contacts.mailing-list"
-                    @model={{row.id}}
-                    class="auk-button auk-button--borderless auk-button--icon">
-                    <span class="auk-button__content">
-                      <i class="ki ki-chevron-right"></i>
-                    </span>
-                  </LinkTo>
+                  {{row.telephone.value}}
+                </td>
+                <td>
+                  {{row.organizationName}}
+                </td>
+                <td>
+                  <Auk::Button
+                    @layout="icon-only"
+                    @icon="chevron-right"
+                    @skin="borderless"
+                    {{on "click" (fn @onOpenContactItem row)}}
+                  />
                 </td>
               </tr>
             {{/each}}
@@ -64,7 +77,7 @@
           </Auk::Toolbar::Group >
           <Auk::Toolbar::Group  @position="right">
             <Auk::Toolbar::Item>
-              Verzendlijsten per pagina
+              Contactpersonen per pagina
             </Auk::Toolbar::Item>
             <Auk::Toolbar::Item>
               <WebComponents::AuPageSize
