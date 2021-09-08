@@ -35,14 +35,12 @@
                   </span>
                 </td>
                 <td>
-                  <LinkTo
-                    @route="contacts.mailing-list"
+                  <Auk::ButtonLink
+                    @skin="borderless"
+                    @icon="chevron-right"
                     @model={{row.id}}
-                    class="auk-button auk-button--borderless auk-button--icon">
-                    <span class="auk-button__content">
-                      <i class="ki ki-chevron-right"></i>
-                    </span>
-                  </LinkTo>
+                    @route="contacts.mailing-list"
+                  />
                 </td>
               </tr>
             {{/each}}

@@ -68,7 +68,7 @@
         />
     </div>
     {{else}}
-      <h1 class="auk-h1">Verzendlijsten</h1>
+      <h1 class="auk-h1">{{this.contactList.name}}</h1>
     {{/if}}
     {{#if this.isEditEnabled}}
       <Auk::Button
@@ -81,7 +81,7 @@
     {{/if}}
   </div>
 
-  <ContactItem::SortableTable
+  <ContactItem::Table
     @model={{@model}}
     @sort={{this.sort}}
     @page={{this.page}}
@@ -103,7 +103,7 @@
 {{/if}}
 {{#if this.showContactItemModal}}
   <ContactItem::Modal
-    @isNewContact={{this.isNewContact}}
+    @isNewContact={{this.selectedContact.isNew}}
     @contact={{this.selectedContact}}
     @onCancel={{this.closeContactItemModalAndReset}}
     @onAddContact={{this.addContact}}

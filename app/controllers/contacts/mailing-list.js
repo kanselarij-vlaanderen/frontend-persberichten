@@ -11,8 +11,8 @@ export default class ContactsMailingListController extends Controller {
   @tracked isEditEnabled = false;
   @tracked showConfirmationModal = false;
   @tracked showContactItemModal = false;
-  @tracked isNewContact = false;
   @tracked selectedContact;
+  @tracked contactList;
 
   @tracked sort = '-full-name';
   @tracked page = 0;
@@ -44,8 +44,8 @@ export default class ContactsMailingListController extends Controller {
   }
 
   @action
-  async setInputValue(attribute, event) {
-    (await this.contactList)[attribute] = event.target.value;
+  setInputValue(attribute, event) {
+    this.contactList[attribute] = event.target.value;
   }
 
   @action
@@ -53,8 +53,11 @@ export default class ContactsMailingListController extends Controller {
     const creator = this.currentSession.organization;
     const telephone = this.store.createRecord('telephone', {creator});
     const mailAddress = this.store.createRecord('mail-address', {creator});
-    this.selectedContact = this.store.createRecord('contact-item', {telephone, mailAddress});
-    this.isNewContact = true;
+    this.selectedContact = this.store.createRecord('contact-item', {
+      telephone,
+      mailAddress,
+      contactList: this.contactList
+    });
     this.showContactItemModal = true;
   }
 
@@ -65,13 +68,12 @@ export default class ContactsMailingListController extends Controller {
 
   @action
   async closeContactItemModalAndReset() {
-    const selectedContact = await this.selectedContact;
-    if (!selectedContact.isNew) {
-      if (selectedContact.hasDirtyAttributes) {
-        selectedContact.rollbackAttributes();
+    if (!this.selectedContact.isNew) {
+      if (this.selectedContact.hasDirtyAttributes) {
+        this.selectedContact.rollbackAttributes();
       }
-      const telephone = await selectedContact.telephone;
-      const mailAddress = await selectedContact.mailAddress;
+      const telephone = await this.selectedContact.telephone;
+      const mailAddress = await this.selectedContact.mailAddress;
       if (telephone.hasDirtyAttributes) {
         telephone.rollbackAttributes();
       }
@@ -83,9 +85,8 @@ export default class ContactsMailingListController extends Controller {
   }
 
   @action
-  async confirmNavigationBack() {
-    const contactList = await this.contactList;
-    contactList.rollbackAttributes();
+  confirmNavigationBack() {
+    this.contactList.rollbackAttributes();
     this.router.transitionTo('contacts.overview');
     this.showConfirmationModal = false;
   }
@@ -93,7 +94,6 @@ export default class ContactsMailingListController extends Controller {
   @action
   openContactItem(contact) {
     this.selectedContact = contact;
-    this.isNewContact = false;
     this.showContactItemModal = true;
   }
 
@@ -106,35 +106,30 @@ export default class ContactsMailingListController extends Controller {
     this.selectedContact.modified = new Date();
     this.selectedContact.created = new Date();
     await this.selectedContact.save();
-    const contactList = await this.contactList;
-    const contacts = await contactList.contactItems;
-    contacts.addObject(this.selectedContact);
-    await contacts.save();
-    await this.saveModelWithNewDate();
-    this.model.update()
+    await this.updateContactListModificationDate();
+    this.send('reloadModel');
     this.closeContactItemModal();
   }
 
   @action
   async changeContact() {
+    const telephone = await this.selectedContact.telephone;
+    const mailAddress = await this.selectedContact.mailAddress;
     await Promise.all([
-      (await this.selectedContact.telephone).save(),
-      (await this.selectedContact.mailAddress).save()
+      telephone.hasDirtyAttributes ? await telephone.save() : null,
+      mailAddress.hasDirtyAttributes ? await mailAddress.save() : null
     ]);
     this.selectedContact.modified = new Date();
-    this.selectedContact.created = new Date();
     await this.selectedContact.save();
-    await this.saveModelWithNewDate();
+    await this.updateContactListModificationDate();
     this.closeContactItemModal();
   }
 
   @action
   async deleteContact() {
-    const contactList = await this.contactList;
-    const contacts = await contactList.contactItems;
-    contacts.removeObject(this.selectedContact);
     await this.selectedContact.destroyRecord();
-    await this.saveModelWithNewDate();
+    await this.updateContactListModificationDate();
+    this.send('reloadModel');
     this.closeContactItemModal();
   }
 
@@ -147,15 +142,14 @@ export default class ContactsMailingListController extends Controller {
   *saveAndDisableEdit() {
     const contactList = yield this.contactList;
     if (contactList.hasDirtyAttributes) {
-      yield this.saveModelWithNewDate();
+      yield this.updateContactListModificationDate();
     }
     this.isEditEnabled = false;
   }
 
   @action
-  async navigateBack() {
-    const contactList = await this.contactList;
-    if (contactList.hasDirtyAttributes) {
+  navigateBack() {
+    if (this.contactList.hasDirtyAttributes) {
       this.showConfirmationModal = true;
     } else {
       this.router.transitionTo('contacts.overview');
@@ -167,9 +161,8 @@ export default class ContactsMailingListController extends Controller {
     this.showConfirmationModal = false;
   }
 
-  async saveModelWithNewDate() {
-    const contactList = await this.contactList;
-    contactList.modified = new Date();
-    await contactList.save();
+  async updateContactListModificationDate() {
+    this.contactList.modified = new Date();
+    await this.contactList.save();
   }
 }

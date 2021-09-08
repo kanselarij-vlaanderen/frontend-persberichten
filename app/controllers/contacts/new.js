@@ -163,7 +163,6 @@ export default class ContactsNewController extends Controller {
     this.model.created = newDate;
     this.model.modified = newDate;
     yield this.model.save();
-    const contactItems = yield this.model.contactItems;
 
     yield Promise.all(this.contacts.map(async contact => {
       contact.contactList = this.model;
@@ -177,11 +176,6 @@ export default class ContactsNewController extends Controller {
       return await contact.save();
     }));
 
-    // this.contacts.forEach(contact => contactItems.addObject(contact));
-
-    // yield contactItems.save();
-    // yield this.model.save();
-    //zonder contact toe te voegen aan model en daarna nog eens model op te slagen, worden de contacten niet gelinked aan model
     this.router.transitionTo('contacts.overview');
   }
 
