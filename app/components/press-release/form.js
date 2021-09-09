@@ -77,16 +77,22 @@ export default class PressReleaseFormComponent extends Component {
 
   @action
   async addContactItems(newContactItems) {
-    console.log(newContactItems)
-    // const sources = await this.args.pressRelease.sources;
-    // sources.pushObjects(newSources);
-    // this.showSourceModal = false;
+    const contactLists = await this.args.pressRelease.contactItems;
+    const publicationChannels = await this.args.pressRelease.publicationChannels;
+    contactLists.pushObjects(newContactItems);
+    publicationChannels.pushObject(this.mailingListPublicationChannel);
+    this.showContactItemModal = false;
   }
 
   @action
-  async removeContactItems(source) {
-    const sources = await this.args.pressRelease.sources;
-    sources.removeObject(source);
+  async removeContactItem(contactItem) {
+    const contactItems = await this.args.pressRelease.contactItems;
+    const contactLists = await this.args.pressRelease.contactItems;
+    contactItems.removeObject(contactItem);
+    if (contactLists.length === 0 && contactItems.length === 0) {
+      const publicationChannels = await this.args.pressRelease.publicationChannels;
+      publicationChannels.removeObject(this.mailingListPublicationChannel);
+    }
   }
 
 
@@ -102,8 +108,9 @@ export default class PressReleaseFormComponent extends Component {
   @action
   async removeContactList(contactList) {
     const contactLists = await this.args.pressRelease.contactLists;
+    const contactItems = await this.args.pressRelease.contactItems;
     contactLists.removeObject(contactList);
-    if (contactLists.length === 0) {
+    if (contactLists.length === 0 && contactItems.length === 0) {
       const publicationChannels = await this.args.pressRelease.publicationChannels;
       publicationChannels.removeObject(this.mailingListPublicationChannel);
     }

@@ -5,7 +5,8 @@ export default class PressReleaseSerializer extends ApplicationSerializer {
     if (key == 'publicationChannels'
      || key == 'sources'
      || key == 'attachments'
-     || key == 'contactLists')
+     || key == 'contactLists'
+     || key == 'contactItems')
       return true;
     else
       return super.shouldSerializeHasMany(...arguments);

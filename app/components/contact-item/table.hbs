@@ -76,6 +76,16 @@
                     />
                   </td>
                 {{/if}}
+                {{#if @onRemoveContactItem}}
+                  <td>
+                    <Auk::Button
+                      @layout="icon-only"
+                      @icon="delete"
+                      @skin="danger-borderless"
+                      {{on "click" (fn @onRemoveContactItem row)}}
+                    />
+                  </td>
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>

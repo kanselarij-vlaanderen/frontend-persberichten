@@ -137,6 +137,12 @@
             Contact toevoegen
           </Auk::Button>
         </div>
+        <ContactItem::Table
+          @model={{@pressRelease.contactItems}}
+          @onRemoveContactItem={{this.removeContactItem}}
+          @isEditEnabled={{false}}
+          @noDataMessage="Er zijn nog geen contactpersonen toegevoegd."
+        />
       </div>
     </div>
   </div>
