@@ -22,11 +22,27 @@
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
     <Auk::Toolbar::Group  @position="right">
-      <Auk::Button @icon="add" @skin="primary" @route="contacts.new">
-        Verzendlijst aanmaken
-      </Auk::Button>
+      {{#if (eq this.router.currentRoute.name "contacts.overview.mailing-lists")}}
+        <Auk::Button @icon="add" @skin="primary" @route="contacts.new" class="auk-u-mr-2">
+          Verzendlijst aanmaken
+        </Auk::Button>
+      {{/if}}
+      {{#if (eq this.router.currentRoute.name "contacts.overview.persons")}}
+        <Auk::Button @icon="add" @skin="primary" {{on "click" this.openContactItemModal}}>
+          Contactpersoon aanmaken
+        </Auk::Button>
+      {{/if}}
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
 </Auk::Navbar>
+
+{{#if this.showContactItemModal}}
+  <ContactItem::Modal
+    @isNewContact={{true}}
+    @contact={{this.selectedContact}}
+    @onCancel={{this.closeContactItemModal}}
+    @onAddContact={{perform this.saveContactItem}}
+  />
+{{/if}}
 
 {{outlet}}
