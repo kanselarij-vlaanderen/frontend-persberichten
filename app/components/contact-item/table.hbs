@@ -5,28 +5,57 @@
         <table class="auk-table">
           <thead>
             <tr>
-              <th>
-                Naam contactpersoon
-              </th>
-              <th>
-                E-mailadres
-              </th>
-              <th>
-                Telefoonnummer
-              </th>
-              <th>
-                Organisatie
-              </th>
-              <th>
-                {{!-- remove contact --}}
-              </th>
+              {{#if @onSortChange}}
+                <Utils::ThSortable
+                  @label="Naam contactpersoon"
+                  @field="full-name"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
+                <Utils::ThSortable
+                  @label="E-mailadres"
+                  @field="mail-address.value"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
+                <Utils::ThSortable
+                  @label="Telefoonnummer"
+                  @field="telephone.value"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
+                <Utils::ThSortable
+                  @label="Organisatie"
+                  @field="organization-name"
+                  @currentSorting={{@sort}}
+                  @onChange={{@onSortChange}}
+                />
+              {{else}}
+                <th>
+                  Naam contactpersoon
+                </th>
+                <th>
+                  E-mailadres
+                </th>
+                <th>
+                  Telefoonnummer
+                </th>
+                <th>
+                  Organisatie
+                </th>
+              {{/if}}
+              {{#if @isEditEnabled}}
+                <th>
+                  {{!-- open detail --}}
+                </th>
+              {{/if}}
             </tr>
           </thead>
           <tbody>
-            {{#each (sort-by "givenName" @model) as |row|}}
+            {{#each (if @onSortChange @model (sort-by "givenName" @model)) as |row|}}
               <tr>
                 <td class="auk-u-text-nowrap">
-                  {{row.givenName}} {{row.familyName}}
+                  {{row.fullName}}
                 </td>
                 <td>
                   {{row.mailAddress.value}}
@@ -37,18 +66,48 @@
                 <td>
                   {{row.organizationName}}
                 </td>
-                <td>
-                  <Auk::Button
-                    @layout="icon-only"
-                    @icon="chevron-right"
-                    @skin="borderless"
-                    {{on "click" (fn @onOpenContactItem row)}}
-                  />
-                </td>
+                {{#if @isEditEnabled}}
+                  <td>
+                    <Auk::Button
+                      @layout="icon-only"
+                      @icon="chevron-right"
+                      @skin="borderless"
+                      {{on "click" (fn @onOpenContactItem row)}}
+                    />
+                  </td>
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>
         </table>
+
+        {{#if @onSortChange}}
+          <Auk::Toolbar>
+            <Auk::Toolbar::Group  @position="left">
+              <Auk::Toolbar::Item>
+                <Auk::Pagination
+                  @page={{@page}}
+                  @size={{@size}}
+                  @nbOfItems={{@model.length}}
+                  @total={{@model.meta.count}}
+                  @onNextPage={{@onNextPage}}
+                  @onPreviousPage={{@onPreviousPage}}
+                />
+              </Auk::Toolbar::Item>
+            </Auk::Toolbar::Group >
+            <Auk::Toolbar::Group  @position="right">
+              <Auk::Toolbar::Item>
+                Contactpersonen per pagina
+              </Auk::Toolbar::Item>
+              <Auk::Toolbar::Item>
+                <WebComponents::AuPageSize
+                  @selectedSize={{@size}}
+                  @onChange={{@onPageSizeChange}}
+                />
+              </Auk::Toolbar::Item>
+            </Auk::Toolbar::Group >
+          </Auk::Toolbar>
+        {{/if}}
       {{else}}
         <Auk::Panel>
           <Auk::Panel::Body>
