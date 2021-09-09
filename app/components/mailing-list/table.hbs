@@ -17,6 +17,9 @@
                 @currentSorting={{@sort}}
                 @onChange={{@onSortChange}}
               />
+              <th>
+                {{!-- open detail --}}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -30,6 +33,14 @@
                   <span class="auk-u-text-small auk-u-muted">
                     {{dayjs-format row.modified outputFormat="HH:mm"}}
                   </span>
+                </td>
+                <td>
+                  <Auk::ButtonLink
+                    @skin="borderless"
+                    @icon="chevron-right"
+                    @model={{row.id}}
+                    @route="contacts.mailing-list"
+                  />
                 </td>
               </tr>
             {{/each}}
