@@ -10,6 +10,7 @@ export default class ContactsNewController extends Controller {
 
   @service currentSession;
   @service store;
+  @service router;
 
   @tracked step;
   @tracked inputType;
@@ -174,7 +175,8 @@ export default class ContactsNewController extends Controller {
       contact.modified = newDate;
       return await contact.save();
     }));
-    this.transitionToRoute('contacts.overview');
+
+    this.router.transitionTo('contacts.overview');
   }
 
   @action

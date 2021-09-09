@@ -1,6 +1,6 @@
 <Auk::Modal @size="small">
   <Auk::Modal::Header
-    @title="Contactpersoon toevoegen"
+    @title={{if @isNewContact "Contactpersoon toevoegen" "Contactpersoon bewerken"}}
     @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
