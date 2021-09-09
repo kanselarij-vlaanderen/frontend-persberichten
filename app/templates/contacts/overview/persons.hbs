@@ -8,6 +8,30 @@
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group>
   </Auk::Toolbar>
+
+  <ContactItem::Table
+      @model={{@model}}
+      @sort={{this.sort}}
+      @page={{this.page}}
+      @size={{this.size}}
+      @onSortChange={{this.setSort}}
+      @onNextPage={{this.nextPage}}
+      @onPreviousPage={{this.prevPage}}
+      @onPageSizeChange={{this.setPageSize}}
+      @onOpenContactItem={{this.openContactItem}}
+      @isEditEnabled={{true}}
+      @noDataMessage="Geen contactpersonen gevonden"
+    />
+
+    {{#if this.showContactItemModal}}
+      <ContactItem::Modal
+        @isNewContact={{false}}
+        @contact={{this.selectedContact}}
+        @onCancel={{this.closeContactItemModalAndReset}}
+        @onChangeContact={{this.changeContact}}
+        @onDeleteContact={{this.deleteContact}}
+      />
+    {{/if}}
 </div>
 
 {{outlet}}
