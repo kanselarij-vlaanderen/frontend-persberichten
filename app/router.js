@@ -31,6 +31,7 @@ Router.map(function () {
 
   this.route('contacts', { path: 'contacten' }, function() {
     this.route('new', { path: 'nieuw'});
+    this.route('mailing-list', { path: 'verzendlijst/:mailing_list_id'});
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('mailing-lists', { path: 'verzendlijsten' });
       this.route('persons', { path: 'contactpersonen' });
