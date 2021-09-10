@@ -28,7 +28,7 @@ export default class InputFieldPressReleasePublicationChannelsComponent extends 
     const { BELGA, SUBSCRIBERS_FLANDERS_BE, WEBSITE_FLANDERS_BE, MAILING_LIST } = CONFIG.PUBLICATION_CHANNEL;
     this.belga = publicationChannels.find(channel => channel.uri === BELGA);
     this.subscribersFlandersBe = publicationChannels.find(channel => channel.uri === SUBSCRIBERS_FLANDERS_BE);
-    this.websiteFlandersBe = this.publicationChannels.find(channel => channel.uri === WEBSITE_FLANDERS_BE);
+    this.websiteFlandersBe = publicationChannels.find(channel => channel.uri === WEBSITE_FLANDERS_BE);
 
     this.publicationChannels = publicationChannels.filter(channel => channel.uri !== MAILING_LIST);
   }

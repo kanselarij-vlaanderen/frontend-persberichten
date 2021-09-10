@@ -11,6 +11,7 @@ export default class PressReleaseFormComponent extends Component {
   @tracked showSourceModal = false;
   @tracked showUploadModal = false;
   @tracked showContactListModal = false;
+  @tracked showContactItemModal = false;
   @tracked mailingListPublicationChannel;
 
   constructor() {
@@ -75,6 +76,27 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  async addContactItems(newContactItems) {
+    const contactLists = await this.args.pressRelease.contactItems;
+    const publicationChannels = await this.args.pressRelease.publicationChannels;
+    contactLists.pushObjects(newContactItems);
+    publicationChannels.pushObject(this.mailingListPublicationChannel);
+    this.showContactItemModal = false;
+  }
+
+  @action
+  async removeContactItem(contactItem) {
+    const contactItems = await this.args.pressRelease.contactItems;
+    const contactLists = await this.args.pressRelease.contactLists;
+    contactItems.removeObject(contactItem);
+    if (contactLists.length === 0 && contactItems.length === 0) {
+      const publicationChannels = await this.args.pressRelease.publicationChannels;
+      publicationChannels.removeObject(this.mailingListPublicationChannel);
+    }
+  }
+
+
+  @action
   async addContactLists(newContactLists) {
     const contactLists = await this.args.pressRelease.contactLists;
     const publicationChannels = await this.args.pressRelease.publicationChannels;
@@ -86,8 +108,9 @@ export default class PressReleaseFormComponent extends Component {
   @action
   async removeContactList(contactList) {
     const contactLists = await this.args.pressRelease.contactLists;
+    const contactItems = await this.args.pressRelease.contactItems;
     contactLists.removeObject(contactList);
-    if (contactLists.length === 0) {
+    if (contactLists.length === 0 && contactItems.length === 0) {
       const publicationChannels = await this.args.pressRelease.publicationChannels;
       publicationChannels.removeObject(this.mailingListPublicationChannel);
     }
@@ -126,6 +149,16 @@ export default class PressReleaseFormComponent extends Component {
   @action
   closeContactListModal() {
     this.showContactListModal = false;
+  }
+
+  @action
+  openContactItemModal() {
+    this.showContactItemModal = true;
+  }
+
+  @action
+  closeContactItemModal() {
+    this.showContactItemModal = false;
   }
 
   @action

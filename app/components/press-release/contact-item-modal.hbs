@@ -1,0 +1,37 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Contactpersonen toevoegen"
+    @onClose={{@onCancel}}
+  />
+  <Auk::Modal::Body>
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
+      <div class="auk-form-group">
+        <Auk::Label for="publication-date">
+          Contactpersonen
+        </Auk::Label>
+        <PowerSelectMultiple
+          @options={{this.contactItems}}
+          @selected={{this.selectedContactItems}}
+          @noMatchesMessage="Geen resultaten gevonden"
+          @placeholder="Contactpersonen zoeken"
+          @onChange={{this.selectContactItems}}
+          @allowClear={{true}}
+          @searchEnabled={{true}}
+          @onInput={{perform this.debouncedSearch}}
+          @searchField="fullName"
+          as |contactItem|>
+          {{contactItem.fullName}}
+        </PowerSelectMultiple>
+      </div>
+    </div>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @disabled={{not this.selectedContactItems}}
+      {{on "click" (fn @onAddContactItems this.selectedContactItems)}}
+    >
+      Toevoegen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>
