@@ -87,7 +87,7 @@ export default class PressReleaseFormComponent extends Component {
   @action
   async removeContactItem(contactItem) {
     const contactItems = await this.args.pressRelease.contactItems;
-    const contactLists = await this.args.pressRelease.contactItems;
+    const contactLists = await this.args.pressRelease.contactLists;
     contactItems.removeObject(contactItem);
     if (contactLists.length === 0 && contactItems.length === 0) {
       const publicationChannels = await this.args.pressRelease.publicationChannels;

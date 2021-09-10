@@ -21,7 +21,6 @@ export default class PressReleaseSnapshot {
   @tracked sources = [];
   @tracked attachments = [];
   @tracked contactLists = [];
-  @tracked contactLists = [];
   @tracked contactItems = [];
 
   constructor(pressRelease) {
