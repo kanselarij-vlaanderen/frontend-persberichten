@@ -4,6 +4,7 @@ import { task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isBlank } from '@ember/utils';
+import { guidFor } from '@ember/object/internals';
 
 export default class ContactsNewController extends Controller {
   TITLES_ARRAY = ['Basis informatie', 'Ontvangers', 'Contactgegevens'];
@@ -17,6 +18,7 @@ export default class ContactsNewController extends Controller {
   @tracked showContactItemModal = false;
   @tracked showConfirmationModal = false;
   @tracked isNewContact = true;
+  @tracked isUploadComplete = false;
   @tracked selectedContact;
 
   tempContact = {};
@@ -51,6 +53,10 @@ export default class ContactsNewController extends Controller {
     } else {
       return false;
     }
+  }
+
+  get fileQueueName() {
+    return `${guidFor(this)}-file-queue`;
   }
 
   @action
@@ -94,7 +100,7 @@ export default class ContactsNewController extends Controller {
   *confirmNavigationBack() {
     yield this.model.destroyRecord();
     this.showConfirmationModal = false;
-    this.transitionToRoute('contacts.overview');
+    this.router.transitionTo('contacts.overview');
   }
 
   @action
@@ -151,6 +157,7 @@ export default class ContactsNewController extends Controller {
 
     this.selectedContact.givenName = this.tempContact.givenName;
     this.selectedContact.familyName = this.tempContact.familyName;
+    this.selectedContact.fullName = `${this.tempContact.givenName} ${this.tempContact.familyName}`;
     this.selectedContact.organizationName = this.tempContact.organizationName;
     telephone.value = this.tempContact.telephone;
     mailAddress.value = this.tempContact.mailAddress;
@@ -177,6 +184,45 @@ export default class ContactsNewController extends Controller {
     }));
 
     this.router.transitionTo('contacts.overview');
+  }
+
+  @task
+  *convertFile(file) {
+    this.isUploadComplete = true;
+    const url = `/csv/${file.id}/parse`;
+    const response = yield fetch(url);
+    if (response.status !== 200) {
+      yield file.destroyRecord();
+      return;
+    }
+    const payload = yield response.json();
+    payload.forEach(contact => {
+      const creator = this.currentSession.organization;
+      const telephone = this.store.createRecord('telephone', {
+        creator,
+        value: contact.telephone
+      });
+      const mailAddress = this.store.createRecord('mail-address', {
+        creator,
+        value: contact.mailAddress
+      });
+      const contactItem = this.store.createRecord('contact-item', {
+        telephone,
+        mailAddress,
+        givenName: contact.givenName,
+        familyName: contact.familyName,
+        fullName: `${contact.givenName} ${contact.familyName}`,
+        organizationName: contact.organizationName
+      });
+      this.contacts.pushObject(contactItem);
+    })
+    yield file.destroyRecord();
+  }
+
+  @action
+  uploadNewFile() {
+    this.isUploadComplete = false;
+    this.contacts.clear();
   }
 
   @action
