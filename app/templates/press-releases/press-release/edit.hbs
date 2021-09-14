@@ -74,6 +74,13 @@
                 Intrekken
             </Menu.Item>
           {{/if}}
+          {{#if (and (or (not this.pressRelease.publicationEvent) this.pressRelease.publicationEvent.isPlanned) (not this.pressRelease.collaboration))}}
+            <Menu.Item
+              class="auk-menu__item auk-menu__item--danger"
+              {{on "click" this.openDeletionModal}}>
+                Verwijderen
+            </Menu.Item>
+          {{/if}}
         </DropdownMenu>
       </Auk::Toolbar::Item>
       {{#unless this.pressRelease.publicationEvent.isPublished}}
@@ -124,6 +131,14 @@
     @loading={{this.confirmNavigationBack.isRunning}}
     @onCancel={{this.cancelNavigationBack}}
     @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}
+
+{{#if this.showDeletionModal}}
+  <DeletePressReleaseModal
+    @loading={{this.confirmDeletion.isRunning}}
+    @onCancel={{this.cancelDeletion}}
+    @onConfirm={{perform this.confirmDeletion}}
   />
 {{/if}}
 

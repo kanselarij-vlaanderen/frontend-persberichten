@@ -11,6 +11,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @tracked showPublicationModal = false;
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
+  @tracked showDeletionModal = false;
 
   get snapshot() {
     return this.model;
@@ -116,6 +117,27 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
     yield publicationEvent.destroyRecord();
     yield publicationEvent.save();
+  }
+
+  @task
+  *confirmDeletion() {
+    const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+    if (publicationEvent) {
+      yield publicationEvent.destroyRecord();
+    }
+    yield this.snapshot.pressRelease.destroyRecord();
+    this.transitionBack();
+    this.showDeletionModal = false;
+  }
+
+  @action
+  openDeletionModal() {
+    this.showDeletionModal = true;
+  }
+
+  @action
+  cancelDeletion() {
+    this.showDeletionModal = false;
   }
 
   @action
