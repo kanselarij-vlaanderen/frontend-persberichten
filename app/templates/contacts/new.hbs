@@ -35,6 +35,13 @@
           Contactpersoon toevoegen
       </Auk::Button>
     {{/if}}
+    {{#if (and (eq this.step 2) (and (eq this.inputType "csv")  this.isUploadComplete))}}
+      <Auk::Button
+        @skin="secondary"
+        {{on "click" this.uploadNewFile}}>
+          Nieuw bestand uploaden
+      </Auk::Button>
+    {{/if}}
   </div>
   <div>
     {{#if (eq this.step 0)}}
@@ -73,7 +80,17 @@
       </div>
     {{/if}}
     {{#if (eq this.step 2)}}
-      {{#if (eq this.inputType "manual")}}
+      {{#if (and (eq this.inputType "csv") (not this.isUploadComplete))}}
+        <div class="auk-u-mb-2">
+          <Auk::FileUploader
+            @fileQueueName={{this.fileQueueName}}
+            @multiple={{false}}
+            @accept=".csv"
+            @onUpload={{perform this.convertFile}}
+          />
+        </div>
+      {{/if}}
+      {{#if (or (eq this.inputType "manual") this.isUploadComplete)}}
         <ContactItem::Table
           @onOpenContactItem={{this.openContactItem}}
           @model={{this.contacts}}
