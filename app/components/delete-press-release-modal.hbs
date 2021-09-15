@@ -1,14 +1,14 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Pagina verlaten?"
+    @title="Persbericht verwijderen?"
     @closeable={{false}}
   />
   <Auk::Modal::Body>
     <p>
-      Uw wijzigingen werden nog niet opgeslagen.
+      Bent u zeker dat u dit persbericht wil verwijderen?
     </p>
     <p>
-      Bent u zeker dat u deze pagina wil verlaten?
+      Deze actie kan niet ongedaan worden gemaakt.
     </p>
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
@@ -17,7 +17,7 @@
       @loading={{@loading}}
       {{on "click" @onConfirm}}
     >
-      Pagina verlaten
+      Persbericht verwijderen
     </Auk::Button>
   </Auk::Modal::Footer>
 </Auk::Modal>
