@@ -8,6 +8,7 @@ export default class PressReleaseOrganizationModalComponent extends Component {
   get isDisabled() {
     return this.selectedOrganizations.length === 0;
   }
+
   @action
   selectOrganizations(selected) {
     this.selectedOrganizations = selected;
