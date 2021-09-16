@@ -60,6 +60,11 @@
           <Menu.Item {{on "click" this.saveChanges}}>
             Opslaan
           </Menu.Item>
+          {{#if (and (not this.pressRelease.collaboration) (not this.pressRelease.publicationEvent))}}
+            <Menu.Item {{on "click" this.openOrganizationModal}}>
+              Co-editeren
+            </Menu.Item>
+          {{/if}}
           <Menu.Item  {{on "click" this.saveChangesAndNavigateBack}}>
             Opslaan en sluiten
           </Menu.Item>
@@ -139,6 +144,14 @@
     @loading={{this.confirmDeletion.isRunning}}
     @onCancel={{this.cancelDeletion}}
     @onConfirm={{perform this.confirmDeletion}}
+  />
+{{/if}}
+
+{{#if this.showOrganizationModal}}
+  <PressRelease::OrganizationModal
+    @loading={{this.coEdit.isRunning}}
+    @onCancel={{this.closeOrganizationModal}}
+    @onConfirm={{perform this.coEdit}}
   />
 {{/if}}
 
