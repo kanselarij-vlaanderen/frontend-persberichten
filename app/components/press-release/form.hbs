@@ -18,14 +18,12 @@
         <Auk::Label for="message">
           Bericht *
         </Auk::Label>
-        <Auk::Textarea
-          type="text"
-          id="message"
-          @block={{true}}
-          @rows={{10}}
-          value={{@pressRelease.htmlContent}}
-          {{on "input" (fn this.setInputValue @pressRelease "htmlContent")}}
-        />
+        <textarea {{editor config=(hash
+            base_url='/tinymce')
+            content=@pressRelease.htmlContent
+            onEditorContentChange=(fn this.setHtmlContent @pressRelease)
+        }}></textarea>
+
       </div>
       <div class="auk-form-group">
         <Auk::Label for="abstract">
