@@ -26,6 +26,10 @@ Router.map(function () {
     this.route('press-release', { path: '/:press_release_id' }, function() {
       this.route('edit', { path: 'bewerk' });
       this.route('published', { path: 'gepubliceerd' });
+      this.route('shared', { path: 'gedeeld' }, function() {
+        this.route('read', { path: 'lezen' });
+        this.route('edit', { path: 'bewerk' });
+      });
     });
   });
 

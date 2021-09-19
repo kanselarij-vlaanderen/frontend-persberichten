@@ -1,0 +1,53 @@
+{{page-title "Read"}}
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          @route="press-releases.overview.shared"
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Persberichten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.model.title}}
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+     <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        <Auk::StatusPill @status="done">
+          {{dayjs-from-now this.model.modified}} opgeslagen
+        </Auk::StatusPill>
+      </Auk::Toolbar::Item>
+     </Auk::Toolbar::Group>
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+    <div class="auk-o-grid">
+      <div class="auk-o-grid-col-10">
+        <PressRelease::ReadOnly @pressRelease={{this.model}}/>
+      </div>
+      <div class="auk-o-grid-col-2 auk-u-mt-8">
+          <h3 class="auk-h3">Aangemaakt door</h3>
+            {{this.model.creator.name}}
+          <h3 class="auk-h3">Gedeeld met</h3>
+          <div class="auk-o-flex auk-o-flex--vertical">
+            {{#each this.collaborators as |collaborator|}}
+              {{!-- {{#if (not-eq collaborator.uri this.currentSession.organization.uri)}} --}}
+                <div>
+                  {{collaborator.shortName}}
+                </div>
+              {{!-- {{/if}} --}}
+            {{/each}}
+          </div>
+      </div>
+    </div>
+
+{{outlet}}
