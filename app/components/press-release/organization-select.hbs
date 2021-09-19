@@ -1,0 +1,13 @@
+<PowerSelectMultiple
+  @options={{this.organizations}}
+  @selected={{this.selected}}
+  @noMatchesMessage="Geen resultaten gevonden"
+  @placeholder="Kabinetten zoeken"
+  @onChange={{this.select}}
+  @allowClear={{true}}
+  @searchEnabled={{true}}
+  @onInput={{perform this.debouncedSearch}}
+  @searchField="shortName"
+  as |organization|>
+    {{ organization.shortName }}
+</PowerSelectMultiple>

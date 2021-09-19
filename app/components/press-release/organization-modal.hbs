@@ -1,0 +1,25 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Persbericht co-editeren"
+    @onClose={{@onCancel}}
+  />
+  <Auk::Modal::Body>
+    <Auk::Label>
+      Kabinet(ten)
+    </Auk::Label>
+    <PressRelease::OrganizationSelect
+        @label="Kabinet(ten)"
+        @onChange={{this.selectOrganizations}}
+      />
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @disabled={{this.isDisabled}}
+      @loading={{@loading}}
+      {{on "click" this.coEdit}}
+    >
+      Uitnodigen tot co-editeren
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

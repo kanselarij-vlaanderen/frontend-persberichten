@@ -7,11 +7,13 @@ import { isBlank } from '@ember/utils';
 
 export default class PressReleasesPressReleaseEditController extends Controller {
   @service router;
+  @service store;
 
   @tracked showPublicationModal = false;
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
   @tracked showDeletionModal = false;
+  @tracked showOrganizationModal = false;
 
   get snapshot() {
     return this.model;
@@ -130,6 +132,25 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     this.showDeletionModal = false;
   }
 
+  @task
+  *coEdit(organizations) {
+    const collaborationActivity = this.store.createRecord('collaboration-activity', {
+      startDate: new Date(),
+      pressRelease: this.pressRelease,
+      collaborators: organizations
+    });
+    yield collaborationActivity.save();
+    const url = `/collaboration-activities/${collaborationActivity.id}/share`;
+    const response = yield fetch(url, {
+        method: 'POST',
+      }
+    );
+    if (response.status === 204) {
+      this.router.transitionTo('press-releases.overview.shared');
+    }
+    this.showOrganizationModal = false;
+  }
+
   @action
   openDeletionModal() {
     this.showDeletionModal = true;
@@ -158,5 +179,15 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @action
   closePublicationPlanningModal() {
     this.showPublicationPlanningModal = false;
+  }
+
+  @action
+  openOrganizationModal() {
+    this.showOrganizationModal = true;
+  }
+
+  @action
+  closeOrganizationModal() {
+    this.showOrganizationModal = false;
   }
 }
