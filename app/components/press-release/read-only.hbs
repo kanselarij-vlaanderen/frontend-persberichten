@@ -19,18 +19,20 @@
         </Auk::Label>
         <p class="auk-o-grid-col-9">{{@pressRelease.htmlContent}}</p>
       </div>
-      <div class="auk-o-grid auk-u-mb-4">
-        <Auk::Label class="auk-o-grid-col-3">
-          Bron
-        </Auk::Label>
-        <div class="auk-o-grid-col-9">
-          <PressRelease::SourcesTable
-            @disabled={{true}}
-            @model={{@pressRelease.sources}}
-            @noDataMessage="Geen bronnen gevonden."
-          />
+      {{#if @isUserCreator}}
+        <div class="auk-o-grid auk-u-mb-4">
+          <Auk::Label class="auk-o-grid-col-3">
+            Bron
+          </Auk::Label>
+          <div class="auk-o-grid-col-9">
+            <PressRelease::SourcesTable
+              @disabled={{true}}
+              @model={{@pressRelease.sources}}
+              @noDataMessage="Geen bronnen gevonden."
+            />
+          </div>
         </div>
-      </div>
+      {{/if}}
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Beleidsbevoegdheden
@@ -67,18 +69,20 @@
           {{/each}}
         </ul>
       </div>
-      <div class="auk-o-grid auk-u-mb-4">
-        <Auk::Label class="auk-o-grid-col-3">
-          Publicatiekanalen
-        </Auk::Label>
-        <ul class="auk-o-grid-col-9">
-          {{#each @pressRelease.publicationChannels as |publicationChannel|}}
-            <li>
-              {{publicationChannel.name}}
-            </li>
-          {{/each}}
-        </ul>
-      </div>
+      {{#if @isUserCreator}}
+        <div class="auk-o-grid auk-u-mb-4">
+          <Auk::Label class="auk-o-grid-col-3">
+            Publicatiekanalen
+          </Auk::Label>
+          <ul class="auk-o-grid-col-9">
+            {{#each @pressRelease.publicationChannels as |publicationChannel|}}
+              <li>
+                {{publicationChannel.name}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Bijlagen
