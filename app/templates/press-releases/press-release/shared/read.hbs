@@ -1,4 +1,4 @@
-{{page-title "Read"}}
+{{page-title "Lezen"}}
 <Auk::Navbar @skin="gray-100" @size="large">
   <Auk::Toolbar>
     <Auk::Toolbar::Group  @position="left">
@@ -25,6 +25,13 @@
         <Auk::StatusPill @status="done">
           {{dayjs-from-now this.model.modified}} opgeslagen
         </Auk::StatusPill>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @skin="primary"
+          @route="press-releases.press-release.shared.edit"
+        >Bewerken
+        </Auk::Button>
       </Auk::Toolbar::Item>
      </Auk::Toolbar::Group>
   </Auk::Toolbar>

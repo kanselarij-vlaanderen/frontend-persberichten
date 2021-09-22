@@ -68,82 +68,89 @@
           @onChange={{this.setThemes}}
           />
       </div>
-      <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-          <h4 class="auk-h4">Bron</h4>
-          <Auk::Button
-            @icon="add"
-            @skin="secondary"
-            {{on "click" this.openSourceModal}}
-          >
-            Bron toevoegen
-          </Auk::Button>
+      {{#if @isUserCreator}}
+        <div class="auk-form-group">
+          <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+            <h4 class="auk-h4">Bron</h4>
+            <Auk::Button
+              @icon="add"
+              @skin="secondary"
+              {{on "click" this.openSourceModal}}
+            >
+              Bron toevoegen
+            </Auk::Button>
+          </div>
+          <PressRelease::SourcesTable
+            @onRemoveSource={{this.removeSource}}
+            @model={{@pressRelease.sources}}
+            @noDataMessage="Er is nog geen bron toegevoegd."
+          />
         </div>
-        <PressRelease::SourcesTable
-          @onRemoveSource={{this.removeSource}}
-          @model={{@pressRelease.sources}}
-          @noDataMessage="Er is nog geen bron toegevoegd."
-        />
-      </div>
+      {{/if}}
       <div class="auk-form-group">
         <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
           <h3 class="auk-h3">Bijlagen</h3>
-          <Auk::Button
-            @icon="add"
-            @skin="secondary"
-            {{on "click" this.openUploadModel}}
-          >
-            Bijlage toevoegen
-          </Auk::Button>
+          {{#if @isUserCreator}}
+            <Auk::Button
+              @icon="add"
+              @skin="secondary"
+              {{on "click" this.openUploadModel}}
+            >
+              Bijlage toevoegen
+            </Auk::Button>
+          {{/if}}
         </div>
         <PressRelease::FilesTable
+          @showRemoveButton={{@isUserCreator}}
           @onRemoveAttachment={{this.removeAttachment}}
           @model={{@pressRelease.attachments}}
           @noDataMessage="Er zijn nog geen bijlagen toegevoegd."
         />
       </div>
-      <h3 class="auk-h3">Ontvangers</h3>
-      <div class="auk-form-group">
-        <h4 class="auk-h4">Publicatiekanalen</h4>
-        <InputField::PressReleasePublicationChannels
-          @publicationChannels={{@pressRelease.publicationChannels}}
-          @onChange={{this.setPublicationChannels}}/>
-      </div>
-      <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-          <h4 class="auk-h4">Eigen verzendlijsten</h4>
-          <Auk::Button
-            @icon="add"
-            @skin="secondary"
-            {{on "click" this.openContactListModal}}
-          >
-            Verzendlijst toevoegen
-          </Auk::Button>
+      {{#if @isUserCreator}}
+        <h3 class="auk-h3">Ontvangers</h3>
+        <div class="auk-form-group">
+          <h4 class="auk-h4">Publicatiekanalen</h4>
+          <InputField::PressReleasePublicationChannels
+            @publicationChannels={{@pressRelease.publicationChannels}}
+            @onChange={{this.setPublicationChannels}}/>
         </div>
-        <PressRelease::ContactListTable
-          @onRemoveContactList={{this.removeContactList}}
-          @model={{@pressRelease.contactLists}}
-          @noDataMessage="Er is nog geen verzendlijst toegevoegd."
-        />
-      </div>
-      <div class="auk-form-group">
-        <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
-          <h4 class="auk-h4">Contacten</h4>
-          <Auk::Button
-            @icon="add"
-            @skin="secondary"
-            {{on "click" this.openContactItemModal}}
-          >
-            Contact toevoegen
-          </Auk::Button>
+        <div class="auk-form-group">
+          <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+            <h4 class="auk-h4">Eigen verzendlijsten</h4>
+            <Auk::Button
+              @icon="add"
+              @skin="secondary"
+              {{on "click" this.openContactListModal}}
+            >
+              Verzendlijst toevoegen
+            </Auk::Button>
+          </div>
+          <PressRelease::ContactListTable
+            @onRemoveContactList={{this.removeContactList}}
+            @model={{@pressRelease.contactLists}}
+            @noDataMessage="Er is nog geen verzendlijst toegevoegd."
+          />
         </div>
-        <ContactItem::Table
-          @model={{@pressRelease.contactItems}}
-          @onRemoveContactItem={{this.removeContactItem}}
-          @isEditEnabled={{false}}
-          @noDataMessage="Er zijn nog geen contactpersonen toegevoegd."
-        />
-      </div>
+        <div class="auk-form-group">
+          <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
+            <h4 class="auk-h4">Contacten</h4>
+            <Auk::Button
+              @icon="add"
+              @skin="secondary"
+              {{on "click" this.openContactItemModal}}
+            >
+              Contact toevoegen
+            </Auk::Button>
+          </div>
+          <ContactItem::Table
+            @model={{@pressRelease.contactItems}}
+            @onRemoveContactItem={{this.removeContactItem}}
+            @isEditEnabled={{false}}
+            @noDataMessage="Er zijn nog geen contactpersonen toegevoegd."
+          />
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

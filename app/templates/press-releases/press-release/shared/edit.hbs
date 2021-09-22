@@ -1,2 +1,83 @@
 {{page-title "Bewerk"}}
+<Auk::Navbar @skin="gray-100" @size="large">
+  <Auk::Toolbar>
+    <Auk::Toolbar::Group  @position="left">
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @layout="icon-only"
+          @skin="borderless"
+          @icon="chevron-left"
+          @size="large"
+          {{on "click" (perform this.navigateBack)}}
+        />
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <div class="auk-overline auk-u-block auk-u-muted">
+          Persberichten
+        </div>
+        <h2 class="auk-toolbar__title">
+          {{this.pressRelease.title}}
+        </h2>
+      </Auk::Toolbar::Item>
+    </Auk::Toolbar::Group >
+     <Auk::Toolbar::Group  @position="right">
+      <Auk::Toolbar::Item>
+        {{#if this.savePressRelease.last.isError}}
+          <Auk::StatusPill @status="error">
+            Opslaan mislukt
+          </Auk::StatusPill>
+        {{else}}
+        <Auk::StatusPill @status="done">
+          {{dayjs-from-now this.pressRelease.modified}} Opgeslagen
+        </Auk::StatusPill>
+        {{/if}}
+      </Auk::Toolbar::Item>
+            <Auk::Toolbar::Item>
+        <DropdownMenu
+          @label="Acties"
+          as |Menu|>
+          <Menu.Item {{on "click" this.saveChanges}}>
+            Opslaan
+          </Menu.Item>
+          <Menu.Item  {{on "click" this.saveChangesAndNavigateBack}}>
+            Opslaan en sluiten
+          </Menu.Item>
+        </DropdownMenu>
+      </Auk::Toolbar::Item>
+     </Auk::Toolbar::Group>
+  </Auk::Toolbar>
+</Auk::Navbar>
+
+<div class="auk-o-grid">
+  <div class="auk-o-grid-col-10">
+    <PressRelease::Form
+      @pressRelease={{this.pressRelease}}
+      @isUserCreator={{eq this.currentSession.organization.uri this.pressRelease.creator.uri}}/>
+  </div>
+  <div class="auk-o-grid-col-2 auk-u-mt-8">
+      <h3 class="auk-h3">Aangemaakt door</h3>
+        <h4 class="auk-h4">
+          {{this.pressRelease.creator.shortName}}
+        </h4>
+      <h3 class="auk-h3">Gedeeld met</h3>
+      <div class="auk-o-flex auk-o-flex--vertical">
+        {{#each this.collaborators as |collaborator|}}
+          {{#if (not-eq collaborator.uri this.pressRelease.creator.uri)}}
+            <h4 class="auk-h4">
+              {{collaborator.shortName}}
+            </h4>
+          {{/if}}
+        {{/each}}
+      </div>
+  </div>
+</div>
+
+{{#if this.showConfirmationModal}}
+  <DiscardChangesModal
+    @loading={{this.confirmNavigationBack.isRunning}}
+    @onCancel={{this.cancelNavigationBack}}
+    @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}
+
 {{outlet}}
