@@ -101,7 +101,7 @@
           {{/if}}
         </div>
         <PressRelease::FilesTable
-          @hideRemoveButton={{@isUserCreator}}
+          @showRemoveButton={{@isUserCreator}}
           @onRemoveAttachment={{this.removeAttachment}}
           @model={{@pressRelease.attachments}}
           @noDataMessage="Er zijn nog geen bijlagen toegevoegd."

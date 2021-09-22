@@ -14,7 +14,7 @@
               <th>
                 Type bestand
               </th>
-              {{#if @hideRemoveButton}}
+              {{#if @showRemoveButton}}
                 <th>
                   {{!-- remove source --}}
                 </th>
@@ -34,7 +34,7 @@
                   <Utils::FileTypePill @extension={{row.extension}}/>
                 </td>
                 <td>
-                  {{#if @hideRemoveButton}}
+                  {{#if @showRemoveButton}}
                     <Auk::Button
                       @layout="icon-only"
                       @icon="delete"
