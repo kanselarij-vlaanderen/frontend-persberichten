@@ -6,6 +6,7 @@ export default class UserModel extends Model {
 
   @belongsTo('account') account;
   @belongsTo('user-group') group;
+  @belongsTo('token-claim') tokenClaim;
   @hasMany('press-release-activity') pressReleaseActivities;
 
   get fullName() {
