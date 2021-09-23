@@ -18,10 +18,15 @@
         <Auk::Label for="message">
           Bericht *
         </Auk::Label>
-        <textarea {{editor config=(hash
-            base_url='/tinymce')
+        <textarea {{editor
             content=@pressRelease.htmlContent
             onEditorContentChange=(fn this.setHtmlContent @pressRelease)
+            config=(hash
+              base_url = '/tinymce'
+              menubar = false
+              plugins = 'link lists table'
+              toolbar = 'bold italic | bullist numlist | link unlink | formatselect | table'
+              table_toolbar = 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol')
         }}></textarea>
 
       </div>
