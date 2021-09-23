@@ -33,6 +33,11 @@ export default class PressReleaseFormComponent extends Component {
   }
 
   @action
+  setHtmlContent(record, value) {
+    record["htmlContent"] = value;
+  }
+
+  @action
   addKeyword(newKeyword) {
     let keyWordArray = this.args.pressRelease.keywords;
     if (keyWordArray) {
