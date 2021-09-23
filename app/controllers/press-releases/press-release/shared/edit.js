@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
-import { isBlank } from '@ember/utils';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
@@ -63,8 +62,18 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   }
 
   @action
-  saveChanges() {
-    this.savePressRelease.perform();
+  async saveChanges() {
+    await this.savePressRelease.perform();
+    const collaborationActivity = await this.pressRelease.collaboration;
+    const url = `/collaboration-activities/${collaborationActivity.id}`;
+    const response = await fetch(url, {
+        method: 'PUT',
+      }
+    );
+    console.log(response)
+    // if (response.status === 204) {
+    //   this.router.transitionTo('press-releases.press-release.shared', this.pressRelease);
+    // }
   }
 
   @action
