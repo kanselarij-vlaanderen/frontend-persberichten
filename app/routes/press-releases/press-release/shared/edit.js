@@ -10,9 +10,9 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
         method: 'POST',
       }
     );
-    if (response.status !== 201) {
-      this.transitionTo('press-releases.press-release.shared.read')
-    }
+    // if (response.status !== 201) {
+    //   this.transitionTo('press-releases.press-release.shared.read')
+    // }
   }
 
   async model() {

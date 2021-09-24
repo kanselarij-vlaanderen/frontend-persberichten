@@ -3,11 +3,11 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
-import { isBlank } from '@ember/utils';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
 
+  @tracked collaborators;
   @tracked showConfirmationModal = false;
 
   get snapshot() {
@@ -63,7 +63,11 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   }
 
   @action
-  saveChanges() {
+  async saveChanges() {
+    const stuff = await this.pressRelease.collaboration;
+    const stuff2 = await stuff.tokenClaim;
+    const stuff3 = await stuff2.user;
+    console.log(stuff3)
     this.savePressRelease.perform();
   }
 
