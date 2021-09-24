@@ -28,9 +28,16 @@
       </Auk::Toolbar::Item>
       <Auk::Toolbar::Item>
         <Auk::Button
-          @skin="primary"
+          @skin="secondary"
           @route="press-releases.press-release.shared.edit"
         >Bewerken
+        </Auk::Button>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <Auk::Button
+          @skin="primary"
+          {{on "click" this.openApprovalModal}}
+        >GoedKeuren
         </Auk::Button>
       </Auk::Toolbar::Item>
      </Auk::Toolbar::Group>
@@ -60,5 +67,13 @@
       </div>
   </div>
 </div>
+
+{{#if this.showApprovalModal}}
+  <ApprovePressReleaseModal
+    {{!-- @loading={{this.confirmNavigationBack.isRunning}} --}}
+    @onCancel={{this.closeApprovalModal}}
+    @onConfirm={{perform this.confirmApproval}}
+  />
+{{/if}}
 
 {{outlet}}
