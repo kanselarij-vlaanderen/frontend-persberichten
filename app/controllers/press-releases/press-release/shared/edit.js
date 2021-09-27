@@ -69,11 +69,17 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     const response = await fetch(url, {
         method: 'PUT',
       }
-    );
-    console.log(response)
-    // if (response.status === 204) {
-    //   this.router.transitionTo('press-releases.press-release.shared', this.pressRelease);
-    // }
+    ).catch(err => console.log(err));
+    if (response.status === 200) {
+      const url = `/collaboration-activities/${collaborationActivity.id}/approvals`;
+      const response = await fetch(url, {
+          method: 'DELETE',
+        }
+      ).catch(err => console.log(err));
+      if (response.status === 204) {
+        this.router.transitionTo('press-releases.press-release.shared', this.pressRelease);
+      }
+    }
   }
 
   @action
