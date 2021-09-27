@@ -10,6 +10,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @tracked collaboration;
   @tracked collaborators;
   @tracked showApprovalModal = false;
+  @tracked didUserApprove = false;
 
   @task
   *confirmApproval() {
