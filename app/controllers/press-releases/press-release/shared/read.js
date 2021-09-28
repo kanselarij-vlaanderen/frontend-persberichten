@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-// import { later, cancel } from '@ember/runloop';
 
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
@@ -9,6 +8,5 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
 
   @tracked collaborators;
   @tracked editingUser;
-  @tracked editingUserGroup;
   @tracked isEditPossible;
 }

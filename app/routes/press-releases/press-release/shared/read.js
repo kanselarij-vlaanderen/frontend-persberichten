@@ -44,8 +44,9 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
     if (tokenClaim) {
       const user = await tokenClaim.user;
       this.editingUser = await user.group;
+      controller.editingUser = user;
       if (user === this.currentSession.user) {
-        this.transitionTo('press-releases.press-release.shared.edit', true)
+        this.transitionTo('press-releases.press-release.shared.edit')
       } else {
         this.isEditPossible = user === this.currentSession.user;
       }

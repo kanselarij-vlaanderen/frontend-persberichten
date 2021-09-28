@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
+  @service router;
 
   @tracked collaborators;
   @tracked showConfirmationModal = false;
@@ -32,11 +33,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     // If no route where you returned from go to the shared page
     const response = await this.deleteClaimToken();
     if (response.status ===  204) {
-      if (history.length > 1) {
-        history.back();
-      } else {
         this.router.transitionTo('press-releases.overview.shared');
-      }
     }
   }
 
