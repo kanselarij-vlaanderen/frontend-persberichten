@@ -61,10 +61,6 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
   @action
   async saveChanges() {
-    const stuff = await this.pressRelease.collaboration;
-    const stuff2 = await stuff.tokenClaim;
-    const stuff3 = await stuff2.user;
-    console.log(stuff3)
     this.savePressRelease.perform();
   }
 
