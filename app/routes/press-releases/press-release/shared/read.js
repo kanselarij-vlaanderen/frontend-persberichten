@@ -1,11 +1,11 @@
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class PressReleasesPressReleaseSharedReadRoute extends Route {
   @service currentSession;
 
   async afterModel(model) {
+    console.log('after model hook')
     this.collaboration = await model.collaboration;
     this.collaborators = await this.collaboration.collaborators;
   }
@@ -28,10 +28,5 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
         return;
       }
     })
-  }
-
-  @action
-  reloadModel() {
-    this.refresh();
   }
 }

@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
+  @service('router') routerService;
 
   @tracked collaboration;
   @tracked collaborators;
@@ -21,13 +22,16 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     ).catch(err => console.log(err));
     if (response.status === 201) {
       const url = `/collaboration-activities/${this.collaboration.id}`;
-      yield fetch(url, {
-          methor: 'PUT'
+      const response = yield fetch(url, {
+          method: 'PUT'
         }
       ).catch(err => console.log(err));
+      console.log(response)
+      if (response.status === 204) {}
     }
     this.closeApprovalModal();
-    this.send('reloadModel');
+    // this.routerService.refresh('press-releases.press-release.shared.read');
+    // this.routerService.refresh();
   }
 
   @action
