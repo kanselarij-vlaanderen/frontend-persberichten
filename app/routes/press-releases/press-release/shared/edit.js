@@ -5,10 +5,10 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
 
   async beforeModel() {
     const pressRelease = this.modelFor('press-releases.press-release');
-    const collaborationActivity = await pressRelease.collaboration;
-    const tokenClaim = await collaborationActivity.tokenClaim;
+    this.collaboration = await pressRelease.collaboration;
+    const tokenClaim = await this.collaboration.tokenClaim;
     if (!tokenClaim) {
-      const url = `/collaboration-activities/${collaborationActivity.id}/claims`;
+      const url = `/collaboration-activities/${this.collaboration.id}/claims`;
       const response = await fetch(url, {
           method: 'POST',
         }
@@ -34,5 +34,6 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
   setupController(controller) {
     super.setupController(...arguments);
     controller.collaborators = this.collaborators;
+    controller.collaboration = this.collaboration;
   }
 }

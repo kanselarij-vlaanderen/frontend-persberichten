@@ -7,6 +7,7 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
 
   async afterModel(model) {
     this.collaboration = await model.collaboration;
+    this.approvalActivities = await this.collaboration.approvalActivities;
     const tokenClaim = await this.collaboration.tokenClaim;
     if (tokenClaim) {
       const user = await tokenClaim.user;
@@ -26,6 +27,7 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
     super.setupController(...arguments);
     controller.collaboration = this.collaboration;
     controller.collaborators = this.collaborators;
+    controller.approvalActivities = this.approvalActivities;
     controller.didUserApprove = false;
     this.loadTokenClaimInfo(controller);
     this.loadUserApprovalStatus(controller);
