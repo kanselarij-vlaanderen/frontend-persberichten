@@ -3,10 +3,10 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
-import { isBlank } from '@ember/utils';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
+  @service router;
 
   @tracked showConfirmationModal = false;
 
@@ -63,8 +63,25 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   }
 
   @action
-  saveChanges() {
-    this.savePressRelease.perform();
+  async saveChanges() {
+    await this.savePressRelease.perform();
+    const collaborationActivity = await this.pressRelease.collaboration;
+    const url = `/collaboration-activities/${collaborationActivity.id}`;
+    const response = await fetch(url, {
+        method: 'PUT',
+      }
+    ).catch(err => console.log(err));
+    if (response.status === 200) {
+      const url = `/collaboration-activities/${collaborationActivity.id}/approvals`;
+      const response = await fetch(url, {
+          method: 'DELETE',
+        }
+      ).catch(err => console.log(err));
+      if (response.status === 204 || response.status === 409) {
+        this.router.refresh();
+        this.router.transitionTo('press-releases.press-release.shared', this.pressRelease.id);
+      }
+    }
   }
 
   @action
