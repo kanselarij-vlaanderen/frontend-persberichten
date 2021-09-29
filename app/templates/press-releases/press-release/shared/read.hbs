@@ -34,6 +34,15 @@
         >Bewerken
         </Auk::Button>
       </Auk::Toolbar::Item>
+      {{#if (and (not this.didUserApprove) (not-eq this.currentSession.organization.uri this.model.creator.uri))}}
+        <Auk::Toolbar::Item>
+          <Auk::Button
+            @skin="primary"
+            {{on "click" this.openApprovalModal}}
+          >GoedKeuren
+          </Auk::Button>
+        </Auk::Toolbar::Item>
+      {{/if}}
      </Auk::Toolbar::Group>
   </Auk::Toolbar>
 </Auk::Navbar>
@@ -64,13 +73,26 @@
       <div class="auk-o-flex auk-o-flex--vertical">
         {{#each this.collaborators as |collaborator|}}
           {{#if (not-eq collaborator.uri this.model.creator.uri)}}
-            <h4 class="auk-h4">
+            <h4 class="auk-h4 auk-u-mb">
               {{collaborator.shortName}}
             </h4>
+            <Collaboration::ApprovalStatus
+              @collaborator={{collaborator}}
+              @collaborationActivity={{this.collaboration.approvalActivities}}
+            />
           {{/if}}
         {{/each}}
       </div>
   </div>
 </div>
+
+{{#if this.showApprovalModal}}
+  <ApprovePressReleaseModal
+    @loading={{this.confirmApproval.isRunning}}
+    @onCancel={{this.closeApprovalModal}}
+    @onConfirm={{perform this.confirmApproval}}
+    @creator={{this.model.creator}}
+  />
+{{/if}}
 
 {{outlet}}

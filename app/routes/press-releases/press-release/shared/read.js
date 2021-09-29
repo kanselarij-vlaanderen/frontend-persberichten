@@ -3,7 +3,6 @@ import { later, cancel } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 
 export default class PressReleasesPressReleaseSharedReadRoute extends Route {
-
   @service currentSession;
 
   async afterModel(model) {
@@ -25,8 +24,11 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
 
   setupController(controller) {
     super.setupController(...arguments);
+    controller.collaboration = this.collaboration;
     controller.collaborators = this.collaborators;
+    controller.didUserApprove = false;
     this.loadTokenClaimInfo(controller);
+    this.loadUserApprovalStatus(controller);
   }
 
   resetController() {
@@ -54,5 +56,22 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
       controller.isEditPossible = true;
     }
     this.loop = later(this, () => this.loadTokenClaimInfo(controller), 10000);
+  }
+
+  async loadUserApprovalStatus(controller) {
+    const activity = await this.store.findRecord('collaboration-activity', this.collaboration.id, {
+      include: [
+        'approval-activities',
+      ].join(',')
+    });
+    const approvalActivities = await activity.approvalActivities;
+    approvalActivities.forEach(async activity => {
+      const collaborator = await activity.collaborator;
+      const approved = collaborator.uri === this.currentSession.organization.uri;
+      if (approved) {
+        controller.didUserApprove = approved;
+        return;
+      }
+    })
   }
 }
