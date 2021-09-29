@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
+  @service router;
 
   @tracked showConfirmationModal = false;
 
@@ -76,8 +77,9 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
           method: 'DELETE',
         }
       ).catch(err => console.log(err));
-      if (response.status === 204) {
-        this.router.transitionTo('press-releases.press-release.shared', this.pressRelease);
+      if (response.status === 204 || response.status === 409) {
+        this.router.refresh();
+        this.router.transitionTo('press-releases.press-release.shared', this.pressRelease.id);
       }
     }
   }
