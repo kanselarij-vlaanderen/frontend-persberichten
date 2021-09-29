@@ -26,12 +26,11 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
           method: 'PUT'
         }
       ).catch(err => console.log(err));
-      console.log(response)
-      if (response.status === 204) {}
+      if (response.status === 200) {
+        this.closeApprovalModal();
+        this.routerService.refresh();
+      }
     }
-    this.closeApprovalModal();
-    // this.routerService.refresh('press-releases.press-release.shared.read');
-    // this.routerService.refresh();
   }
 
   @action

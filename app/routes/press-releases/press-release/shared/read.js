@@ -5,7 +5,6 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
   @service currentSession;
 
   async afterModel(model) {
-    console.log('after model hook')
     this.collaboration = await model.collaboration;
     this.collaborators = await this.collaboration.collaborators;
   }
@@ -19,10 +18,15 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
   }
 
   async loadUserApprovalStatus(controller) {
-    const approvalActivities = await this.collaboration.approvalActivities;
+    const activity = await this.store.findRecord('collaboration-activity', this.collaboration.id, {
+      include: [
+        'approval-activities',
+      ].join(',')
+    });
+    const approvalActivities = await activity.approvalActivities;
     approvalActivities.forEach(async activity => {
-      const activityCollaborator = await activity.collaborator;
-      const approved = activityCollaborator.uri === this.currentSession.organization.uri;
+      const collaborator = await activity.collaborator;
+      const approved = collaborator.uri === this.currentSession.organization.uri;
       if (approved) {
         controller.didUserApprove = approved;
         return;
