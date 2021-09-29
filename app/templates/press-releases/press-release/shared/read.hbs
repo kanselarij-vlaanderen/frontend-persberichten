@@ -30,6 +30,7 @@
         <Auk::Button
           @skin="secondary"
           @route="press-releases.press-release.shared.edit"
+          @disabled={{not this.isEditPossible}}
         >Bewerken
         </Auk::Button>
       </Auk::Toolbar::Item>
@@ -47,6 +48,17 @@
 </Auk::Navbar>
 
 <div class="auk-o-grid">
+  {{#unless this.isEditPossible}}
+    <div class="auk-o-grid-col-12 auk-u-m-8">
+      <div class="auk-alert auk-alert--warning ">
+          <div class="auk-alert__body">
+              <div class="auk-alert__text">
+                  <p class="auk-alert__message">{{this.editingUser.fullName}} is dit persbericht momenteel aan het bewerken.  {{this.isEditPossible}}</p>
+              </div>
+          </div>
+      </div>
+    </div>
+  {{/unless}}
   <div class="auk-o-grid-col-10">
     <PressRelease::ReadOnly
       @pressRelease={{this.model}}

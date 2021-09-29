@@ -6,10 +6,12 @@ import { action } from '@ember/object';
 
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
-  @service('router') routerService;
+  @service router;
 
   @tracked collaboration;
   @tracked collaborators;
+  @tracked editingUser;
+  @tracked isEditPossible;
   @tracked showApprovalModal = false;
   @tracked didUserApprove = false;
 
@@ -28,7 +30,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
       ).catch(err => console.log(err));
       if (response.status === 200) {
         this.closeApprovalModal();
-        this.routerService.refresh();
+        this.router.refresh();
       }
     }
   }

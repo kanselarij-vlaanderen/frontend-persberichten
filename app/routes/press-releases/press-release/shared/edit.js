@@ -2,16 +2,20 @@ import Route from '@ember/routing/route';
 import PressReleaseSnapshot from '../../../../utils/press-release-snapshot';
 
 export default class PressReleasesPressReleaseSharedEditRoute extends Route {
+
   async beforeModel() {
     const pressRelease = this.modelFor('press-releases.press-release');
     const collaborationActivity = await pressRelease.collaboration;
-    const url = `/collaboration-activities/${collaborationActivity.id}/claims`;
-    const response = await fetch(url, {
-        method: 'POST',
+    const tokenClaim = await collaborationActivity.tokenClaim;
+    if (!tokenClaim) {
+      const url = `/collaboration-activities/${collaborationActivity.id}/claims`;
+      const response = await fetch(url, {
+          method: 'POST',
+        }
+      );
+      if (response.status !== 201) {
+        this.transitionTo('press-releases.press-release.shared.read')
       }
-    );
-    if (response.status !== 201) {
-      this.transitionTo('press-releases.press-release.shared.read')
     }
   }
 

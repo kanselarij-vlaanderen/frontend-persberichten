@@ -8,6 +8,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   @service currentSession;
   @service router;
 
+  @tracked collaborators;
   @tracked showConfirmationModal = false;
 
   get snapshot() {
@@ -32,11 +33,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     // If no route where you returned from go to the shared page
     const response = await this.deleteClaimToken();
     if (response.status ===  204) {
-      if (history.length > 1) {
-        history.back();
-      } else {
         this.router.transitionTo('press-releases.overview.shared');
-      }
     }
   }
 
@@ -64,6 +61,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
   @action
   async saveChanges() {
+    this.savePressRelease.perform();
     await this.savePressRelease.perform();
     const collaborationActivity = await this.pressRelease.collaboration;
     const url = `/collaboration-activities/${collaborationActivity.id}`;
