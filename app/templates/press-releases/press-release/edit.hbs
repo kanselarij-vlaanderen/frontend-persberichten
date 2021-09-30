@@ -108,11 +108,15 @@
           </DropdownMenu>
         </Auk::Toolbar::Item>
       {{/unless}}
-    </Auk::Toolbar::Group >
+    </Auk::Toolbar::Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 
-<PressRelease::Form @pressRelease={{this.pressRelease}} @isUserCreator={{true}}/>
+<PressRelease::Form
+  @pressRelease={{this.pressRelease}}
+  {{!-- When in the edit route of a non-shared press-release user can always edit --}}
+  @isUserCreator={{true}}
+/>
 
 {{#if this.showPublicationModal}}
   <PressRelease::PublicationModal
