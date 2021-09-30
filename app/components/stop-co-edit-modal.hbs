@@ -1,0 +1,20 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Stoppen met co-editeren?"
+    @closeable={{false}}
+  />
+  <Auk::Modal::Body>
+    <p>
+      Het persbericht is nog niet goedgekeurd door alle deelnemers. Bent u zeker dat u het co-editeren wil stoppen?
+    </p>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="primary"
+      @loading={{@loading}}
+      {{on "click" @onConfirm}}
+    >
+      Stoppen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

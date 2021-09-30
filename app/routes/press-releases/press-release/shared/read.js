@@ -11,7 +11,6 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
       'filter[collaboration-activity][:id:]': this.collaboration.id,
       include: 'user'
     });
-
     if (tokenClaim) {
       this.tokenClaimUser = await tokenClaim.user;
       if (this.tokenClaimUser === this.currentSession.user) {
@@ -19,6 +18,7 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
       }
     }
 
+    this.approvalActivities = await this.collaboration.approvalActivities;
     this.collaborators = await this.collaboration.collaborators;
   }
 
@@ -27,6 +27,7 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
     controller.collaboration = this.collaboration;
     controller.collaborators = this.collaborators;
     controller.tokenClaimUser = this.tokenClaimUser;
+    controller.approvalActivities = this.approvalActivities;
     controller.didUserApprove = false;
     this.loadUserApprovalStatus(controller);
     controller.scheduleTokenClaimRefresh();
