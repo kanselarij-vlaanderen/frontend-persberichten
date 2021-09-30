@@ -10,9 +10,11 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
 
   @tracked collaboration;
   @tracked collaborators;
+  @tracked approvalActivities;
   @tracked editingUser;
   @tracked isEditPossible;
   @tracked showApprovalModal = false;
+  @tracked showCoEditModal = false;
   @tracked didUserApprove = false;
 
   @task
@@ -35,6 +37,28 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     }
   }
 
+  @task
+  *stopCoEdit() {
+    const url = `/collaboration-activities/${this.collaboration.id}`;
+    const response = yield fetch(url, {
+        method: 'DELETE',
+      }
+    ).catch(err => console.log(err));
+
+    if (response.status === 200) {
+      this.router.transitionTo('press-releases.press-release.edit', this.pressRelease.id);
+    }
+  }
+
+  @action
+  async checkApprovals() {
+    if (this.collaborators.length === this.approvalActivities.length + 1) {
+      this.stopCoEdit.perform();
+    } else {
+      this.openCoEditModal();
+    }
+  }
+
   @action
   openApprovalModal() {
     this.showApprovalModal = true;
@@ -43,5 +67,15 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @action
   closeApprovalModal() {
     this.showApprovalModal = false;
+  }
+
+  @action
+  openCoEditModal() {
+    this.showCoEditModal = true;
+  }
+
+  @action
+  closeCoEditModal() {
+    this.showCoEditModal = false;
   }
 }

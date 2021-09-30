@@ -9,6 +9,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   @service router;
 
   @tracked collaborators;
+  @tracked collaboration;
   @tracked showConfirmationModal = false;
 
   get snapshot() {
