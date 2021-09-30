@@ -1,24 +1,24 @@
 import Route from '@ember/routing/route';
-import { later, cancel } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { cancel } from '@ember/runloop';
 
 export default class PressReleasesPressReleaseSharedReadRoute extends Route {
   @service currentSession;
 
   async afterModel(model) {
     this.collaboration = await model.collaboration;
-    const tokenClaim = await this.collaboration.tokenClaim;
+    const tokenClaim = await this.store.queryOne('token-claim', {
+      'filter[collaboration-activity][:id:]': this.collaboration.id,
+      include: 'user'
+    });
+
     if (tokenClaim) {
-      const user = await tokenClaim.user;
-      this.editingUser = await user.group;
-      if (user === this.currentSession.user) {
-        this.transitionTo('press-releases.press-release.shared.edit')
-      } else {
-        this.isEditPossible = user === this.currentSession.user;
+      this.tokenClaimUser = await tokenClaim.user;
+      if (this.tokenClaimUser === this.currentSession.user) {
+        this.transitionTo('press-releases.press-release.shared.edit');
       }
-    } else {
-      this.isEditPossible = true;
     }
+
     this.collaborators = await this.collaboration.collaborators;
   }
 
@@ -26,36 +26,14 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
     super.setupController(...arguments);
     controller.collaboration = this.collaboration;
     controller.collaborators = this.collaborators;
+    controller.tokenClaimUser = this.tokenClaimUser;
     controller.didUserApprove = false;
-    this.loadTokenClaimInfo(controller);
     this.loadUserApprovalStatus(controller);
+    controller.scheduleTokenClaimRefresh();
   }
 
-  resetController() {
-    cancel(this.loop);
-  }
-
-  async loadTokenClaimInfo(controller) {
-    const activity = await this.store.findRecord('collaboration-activity', this.collaboration.id, {
-      include: [
-        'token-claim',
-        'token-claim.user'
-      ].join(',')
-    });
-    const tokenClaim = await activity.tokenClaim;
-    if (tokenClaim) {
-      const user = await tokenClaim.user;
-      this.editingUser = await user.group;
-      controller.editingUser = user;
-      if (user === this.currentSession.user) {
-        this.transitionTo('press-releases.press-release.shared.edit')
-      } else {
-        this.isEditPossible = user === this.currentSession.user;
-      }
-    } else {
-      controller.isEditPossible = true;
-    }
-    this.loop = later(this, () => this.loadTokenClaimInfo(controller), 10000);
+  resetController(controller) {
+    cancel(controller.scheduledTokenClaimRefresh);
   }
 
   async loadUserApprovalStatus(controller) {
@@ -72,6 +50,6 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
         controller.didUserApprove = approved;
         return;
       }
-    })
+    });
   }
 }

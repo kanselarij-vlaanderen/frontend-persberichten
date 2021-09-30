@@ -10,7 +10,7 @@ export default class PressReleasesPressReleaseEditRoute extends Route {
     } else {
       const collaboration = await this.pressRelease.collaboration;
       if (collaboration) {
-        this.transitionTo('press-releases.press-release.shared');
+        this.transitionTo('press-releases.press-release.shared.read');
       }
     }
   }

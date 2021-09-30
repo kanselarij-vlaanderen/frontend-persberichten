@@ -146,7 +146,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       }
     );
     if (response.status === 204) {
-      this.router.transitionTo('press-releases.press-release.shared', this.pressRelease);
+      this.router.transitionTo('press-releases.press-release.shared.read', this.pressRelease);
     }
     this.showOrganizationModal = false;
   }

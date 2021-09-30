@@ -5,16 +5,20 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
 
   async beforeModel() {
     const pressRelease = this.modelFor('press-releases.press-release');
-    const collaborationActivity = await pressRelease.collaboration;
-    const tokenClaim = await collaborationActivity.tokenClaim;
+    const collaboration = await pressRelease.collaboration;
+    const tokenClaim = await this.store.queryOne('token-claim', {
+      'filter[collaboration-activity][:id:]': collaboration.id,
+      include: 'user'
+    });
+
     if (!tokenClaim) {
-      const url = `/collaboration-activities/${collaborationActivity.id}/claims`;
+      const url = `/collaboration-activities/${collaboration.id}/claims`;
       const response = await fetch(url, {
           method: 'POST',
         }
       );
       if (response.status !== 201) {
-        this.transitionTo('press-releases.press-release.shared.read')
+        this.transitionTo('press-releases.press-release.shared.read');
       }
     }
   }
