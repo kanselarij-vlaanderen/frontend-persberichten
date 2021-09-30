@@ -61,30 +61,31 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
   @action
   async saveChanges() {
-    this.savePressRelease.perform();
     await this.savePressRelease.perform();
     const collaborationActivity = await this.pressRelease.collaboration;
+    // Make updated data available for all collaborators
     const url = `/collaboration-activities/${collaborationActivity.id}`;
     const response = await fetch(url, {
         method: 'PUT',
       }
     ).catch(err => console.log(err));
     if (response.status === 200) {
+      // Remove existing approvals because press-release has changed
       const url = `/collaboration-activities/${collaborationActivity.id}/approvals`;
       const response = await fetch(url, {
           method: 'DELETE',
         }
       ).catch(err => console.log(err));
-      if (response.status === 204 || response.status === 409) {
-        this.router.refresh();
-        this.router.transitionTo('press-releases.press-release.shared', this.pressRelease.id);
+      if (response.status === 204) {
+        // TODO Force reload of approvals linked to the collaboration-activity
+        await collaborationActivity.hasMany('approvalActivities').reload();
       }
     }
   }
 
   @action
   async saveChangesAndNavigateBack() {
-    await this.savePressRelease.perform();
+    await this.saveChanges();
     this.transitionBack();
   }
 

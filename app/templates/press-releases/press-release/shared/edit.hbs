@@ -28,11 +28,11 @@
           </Auk::StatusPill>
         {{else}}
         <Auk::StatusPill @status="done">
-          {{dayjs-from-now this.pressRelease.modified}} Opgeslagen
+          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
         </Auk::StatusPill>
         {{/if}}
       </Auk::Toolbar::Item>
-            <Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
         <DropdownMenu
           @label="Acties"
           as |Menu|>
