@@ -34,12 +34,21 @@
         >Bewerken
         </Auk::Button>
       </Auk::Toolbar::Item>
+      {{#if (eq this.currentSession.organization.uri this.model.creator.uri)}}
+        <Auk::Toolbar::Item>
+          <Auk::Button
+            @skin="danger-primary"
+            {{on "click" this.checkApprovals}}
+          >Stop co-editeren
+          </Auk::Button>
+        </Auk::Toolbar::Item>
+      {{/if}}
       {{#if (and (not this.didUserApprove) (not-eq this.currentSession.organization.uri this.model.creator.uri))}}
         <Auk::Toolbar::Item>
           <Auk::Button
             @skin="primary"
             {{on "click" this.openApprovalModal}}
-          >GoedKeuren
+          >Goedkeuren
           </Auk::Button>
         </Auk::Toolbar::Item>
       {{/if}}
@@ -92,6 +101,14 @@
     @onCancel={{this.closeApprovalModal}}
     @onConfirm={{perform this.confirmApproval}}
     @creator={{this.model.creator}}
+  />
+{{/if}}
+
+{{#if this.showCoEditModal}}
+  <StopCoEditModal
+    @loading={{this.stopCoEdit.isRunning}}
+    @onCancel={{this.closeCoEditModal}}
+    @onConfirm={{perform this.stopCoEdit}}
   />
 {{/if}}
 
