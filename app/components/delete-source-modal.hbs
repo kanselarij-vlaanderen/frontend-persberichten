@@ -1,0 +1,23 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Bron verwijderen?"
+    @closeable={{false}}
+  />
+  <Auk::Modal::Body>
+    <p>
+      Bent u zeker dat u deze bron wil verwijderen?
+    </p>
+    <p>
+      Deze actie kan niet ongedaan worden gemaakt.
+    </p>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="danger-primary"
+      @loading={{@loading}}
+      {{on "click" @onConfirm}}
+    >
+      Bron verwijderen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>
