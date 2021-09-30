@@ -83,42 +83,31 @@ export default class PressReleaseFormComponent extends Component {
   @action
   async addContactItems(newContactItems) {
     const contactLists = await this.args.pressRelease.contactItems;
-    const publicationChannels = await this.args.pressRelease.publicationChannels;
     contactLists.pushObjects(newContactItems);
-    publicationChannels.pushObject(this.mailingListPublicationChannel);
+    this.updateMailingListPublicationChannelOnAdd();
     this.showContactItemModal = false;
   }
 
   @action
   async removeContactItem(contactItem) {
     const contactItems = await this.args.pressRelease.contactItems;
-    const contactLists = await this.args.pressRelease.contactLists;
     contactItems.removeObject(contactItem);
-    if (contactLists.length === 0 && contactItems.length === 0) {
-      const publicationChannels = await this.args.pressRelease.publicationChannels;
-      publicationChannels.removeObject(this.mailingListPublicationChannel);
-    }
+    this.updateMailingListPublicationChannelOnRemove();
   }
-
 
   @action
   async addContactLists(newContactLists) {
     const contactLists = await this.args.pressRelease.contactLists;
-    const publicationChannels = await this.args.pressRelease.publicationChannels;
     contactLists.pushObjects(newContactLists);
-    publicationChannels.pushObject(this.mailingListPublicationChannel);
+    this.updateMailingListPublicationChannelOnAdd();
     this.showContactListModal = false;
   }
 
   @action
   async removeContactList(contactList) {
     const contactLists = await this.args.pressRelease.contactLists;
-    const contactItems = await this.args.pressRelease.contactItems;
     contactLists.removeObject(contactList);
-    if (contactLists.length === 0 && contactItems.length === 0) {
-      const publicationChannels = await this.args.pressRelease.publicationChannels;
-      publicationChannels.removeObject(this.mailingListPublicationChannel);
-    }
+    this.updateMailingListPublicationChannelOnRemove();
   }
 
   @action
@@ -179,5 +168,20 @@ export default class PressReleaseFormComponent extends Component {
   @action
   closeUploadModal() {
     this.showUploadModal = false;
+  }
+
+  async updateMailingListPublicationChannelOnAdd() {
+    const publicationChannels = await this.args.pressRelease.publicationChannels;
+    publicationChannels.pushObject(this.mailingListPublicationChannel);
+  }
+
+  async updateMailingListPublicationChannelOnRemove() {
+    const contactItems = await this.args.pressRelease.contactItems;
+    const contactLists = await this.args.pressRelease.contactLists;
+
+    if (contactLists.length === 0 && contactItems.length === 0) {
+      const publicationChannels = await this.args.pressRelease.publicationChannels;
+      publicationChannels.removeObject(this.mailingListPublicationChannel);
+    }
   }
 }
