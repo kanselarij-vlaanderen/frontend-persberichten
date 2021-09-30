@@ -34,7 +34,7 @@ export default class PressReleaseFormComponent extends Component {
 
   @action
   setHtmlContent(record, value) {
-    record["htmlContent"] = value;
+    record.htmlContent = value;
   }
 
   @action
