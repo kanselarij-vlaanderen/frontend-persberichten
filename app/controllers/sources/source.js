@@ -74,7 +74,7 @@ export default class SourcesSourceController extends Controller {
   }
 
   transitionBack() {
-    // If no route where you returned from go to the concept page
+    // If no route where you returned from go to the sources overview page
     if (history.length > 1) {
       history.back();
     } else {
