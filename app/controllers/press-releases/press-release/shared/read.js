@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
@@ -10,12 +11,15 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
 
   @tracked collaboration;
   @tracked collaborators;
+  @tracked tokenClaimUser;
   @tracked approvalActivities;
-  @tracked editingUser;
-  @tracked isEditPossible;
   @tracked showApprovalModal = false;
   @tracked showCoEditModal = false;
   @tracked didUserApprove = false;
+
+  get isClaimedByOtherUser() {
+    return this.tokenClaimUser;
+  }
 
   @task
   *confirmApproval() {
@@ -51,7 +55,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   }
 
   @action
-  async checkApprovals() {
+  checkApprovals() {
     if (this.collaborators.length === this.approvalActivities.length + 1) {
       this.stopCoEdit.perform();
     } else {
@@ -77,5 +81,24 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @action
   closeCoEditModal() {
     this.showCoEditModal = false;
+  }
+
+  scheduleTokenClaimRefresh() {
+    this.scheduledTokenClaimRefresh = later(this, () => this.refreshTokenClaim(), 10000);
+  }
+
+  async refreshTokenClaim() {
+    const tokenClaim = await this.store.queryOne('token-claim', {
+      'filter[collaboration-activity][:id:]': this.collaboration.id,
+      include: 'user'
+    });
+
+    if (tokenClaim) {
+      this.tokenClaimUser = await tokenClaim.user;
+    } else {
+      this.tokenClaimUser = null;
+    }
+
+    this.scheduleTokenClaimRefresh();
   }
 }

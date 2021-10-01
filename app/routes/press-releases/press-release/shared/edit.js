@@ -2,11 +2,14 @@ import Route from '@ember/routing/route';
 import PressReleaseSnapshot from '../../../../utils/press-release-snapshot';
 
 export default class PressReleasesPressReleaseSharedEditRoute extends Route {
-
   async beforeModel() {
     const pressRelease = this.modelFor('press-releases.press-release');
     this.collaboration = await pressRelease.collaboration;
-    const tokenClaim = await this.collaboration.tokenClaim;
+    const tokenClaim = await this.store.queryOne('token-claim', {
+      'filter[collaboration-activity][:id:]': this.collaboration.id,
+      include: 'user'
+    });
+
     if (!tokenClaim) {
       const url = `/collaboration-activities/${this.collaboration.id}/claims`;
       const response = await fetch(url, {
@@ -14,7 +17,7 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
         }
       );
       if (response.status !== 201) {
-        this.transitionTo('press-releases.press-release.shared.read')
+        this.transitionTo('press-releases.press-release.shared.read');
       }
     }
   }
@@ -26,14 +29,12 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
     return snapshot;
   }
 
-  async afterModel(model) {
-    const collaboration = await model.pressRelease.collaboration;
-    this.collaborators = await collaboration.collaborators;
+  async afterModel() {
+    this.collaborators = await this.collaboration.collaborators;
   }
 
   setupController(controller) {
     super.setupController(...arguments);
     controller.collaborators = this.collaborators;
-    controller.collaboration = this.collaboration;
   }
 }
