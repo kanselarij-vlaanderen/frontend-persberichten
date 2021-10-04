@@ -8,6 +8,7 @@ import { action } from '@ember/object';
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
   @service router;
+  @service toaster;
 
   @tracked collaboration;
   @tracked collaborators;
@@ -27,15 +28,16 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     const response = yield fetch(url, {
         method: 'POST',
       }
-    ).catch(err => console.log(err));
+    ).catch(err => this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.'));
     if (response.status === 201) {
       const url = `/collaboration-activities/${this.collaboration.id}`;
       const response = yield fetch(url, {
           method: 'PUT'
         }
-      ).catch(err => console.log(err));
+      ).catch(err => this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.'));
       if (response.status === 200) {
         this.closeApprovalModal();
+        this.toaster.success('Persbericht werd succesvol goedgekeurd.');
         this.router.refresh();
       }
     }
@@ -47,9 +49,10 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     const response = yield fetch(url, {
         method: 'DELETE',
       }
-    ).catch(err => console.log(err));
+    ).catch(err => this.toaster.error('Er is iets misgegaan bij het stoppen van co-editeren.'));
 
     if (response.status === 200) {
+      this.toaster.success('Co-editeren werd succesvol stopgezet.');
       this.router.transitionTo('press-releases.press-release.edit', this.pressRelease.id);
     }
   }
