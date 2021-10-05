@@ -1,0 +1,23 @@
+<Auk::Modal>
+  <Auk::Modal::Header
+    @title="Verzendlijst verwijderen?"
+    @closeable={{false}}
+  />
+  <Auk::Modal::Body>
+    <p>
+      Bent u zeker dat u dit verzendlijst wil verwijderen?
+    </p>
+    <p>
+      Deze actie kan niet ongedaan worden gemaakt.
+    </p>
+  </Auk::Modal::Body>
+  <Auk::Modal::Footer @onCancel={{@onCancel}}>
+    <Auk::Button
+      @skin="danger-primary"
+      @loading={{@loading}}
+      {{on "click" @onConfirm}}
+    >
+      Verzendlijst verwijderen
+    </Auk::Button>
+  </Auk::Modal::Footer>
+</Auk::Modal>

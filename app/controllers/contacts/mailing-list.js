@@ -11,6 +11,7 @@ export default class ContactsMailingListController extends Controller {
   @tracked isEditEnabled = false;
   @tracked showConfirmationModal = false;
   @tracked showContactItemModal = false;
+  @tracked showDeleteContactListModal = false;
   @tracked selectedContact;
   @tracked contactList;
 
@@ -64,6 +65,16 @@ export default class ContactsMailingListController extends Controller {
   @action
   closeContactItemModal() {
     this.showContactItemModal = false;
+  }
+
+  @action
+  openDeleteContactListModal() {
+    this.showDeleteContactListModal = true;
+  }
+
+  @action
+  closeDeleteContactListModal() {
+    this.showDeleteContactListModal = false;
   }
 
   @action
@@ -145,6 +156,20 @@ export default class ContactsMailingListController extends Controller {
       yield this.updateContactListModificationDate();
     }
     this.isEditEnabled = false;
+  }
+
+  @task
+  *confirmDeletion() {
+    yield Promise.all(this.model.map(async contact => {
+      await Promise.all([
+        (await contact.telephone).destroyRecord(),
+        (await contact.mailAddress).destroyRecord()
+      ]);
+      return await contact.destroyRecord();
+    }));
+    yield this.contactList.destroyRecord();
+    this.closeDeleteContactListModal();
+    this.router.transitionTo('contacts.overview');
   }
 
   @action
