@@ -1,7 +1,10 @@
 import Route from '@ember/routing/route';
 import PressReleaseSnapshot from '../../../../utils/press-release-snapshot';
+import { inject as service } from '@ember/service';
 
 export default class PressReleasesPressReleaseSharedEditRoute extends Route {
+  @service toaster;
+
   async beforeModel() {
     const pressRelease = this.modelFor('press-releases.press-release');
     this.collaboration = await pressRelease.collaboration;
@@ -17,6 +20,7 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
         }
       );
       if (response.status !== 201) {
+        this.toaster.error('Er is iets misgegaan bij het claimen van de token.');
         this.transitionTo('press-releases.press-release.shared.read');
       }
     }
@@ -31,10 +35,12 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
 
   async afterModel() {
     this.collaborators = await this.collaboration.collaborators;
+    this.approvalActivities = await this.collaboration.approvalActivities;
   }
 
   setupController(controller) {
     super.setupController(...arguments);
     controller.collaborators = this.collaborators;
+    controller.approvalActivities = this.approvalActivities;
   }
 }

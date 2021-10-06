@@ -8,6 +8,7 @@ import { isBlank } from '@ember/utils';
 export default class PressReleasesPressReleaseEditController extends Controller {
   @service router;
   @service store;
+  @service toaster;
 
   @tracked showPublicationModal = false;
   @tracked showPublicationPlanningModal = false;
@@ -116,9 +117,14 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
   @task
   *revokePressRelease() {
-    const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
-    yield publicationEvent.destroyRecord();
-    yield publicationEvent.save();
+    try {
+      const publicationEvent = yield this.snapshot.pressRelease.publicationEvent;
+      yield publicationEvent.destroyRecord();
+      yield publicationEvent.save();
+      this.toaster.success('Persbericht werd succesvol teruggetrokken.');
+    } catch {
+      this.toaster.error('Er is iets misgegaan bij het terugtrekken van het persbericht.');
+    }
   }
 
   @task

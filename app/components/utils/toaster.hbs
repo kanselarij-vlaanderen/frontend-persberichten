@@ -1,0 +1,13 @@
+{{#if @toasts.length}}
+  <div class="toasts-container">
+    {{!-- TODO: fix z-index for all toasts. A toast should appear on top of most other things (z-index/rendering location?) --}}
+    {{#each @toasts as |toast|}}
+        <Utils::Toaster::Toast
+          @type={{toast.options.type}}
+          @onClose={{toast.options.onClose}}
+          @title={{toast.title}}
+          @message={{toast.message}}
+        />
+    {{/each}}
+  </div>
+{{/if}}
