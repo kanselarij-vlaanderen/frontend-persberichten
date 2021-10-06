@@ -29,6 +29,15 @@
         </Auk::Toolbar::Item>
       {{/if}}
       <Auk::Toolbar::Item>
+        <DropdownMenu
+          @label="Acties"
+          as |Menu|>
+          <Menu.Item
+            class="auk-menu__item auk-menu__item--danger"
+            {{on "click" this.openDeleteContactListModal}}>
+              Verwijderen
+          </Menu.Item>
+        </DropdownMenu>
       </Auk::Toolbar::Item>
         <Auk::Toolbar::Item>
           {{#if this.isEditEnabled}}
@@ -111,4 +120,12 @@
     @onDeleteContact={{this.deleteContact}}
   />
 {{/if}}
+{{#if this.showDeleteContactListModal}}
+  <DeleteContactListModal
+    @loading={{this.confirmDeletion.isRunning}}
+    @onCancel={{this.closeDeleteContactListModal}}
+    @onConfirm={{perform this.confirmDeletion}}
+  />
+{{/if}}
+
 {{outlet}}
