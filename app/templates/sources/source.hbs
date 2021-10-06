@@ -39,6 +39,15 @@
           Opslaan
         </Auk::Button>
       </Auk::Toolbar::Item>
+            <Auk::Toolbar::Item>
+        <DropdownMenu
+          @label="Acties"
+          as |Menu|>
+          <Menu.Item {{on "click" this.openDeleteSourceModal}}>
+            Verwijderen
+          </Menu.Item>
+        </DropdownMenu>
+      </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
 </Auk::Navbar>
@@ -50,5 +59,14 @@
     @loading={{this.confirmNavigationBack.isRunning}}
     @onCancel={{this.cancelNavigationBack}}
     @onConfirm={{perform this.confirmNavigationBack}}
+  />
+{{/if}}
+
+{{#if this.showDeleteSourceModal}}
+  <DeleteSourceModal
+    @loading={{this.confirmSourceDeletion.isRunning}}
+    @onCancel={{this.closeDeleteSourceModal}}
+    @onConfirm={{perform this.confirmSourceDeletion}}
+    @source={{this.source}}
   />
 {{/if}}
