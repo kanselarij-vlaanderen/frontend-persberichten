@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import CONFIG from '../../../../config/constants';
 
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
@@ -24,6 +25,19 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
 
   @task
   *confirmApproval() {
+    // Create press release activity
+    const creator = this.currentSession.organization;
+    const user = this.currentSession.user;
+    const { APPROVE } = CONFIG.PRESS_RELEASE_ACTIVITY;
+    const activity = this.store.createRecord('press-release-activity', {
+      startDate: new Date(),
+      type: APPROVE,
+      organization: creator,
+      pressRelease: this.model,
+      creator: user
+    });
+    yield activity.save();
+
     const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
     const response = yield fetch(url, {
         method: 'POST',
@@ -45,6 +59,19 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
 
   @task
   *stopCoEdit() {
+    // Create press release activity
+    const creator = this.currentSession.organization;
+    const user = this.currentSession.user;
+    const { UNSHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
+    const activity = this.store.createRecord('press-release-activity', {
+      startDate: new Date(),
+      type: UNSHARE,
+      organization: creator,
+      pressRelease: this.model,
+      creator: user
+    });
+    yield activity.save();
+
     const url = `/collaboration-activities/${this.collaboration.id}`;
     const response = yield fetch(url, {
         method: 'DELETE',
