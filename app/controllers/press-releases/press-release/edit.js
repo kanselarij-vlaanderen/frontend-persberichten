@@ -4,8 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
 import { isBlank } from '@ember/utils';
+import CONFIG from '../../../config/constants';
 
 export default class PressReleasesPressReleaseEditController extends Controller {
+  @service currentSession;
   @service router;
   @service store;
   @service toaster;
@@ -140,6 +142,19 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
   @task
   *coEdit(organizations) {
+    // Create press release activity
+    const creator = this.currentSession.organization;
+    const user = this.currentSession.user;
+    const { SHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
+    const activity = this.store.createRecord('press-release-activity', {
+      startDate: new Date(),
+      type: SHARE,
+      organization: creator,
+      pressRelease: this.pressRelease,
+      creator: user
+    });
+    yield activity.save();
+
     const collaborationActivity = this.store.createRecord('collaboration-activity', {
       startDate: new Date(),
       pressRelease: this.pressRelease,

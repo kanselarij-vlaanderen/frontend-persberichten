@@ -3,9 +3,11 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency-decorators';
+import CONFIG from '../../../../config/constants';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service currentSession;
+  @service store;
   @service router;
 
   @tracked collaborators;
@@ -61,7 +63,20 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
   @action
   async saveChanges() {
+    // Create press release activity
+    const creator = this.currentSession.organization;
+    const user = this.currentSession.user;
+    const { EDIT } = CONFIG.PRESS_RELEASE_ACTIVITY;
+    const activity = this.store.createRecord('press-release-activity', {
+      startDate: new Date(),
+      type: EDIT,
+      organization: creator,
+      pressRelease: this.pressRelease,
+      creator: user
+    });
+    await activity.save();
     await this.savePressRelease.perform();
+
     const collaborationActivity = await this.pressRelease.collaboration;
     // Make updated data available for all collaborators
     const url = `/collaboration-activities/${collaborationActivity.id}`;
