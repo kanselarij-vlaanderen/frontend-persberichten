@@ -76,24 +76,28 @@
       @isUserCreator={{eq this.currentSession.organization.uri this.model.creator.uri}}/>
   </div>
   <div class="auk-o-grid-col-2 auk-u-mt-8">
-      <h3 class="auk-h3">Aangemaakt door</h3>
-        <h4 class="auk-h4">
-          {{this.model.creator.shortName}}
-        </h4>
-      <h3 class="auk-h3">Gedeeld met</h3>
-      <div class="auk-o-flex auk-o-flex--vertical">
-        {{#each this.collaborators as |collaborator|}}
-          {{#if (not-eq collaborator.uri this.model.creator.uri)}}
-            <h4 class="auk-h4 auk-u-mb">
-              {{collaborator.shortName}}
-            </h4>
-            <Collaboration::ApprovalStatus
-              @collaborator={{collaborator}}
-              @collaborationActivity={{this.collaboration.approvalActivities}}
-            />
-          {{/if}}
-        {{/each}}
-      </div>
+    <h3 class="auk-h3">Aangemaakt door</h3>
+      <h4 class="auk-h4">
+        {{this.model.creator.shortName}}
+      </h4>
+    <h3 class="auk-h3">Gedeeld met</h3>
+    <div class="auk-o-flex auk-o-flex--vertical">
+      {{#each this.collaborators as |collaborator|}}
+        {{#if (not-eq collaborator.uri this.model.creator.uri)}}
+          <h4 class="auk-h4 auk-u-mb">
+            {{collaborator.shortName}}
+          </h4>
+          <Collaboration::ApprovalStatus
+            @collaborator={{collaborator}}
+            @collaborationActivity={{this.collaboration.approvalActivities}}
+          />
+        {{/if}}
+      {{/each}}
+    </div>
+    <h3 class="auk-h3">Historiek</h3>
+    {{#each (sort-by 'startDate' this.model.pressReleaseActivities) as |activity|}}
+      <PressRelease::ActivityStep @activity={{activity}} @config={{this.CONFIG}}/>
+    {{/each}}
   </div>
 </div>
 
