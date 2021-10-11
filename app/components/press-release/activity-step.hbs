@@ -1,13 +1,63 @@
-<div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
-        <div class="auk-badge auk-badge--success auk-badge--small">
-            <div class="auk-icon auk-icon--default auk-icon--small">
-                <i class="ki ki-check"></i>
-            </div>
-        </div>
-    </div>
-    <div class="auk-procedure-step__content">
-        <h3 class="auk-procedure-step__title">{{this.CONFIG.PUBLICATION_CHANNEL.MAILING_LIST}}</h3>
-        <p class="auk-procedure-step__meta">Door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
-    </div>
-</div>
+{{#if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.CREATE @activity.type)}}
+  <div class="auk-procedure-step">
+      <div class="auk-procedure-step__badge-wrapper">
+          <div class="auk-badge auk-badge--success auk-badge--small">
+              <div class="auk-icon auk-icon--default auk-icon--small">
+                  <i class="ki ki-add"></i>
+              </div>
+          </div>
+      </div>
+      <div class="auk-procedure-step__content">
+          <h3 class="auk-procedure-step__title">Persbericht aangemaakt</h3>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+      </div>
+  </div>
+{{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.EDIT @activity.type)}}
+  <div class="auk-procedure-step">
+      <div class="auk-procedure-step__badge-wrapper">
+          <div class="auk-badge auk-badge--success auk-badge--small">
+              <div class="auk-icon auk-icon--default auk-icon--small">
+                  <i class="ki ki-user-check"></i>
+              </div>
+          </div>
+      </div>
+      <div class="auk-procedure-step__content">
+          <h3 class="auk-procedure-step__title">Persbericht bewerkt</h3>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+      </div>
+  </div>
+{{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.APPROVE @activity.type)}}
+  <div class="auk-procedure-step">
+      <div class="auk-procedure-step__badge-wrapper">
+          <div class="auk-badge auk-badge--success auk-badge--small">
+              <div class="auk-icon auk-icon--default auk-icon--small">
+                  <i class="ki ki-user-check"></i>
+              </div>
+          </div>
+      </div>
+      <div class="auk-procedure-step__content">
+          <h3 class="auk-procedure-step__title">Persbericht goedgekeurd</h3>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+      </div>
+  </div>
+{{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.SHARE @activity.type)}}
+  <div class="auk-procedure-step">
+      <div class="auk-procedure-step__badge-wrapper">
+          <div class="auk-badge auk-badge--success auk-badge--small">
+              <div class="auk-icon auk-icon--default auk-icon--small">
+                  <i class="ki ki-user-add"></i>
+              </div>
+          </div>
+      </div>
+      <div class="auk-procedure-step__content">
+          <h3 class="auk-procedure-step__title">Persbericht gedeeld</h3>
+          <p class="auk-procedure-step__meta">met
+              {{#each @collaborators as |collaborator index|}}
+                {{#if (not-eq @creator.uri collaborator.uri)}}
+                  {{collaborator.shortName}} {{if (not-eq index (sub @collaborators.length 1)) ","}}
+                {{/if}}
+              {{/each}} {{dayjs-format
+              @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+      </div>
+  </div>
+{{/if}}

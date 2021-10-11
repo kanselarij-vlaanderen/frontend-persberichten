@@ -95,8 +95,12 @@
       {{/each}}
     </div>
     <h3 class="auk-h3">Historiek</h3>
-    {{#each (sort-by 'startDate' this.model.pressReleaseActivities) as |activity|}}
-      <PressRelease::ActivityStep @activity={{activity}} @config={{this.CONFIG}}/>
+    {{#each (sort-by "startDate:desc" this.model.pressReleaseActivities) as |activity|}}
+      <PressRelease::ActivityStep
+        @activity={{activity}}
+        @config={{this.CONFIG}}
+        @creator={{this.model.creator}}
+        @collaborators={{this.collaborators}}/>
     {{/each}}
   </div>
 </div>
