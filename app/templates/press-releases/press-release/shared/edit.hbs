@@ -73,6 +73,14 @@
           {{/if}}
         {{/each}}
       </div>
+      <h3 class="auk-h3">Historiek</h3>
+      {{#each (sort-by "startDate:desc" this.pressRelease.pressReleaseActivities) as |activity|}}
+        <PressRelease::ActivityStep
+          @activity={{activity}}
+          @config={{this.CONFIG}}
+          @creator={{this.pressRelease.creator}}
+          @collaborators={{this.collaborators}}/>
+      {{/each}}
   </div>
 </div>
 

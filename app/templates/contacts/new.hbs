@@ -32,7 +32,7 @@
         @skin="secondary"
         @icon="add"
         {{on "click" this.openContactItemModal}}>
-          Contactpersoon toevoegen
+          Bestemmeling toevoegen
       </Auk::Button>
     {{/if}}
     {{#if (and (eq this.step 2) (and (eq this.inputType "csv")  this.isUploadComplete))}}
@@ -95,7 +95,7 @@
           @onOpenContactItem={{this.openContactItem}}
           @model={{this.contacts}}
           @isEditEnabled={{true}}
-          @noDataMessage="Er zijn nog geen contactpersonen."
+          @noDataMessage="Er zijn nog geen bestemmelingen."
         />
       {{/if}}
       {{#if this.showContactItemModal}}

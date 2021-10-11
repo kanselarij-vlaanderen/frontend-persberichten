@@ -1,6 +1,6 @@
 <Auk::Modal @size="small">
   <Auk::Modal::Header
-    @title={{if @isNewContact "Contactpersoon toevoegen" "Contactpersoon bewerken"}}
+    @title={{if @isNewContact "Bestemmelingen toevoegen" "Bestemmelingen bewerken"}}
     @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
@@ -86,7 +86,7 @@
           @disabled={{this.isAddDisabled}}
           {{on "click" (fn @onAddContact)}}
         >
-          Contactpersoon toevoegen
+          Bestemmelingen toevoegen
         </Auk::Button>
       {{else}}
         <Auk::Button
