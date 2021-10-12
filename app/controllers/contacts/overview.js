@@ -15,26 +15,25 @@ export default class ContactsOverviewController extends Controller {
   @action
   openContactItemModal() {
     const creator = this.currentSession.organization;
-    const telephone = this.store.createRecord('telephone', {creator});
-    const mailAddress = this.store.createRecord('mail-address', {creator});
-    this.selectedContact = this.store.createRecord('contact-item', {telephone, mailAddress});
+    const telephone = this.store.createRecord('telephone', { creator });
+    const mailAddress = this.store.createRecord('mail-address', { creator });
+    this.selectedContact = this.store.createRecord('contact-item', { telephone, mailAddress });
     this.showContactItemModal = true;
   }
 
   @task
   *saveContactItem() {
-    const newDate = new Date();
     yield Promise.all([
       (yield this.selectedContact.telephone).save(),
       (yield this.selectedContact.mailAddress).save()
     ]);
-
-    this.selectedContact.created = newDate;
-    this.selectedContact.modified = newDate;
+    const now = new Date();
+    this.selectedContact.created = now;
+    this.selectedContact.modified = now;
     yield this.selectedContact.save();
     this.showContactItemModal = false;
+    // force reload of the contacts.overview.persons model-hook to update the list
     this.router.transitionTo('contacts.overview.persons');
-
   }
 
   @action
