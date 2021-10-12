@@ -17,7 +17,9 @@
         <Auk::Label for="message" class="auk-o-grid-col-3">
           Inhoud
         </Auk::Label>
+        {{!-- template-lint-disable no-triple-curlies --}}
         <p class="auk-o-grid-col-9">{{{@pressRelease.htmlContent}}}</p>
+        {{!-- template-lint-enable no-triple-curlies --}}
       </div>
       {{#if @isUserCreator}}
         <div class="auk-o-grid auk-u-mb-4">

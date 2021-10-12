@@ -18,8 +18,4 @@ export default class VlAlertComponent extends Component {
     }
     return 'info-circle';
   }
-
-  close() {
-    this.args.onClose(...arguments);
-  }
 }

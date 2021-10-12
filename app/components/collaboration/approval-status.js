@@ -17,7 +17,7 @@ export default class CollaborationApprovalStatusComponent extends Component {
 
   @task
   *loadApprovalActivity() {
-    const collaborationActivity = yield this.args.collaborationActivity
+    const collaborationActivity = yield this.args.collaborationActivity;
     collaborationActivity.forEach(async activity => {
       const activityCollaborator = await activity.collaborator;
       const approved = activityCollaborator.uri === this.args.collaborator.uri;
@@ -25,6 +25,6 @@ export default class CollaborationApprovalStatusComponent extends Component {
         this.approved = approved;
         return;
       }
-    })
+    });
   }
 }
