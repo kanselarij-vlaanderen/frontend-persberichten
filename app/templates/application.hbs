@@ -4,9 +4,9 @@
   <MainHeader />
 {{/if}}
 {{outlet}}
-{{#if this.toaster.newToasts.length}}
+{{#if this.toaster.toasts.length}}
   <Auk::AlertStack as |Alert|>
-    {{#each this.toaster.newToasts as |toast|}}
+    {{#each this.toaster.toasts as |toast|}}
       <Alert
         @skin={{toast.options.type}}
         @title={{toast.title}}
@@ -16,8 +16,4 @@
       />
     {{/each}}
   </Auk::AlertStack>
-{{/if}}
-{{!-- TODO: See services/toaster.js for more info on why we have "newToasts" as well as "oldToasts" --}}
-{{#if this.toaster.oldToasts.length}}
-  <Utils::Toaster @toasts={{this.toaster.oldToasts}} />
 {{/if}}
