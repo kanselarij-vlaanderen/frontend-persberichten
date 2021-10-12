@@ -11,29 +11,6 @@ export default class ContactsOverviewPersonsController extends Controller {
   @tracked size = 25;
 
   @action
-  prevPage() {
-    if (this.page > 0) {
-       this.page -= 1;
-    }
-  }
-
-  @action
-  nextPage() {
-    this.page += 1;
-  }
-
-  @action
-  setPageSize(size) {
-    this.size = size;
-    this.page = 0;
-  }
-
-  @action
-  setSort(sort) {
-    this.sort = sort;
-  }
-
-  @action
   openContactItem(contact) {
     this.selectedContact = contact;
     this.showContactItemModal = true;
@@ -78,5 +55,28 @@ export default class ContactsOverviewPersonsController extends Controller {
   @action
   closeContactItemModal() {
     this.showContactItemModal = false;
+  }
+
+  @action
+  prevPage() {
+    if (this.page > 0) {
+       this.page -= 1;
+    }
+  }
+
+  @action
+  nextPage() {
+    this.page += 1;
+  }
+
+  @action
+  setPageSize(size) {
+    this.size = size;
+    this.page = 0;
+  }
+
+  @action
+  setSort(sort) {
+    this.sort = sort;
   }
 }
