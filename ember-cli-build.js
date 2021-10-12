@@ -19,6 +19,9 @@ module.exports = function (defaults) {
         'node_modules/@kanselarij-vlaanderen/au-kaleidos-css/'
       ],
     },
+    fingerprint: {
+      exclude: ['tinymce/**/**'],
+    },
   });
 
   /*
