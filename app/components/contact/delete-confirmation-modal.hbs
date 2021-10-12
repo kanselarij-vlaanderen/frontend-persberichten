@@ -1,20 +1,12 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Wilt u deze bron verwijderen?"
+    @title="Wilt u dit perscontact verwijderen?"
     @closeable={{false}}
   />
   <Auk::Modal::Body>
     <p>
-      Weet u zeker dat u contact <strong>{{@source.fullName}}</strong> wilt verwijderen?
+      Bent u zeker dat u het perscontact <strong>{{@source.fullName}}</strong> wil verwijderen?
     </p>
-    <p  style={{"color: #DB3434"}}>
-      Alle contactgegevens van deze bron zullen verwijderd worden op de volgende pagina's:
-    </p>
-    <ul>
-      <li>persberichten</li>
-      <li>contactpagina's</li>
-      <li>...</li>
-    </ul>
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button

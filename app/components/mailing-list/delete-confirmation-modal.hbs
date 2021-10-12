@@ -1,6 +1,6 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Verzendlijst verwijderen?"
+    @title="Wilt u deze verzendlijst verwijderen?"
     @closeable={{false}}
   />
   <Auk::Modal::Body>
@@ -15,9 +15,10 @@
     <Auk::Button
       @skin="danger-primary"
       @loading={{@loading}}
+      @icon="delete"
       {{on "click" @onConfirm}}
     >
-      Verzendlijst verwijderen
+      Verwijderen
     </Auk::Button>
   </Auk::Modal::Footer>
 </Auk::Modal>

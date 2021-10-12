@@ -10,9 +10,9 @@ export default class SourcesNewRoute extends Route {
     const creator = this.currentSession.organization;
 
     const status = await this.store.findRecordByUri('contact-status', CONFIG.CONTACT_STATUS.ACTIVE);
-    const telephone = this.store.createRecord('telephone', {creator});
-    const mobilePhone = this.store.createRecord('mobile-phone', {creator});
-    const mailAddress = this.store.createRecord('mail-address', {creator});
+    const telephone = this.store.createRecord('telephone', { creator });
+    const mobilePhone = this.store.createRecord('mobile-phone', { creator });
+    const mailAddress = this.store.createRecord('mail-address', { creator });
     const source = this.store.createRecord('contact', {
       status,
       telephone,

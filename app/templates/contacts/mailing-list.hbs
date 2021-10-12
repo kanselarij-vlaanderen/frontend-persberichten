@@ -34,7 +34,7 @@
             @loading={{this.saveAndDisableEdit.isRunning}}
             {{on "click" (perform this.updateContactList)}}
           >
-            Verzendlijst opslaan
+            Opslaan
           </Auk::Button>
         </Auk::Toolbar::Item>
       {{else}}
@@ -43,7 +43,7 @@
             @skin="danger-secondary"
             {{on "click" this.openDeleteContactListModal}}
           >
-            Verzendlijst verwijderen
+            Verwijderen
           </Auk::Button>
         </Auk::Toolbar::Item>
         <Auk::Toolbar::Item>
@@ -51,7 +51,7 @@
             @skin="primary"
             {{on "click" this.enableEdit}}
           >
-            Verzendlijst bewerken
+            Bewerken
           </Auk::Button>
         </Auk::Toolbar::Item>
       {{/if}}

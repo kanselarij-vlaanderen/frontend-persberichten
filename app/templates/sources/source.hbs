@@ -33,20 +33,19 @@
       </Auk::Toolbar::Item>
       <Auk::Toolbar::Item>
         <Auk::Button
+          @skin="danger-secondary"
+          {{on "click" this.openDeleteSourceModal}}
+        >
+          Verwijderen
+        </Auk::Button>
+      </Auk::Toolbar::Item>
+      <Auk::Toolbar::Item>
+        <Auk::Button
           @skin="primary"
           {{on "click" (perform this.saveChanges)}}
         >
           Opslaan
         </Auk::Button>
-      </Auk::Toolbar::Item>
-            <Auk::Toolbar::Item>
-        <DropdownMenu
-          @label="Acties"
-          as |Menu|>
-          <Menu.Item {{on "click" this.openDeleteSourceModal}}>
-            Verwijderen
-          </Menu.Item>
-        </DropdownMenu>
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
@@ -63,7 +62,7 @@
 {{/if}}
 
 {{#if this.showDeleteSourceModal}}
-  <DeleteSourceModal
+  <Contact::DeleteConfirmationModal
     @loading={{this.confirmSourceDeletion.isRunning}}
     @onCancel={{this.closeDeleteSourceModal}}
     @onConfirm={{perform this.confirmSourceDeletion}}
