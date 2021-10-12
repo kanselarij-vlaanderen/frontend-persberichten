@@ -35,7 +35,10 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
 
   async afterModel() {
     this.collaborators = await this.collaboration.collaborators;
-    this.approvalActivities = await this.collaboration.approvalActivities;
+    this.approvalActivities = await this.store.query('approval-activity', {
+      'filter[collaboration-activity][:id:]': this.collaboration.id,
+      include: 'collaborator'
+    });
   }
 
   setupController(controller) {

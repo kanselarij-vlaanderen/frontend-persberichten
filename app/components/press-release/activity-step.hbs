@@ -9,7 +9,7 @@
       </div>
       <div class="auk-procedure-step__content">
           <h3 class="auk-procedure-step__title">Persbericht aangemaakt</h3>
-          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[om] DD-MM-YYYY HH:mm"}}</p>
       </div>
   </div>
 {{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.EDIT @activity.type)}}
@@ -23,7 +23,7 @@
       </div>
       <div class="auk-procedure-step__content">
           <h3 class="auk-procedure-step__title">Persbericht bewerkt</h3>
-          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[om] DD-MM-YYYY HH:mm"}}</p>
       </div>
   </div>
 {{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.APPROVE @activity.type)}}
@@ -37,7 +37,7 @@
       </div>
       <div class="auk-procedure-step__content">
           <h3 class="auk-procedure-step__title">Persbericht goedgekeurd</h3>
-          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+          <p class="auk-procedure-step__meta">door {{@activity.creator.fullName}} {{dayjs-format @activity.startDate outputFormat="[om] DD-MM-YYYY HH:mm"}}</p>
       </div>
   </div>
 {{else if (eq this.CONFIG.PRESS_RELEASE_ACTIVITY.SHARE @activity.type)}}
@@ -57,7 +57,7 @@
                   {{collaborator.shortName}} {{if (not-eq index (sub @collaborators.length 1)) ","}}
                 {{/if}}
               {{/each}} {{dayjs-format
-              @activity.startDate outputFormat="[op] DD-MM-YYYY"}}</p>
+              @activity.startDate outputFormat="[om] DD-MM-YYYY HH:mm"}}</p>
       </div>
   </div>
 {{/if}}
