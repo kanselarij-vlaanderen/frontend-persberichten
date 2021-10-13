@@ -41,23 +41,6 @@ export default class SourcesSourceController extends Controller {
     this.router.transitionTo('sources.overview');
   }
 
-  @task
-  *confirmSourceDeletion() {
-    const telephone = this.snapshot.telephone;
-    const mobilePhone = this.snapshot.mobilePhone;
-    const mailAddress = this.snapshot.mailAddress;
-    yield Promise.all([
-      yield telephone.destroyRecord(),
-      yield mobilePhone.destroyRecord(),
-      yield mailAddress.destroyRecord()
-    ]);
-
-    yield this.snapshot.source.destroyRecord();
-
-    this.closeDeleteSourceModal();
-    this.transitionBack();
-  }
-
   @action
   cancelNavigationBack() {
     this.showConfirmationModal = false;
@@ -73,12 +56,16 @@ export default class SourcesSourceController extends Controller {
     this.showDeleteSourceModal = false;
   }
 
-  transitionBack() {
-    // If no route where you returned from go to the sources overview page
-    if (history.length > 1) {
-      history.back();
-    } else {
-      this.router.transitionTo('sources.overview');
-    }
+  @task
+  *confirmSourceDeletion() {
+    yield Promise.all([
+      this.snapshot.telephone.destroyRecord(),
+      this.snapshot.mobilePhone.destroyRecord(),
+      this.snapshot.mailAddress.destroyRecord()
+    ]);
+    yield this.snapshot.source.destroyRecord();
+
+    this.closeDeleteSourceModal();
+    this.router.transitionTo('sources.overview');
   }
 }

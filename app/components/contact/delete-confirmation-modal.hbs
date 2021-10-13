@@ -1,23 +1,21 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Verzendlijst verwijderen?"
+    @title="Wilt u dit perscontact verwijderen?"
     @closeable={{false}}
   />
   <Auk::Modal::Body>
     <p>
-      Bent u zeker dat u dit verzendlijst wil verwijderen?
-    </p>
-    <p>
-      Deze actie kan niet ongedaan worden gemaakt.
+      Bent u zeker dat u het perscontact <strong>{{@source.fullName}}</strong> wil verwijderen?
     </p>
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button
       @skin="danger-primary"
       @loading={{@loading}}
+      @icon="delete"
       {{on "click" @onConfirm}}
     >
-      Verzendlijst verwijderen
+      Verwijderen
     </Auk::Button>
   </Auk::Modal::Footer>
 </Auk::Modal>

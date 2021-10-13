@@ -10,28 +10,28 @@
   </Auk::Toolbar>
 
   <ContactItem::Table
-      @model={{@model}}
-      @sort={{this.sort}}
-      @page={{this.page}}
-      @size={{this.size}}
-      @onSortChange={{this.setSort}}
-      @onNextPage={{this.nextPage}}
-      @onPreviousPage={{this.prevPage}}
-      @onPageSizeChange={{this.setPageSize}}
-      @onOpenContactItem={{this.openContactItem}}
-      @isEditEnabled={{true}}
-      @noDataMessage="Geen contactpersonen gevonden"
-    />
-
-    {{#if this.showContactItemModal}}
-      <ContactItem::Modal
-        @isNewContact={{false}}
-        @contact={{this.selectedContact}}
-        @onCancel={{this.closeContactItemModalAndReset}}
-        @onChangeContact={{this.changeContact}}
-        @onDeleteContact={{this.deleteContact}}
-      />
-    {{/if}}
+    @model={{@model}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+    @size={{this.size}}
+    @onSortChange={{this.setSort}}
+    @onNextPage={{this.nextPage}}
+    @onPreviousPage={{this.prevPage}}
+    @onPageSizeChange={{this.setPageSize}}
+    @onOpenContactItem={{this.openContactItem}}
+    @isEditEnabled={{true}}
+    @noDataMessage="Geen contactpersonen gevonden"
+  />
 </div>
+
+{{#if this.showContactItemModal}}
+  <ContactItem::Modal
+    @isNewContact={{false}}
+    @contact={{this.selectedContact}}
+    @onCancel={{this.cancelContactModal}}
+    @onChangeContact={{this.updateContact}}
+    @onDeleteContact={{this.deleteContact}}
+  />
+{{/if}}
 
 {{outlet}}

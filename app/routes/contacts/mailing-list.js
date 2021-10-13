@@ -7,7 +7,7 @@ export default class ContactsMailingListRoute extends Route.extend(DataTableRout
   modelName = 'contact-item';
 
   mergeQueryOptions(params) {
-    const queryParams = {
+    return {
       sort: params.sort,
       include: [
         'telephone',
@@ -19,15 +19,14 @@ export default class ContactsMailingListRoute extends Route.extend(DataTableRout
         }
       }
     };
-
-    return queryParams;
   }
 
   async afterModel(model, transition) {
-    this.contactList = await this.store.findRecord('contact-list', transition.to.params.mailing_list_id);
+    const mailingListId = transition.to.params.mailing_list_id;
+    this.contactList = await this.store.findRecord('contact-list', mailingListId);
   }
 
-  setupController(controller, model, transition) {
+  setupController(controller) {
     super.setupController(...arguments);
     controller.contactList = this.contactList;
     controller.selectedContact = null;

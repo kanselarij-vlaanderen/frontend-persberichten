@@ -215,7 +215,7 @@ export default class ContactsNewController extends Controller {
         organizationName: contact.organizationName
       });
       this.contacts.pushObject(contactItem);
-    })
+    });
     yield file.destroyRecord();
   }
 

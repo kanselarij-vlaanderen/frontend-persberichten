@@ -7,15 +7,6 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('sources', { path: 'bronnen' }, function() {
-    this.route('new', { path: 'nieuw' });
-    this.route('overview', { path: 'overzicht' }, function() {
-      this.route('active', { path: 'actief' });
-      this.route('inactive', { path: 'inactief' });
-    });
-    this.route('source', { path: '/:source_id' });
-  });
-
   this.route('press-releases', { path: 'persberichten' }, function() {
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('concept');
@@ -33,13 +24,22 @@ Router.map(function () {
     });
   });
 
-  this.route('contacts', { path: 'contacten' }, function() {
+  this.route('contacts', { path: 'bestemmelingen' }, function() {
     this.route('new', { path: 'nieuw'});
     this.route('mailing-list', { path: 'verzendlijst/:mailing_list_id'});
     this.route('overview', { path: 'overzicht' }, function() {
       this.route('mailing-lists', { path: 'verzendlijsten' });
-      this.route('persons', { path: 'contactpersonen' });
+      this.route('persons', { path: 'personen' });
     });
+  });
+
+  this.route('sources', { path: 'perscontacten' }, function() {
+    this.route('new', { path: 'nieuw' });
+    this.route('overview', { path: 'overzicht' }, function() {
+      this.route('active', { path: 'actief' });
+      this.route('inactive', { path: 'inactief' });
+    });
+    this.route('source', { path: '/:source_id' });
   });
 
   this.route('login', { path: 'aanmelden' });

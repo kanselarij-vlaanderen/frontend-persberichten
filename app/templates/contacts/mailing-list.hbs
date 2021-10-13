@@ -1,4 +1,5 @@
 {{page-title "Verzendlijst"}}
+
 <Auk::Navbar @skin="gray-100" @size="large">
   <Auk::Toolbar>
     <Auk::Toolbar::Group  @position="left">
@@ -27,36 +28,33 @@
             {{dayjs-from-now this.contactList.modified}} opgeslagen
           </Auk::StatusPill>
         </Auk::Toolbar::Item>
-      {{/if}}
-      <Auk::Toolbar::Item>
-        <DropdownMenu
-          @label="Acties"
-          as |Menu|>
-          <Menu.Item
-            class="auk-menu__item auk-menu__item--danger"
-            {{on "click" this.openDeleteContactListModal}}>
-              Verwijderen
-          </Menu.Item>
-        </DropdownMenu>
-      </Auk::Toolbar::Item>
         <Auk::Toolbar::Item>
-          {{#if this.isEditEnabled}}
-            <Auk::Button
-              @skin="primary"
-              @loading={{this.saveAndDisableEdit.isRunning}}
-              {{on "click" (perform this.saveAndDisableEdit)}}
-              >
-              Verzendlijst opslaan
-            </Auk::Button>
-          {{else}}
-            <Auk::Button
-              @skin="primary"
-              {{on "click" this.enableEdit}}
-              >
-              Verzendlijst bewerken
-            </Auk::Button>
-          {{/if}}
+          <Auk::Button
+            @skin="primary"
+            @loading={{this.saveAndDisableEdit.isRunning}}
+            {{on "click" (perform this.updateContactList)}}
+          >
+            Opslaan
+          </Auk::Button>
         </Auk::Toolbar::Item>
+      {{else}}
+        <Auk::Toolbar::Item>
+          <Auk::Button
+            @skin="danger-secondary"
+            {{on "click" this.openDeleteContactListModal}}
+          >
+            Verwijderen
+          </Auk::Button>
+        </Auk::Toolbar::Item>
+        <Auk::Toolbar::Item>
+          <Auk::Button
+            @skin="primary"
+            {{on "click" this.enableEdit}}
+          >
+            Bewerken
+          </Auk::Button>
+        </Auk::Toolbar::Item>
+      {{/if}}
     </Auk::Toolbar::Group >
   </Auk::Toolbar>
 </Auk::Navbar>
@@ -64,30 +62,26 @@
 <div class="auk-u-m-8">
   <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
     {{#if this.isEditEnabled}}
-    <div class="auk-form-group">
-      <Auk::Label>
-        Naam verzendlijst
-      </Auk::Label>
-      <Auk::Input
-        type="text"
-        id="name"
-        @block={{true}}
-        value={{this.contactList.name}}
-        {{on "input" (fn this.setInputValue "name")}}
+      <div class="auk-form-group">
+        <Auk::Label>
+          Naam verzendlijst
+        </Auk::Label>
+        <Auk::Input
+          type="text"
+          value={{this.contactList.name}}
+          {{on "input" (fn this.setInputValue "name")}}
         />
-    </div>
+      </div>
     {{else}}
       <h1 class="auk-h1">{{this.contactList.name}}</h1>
     {{/if}}
-    {{#if this.isEditEnabled}}
-      <Auk::Button
-        @skin="secondary"
-        @icon="add"
-        {{on "click" this.openContactItemModal}}
-        >
-        Bestemmelingen toevoegen
-      </Auk::Button>
-    {{/if}}
+    <Auk::Button
+      @skin="secondary"
+      @icon="add"
+      {{on "click" this.createNewContact}}
+    >
+      Bestemmeling toevoegen
+    </Auk::Button>
   </div>
 
   <ContactItem::Table
@@ -100,8 +94,8 @@
     @onPreviousPage={{this.prevPage}}
     @onPageSizeChange={{this.setPageSize}}
     @onOpenContactItem={{this.openContactItem}}
-    @isEditEnabled={{this.isEditEnabled}}
-    @noDataMessage="Geen verzendlijsten gevonden"
+    @isEditEnabled={{true}}
+    @noDataMessage="Geen contactpersonen gevonden"
   />
 </div>
 {{#if this.showConfirmationModal}}
@@ -114,14 +108,14 @@
   <ContactItem::Modal
     @isNewContact={{this.selectedContact.isNew}}
     @contact={{this.selectedContact}}
-    @onCancel={{this.closeContactItemModalAndReset}}
+    @onCancel={{this.cancelContactModal}}
     @onAddContact={{this.addContact}}
-    @onChangeContact={{this.changeContact}}
+    @onChangeContact={{this.updateContact}}
     @onDeleteContact={{this.deleteContact}}
   />
 {{/if}}
 {{#if this.showDeleteContactListModal}}
-  <DeleteContactListModal
+  <MailingList::DeleteConfirmationModal
     @loading={{this.confirmDeletion.isRunning}}
     @onCancel={{this.closeDeleteContactListModal}}
     @onConfirm={{perform this.confirmDeletion}}

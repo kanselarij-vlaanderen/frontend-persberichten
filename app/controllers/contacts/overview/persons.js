@@ -11,6 +11,70 @@ export default class ContactsOverviewPersonsController extends Controller {
   @tracked size = 25;
 
   @action
+  openContactItem(contact) {
+    this.selectedContact = contact;
+    this.showContactItemModal = true;
+  }
+
+  @action
+  async deleteContact() {
+    const destroyTelephone = async () => {
+      const telephone = await this.selectedContact.telephone;
+      telephone.destroyRecord();
+    };
+    const destroyMailAddress = async () => {
+      const mailAddress = await this.selectedContact.mailAddress;
+      mailAddress.destroyRecord();
+    };
+    await Promise.all([
+      destroyTelephone(),
+      destroyMailAddress()
+    ]);
+    await this.selectedContact.destroyRecord();
+    this.send('reloadModel');
+    this.closeContactItemModal();
+  }
+
+  @action
+  async updateContact() {
+    const updateTelephone = async () => {
+      const telephone = await this.selectedContact.telephone;
+      if (telephone.hasDirtyAttributes)
+        await telephone.save();
+    };
+    const updateMailAddress = async () => {
+      const mailAddress = await this.selectedContact.mailAddress;
+      if (mailAddress.hasDirtyAttributes)
+        await mailAddress.save();
+    };
+    await Promise.all([
+      updateTelephone(),
+      updateMailAddress()
+    ]);
+    this.selectedContact.modified = new Date();
+    await this.selectedContact.save();
+    this.closeContactItemModal();
+  }
+
+  @action
+  async cancelContactModal() {
+    this.selectedContact.rollbackAttributes();
+    const rollbackTelephone = async () => {
+      const telephone = await this.selectedContact.telephone;
+      telephone.rollbackAttributes();
+    };
+    const rollbackMailAddress = async () => {
+      const mailAddress = await this.selectedContact.mailAddress;
+      mailAddress.rollbackAttributes();
+    };
+    await Promise.all([
+      rollbackTelephone(),
+      rollbackMailAddress()
+    ]);
+    this.closeContactItemModal();
+  }
+
+  @action
   prevPage() {
     if (this.page > 0) {
        this.page -= 1;
@@ -33,50 +97,8 @@ export default class ContactsOverviewPersonsController extends Controller {
     this.sort = sort;
   }
 
-  @action
-  openContactItem(contact) {
-    this.selectedContact = contact;
-    this.showContactItemModal = true;
-  }
-
-  @action
-  async deleteContact() {
-    await this.selectedContact.destroyRecord();
-    this.send('reloadModel');
-    this.closeContactItemModal();
-  }
-
-  @action
-  async changeContact() {
-    const telephone = await this.selectedContact.telephone;
-    const mailAddress = await this.selectedContact.mailAddress;
-    await Promise.all([
-      telephone.hasDirtyAttributes ? await telephone.save() : null,
-      mailAddress.hasDirtyAttributes ? await mailAddress.save() : null
-    ]);
-    this.selectedContact.modified = new Date();
-    await this.selectedContact.save();
-    this.closeContactItemModal();
-  }
-
-  @action
-  async closeContactItemModalAndReset() {
-    if (this.selectedContact.hasDirtyAttributes) {
-      this.selectedContact.rollbackAttributes();
-    }
-    const telephone = await this.selectedContact.telephone;
-    const mailAddress = await this.selectedContact.mailAddress;
-    if (telephone.hasDirtyAttributes) {
-      telephone.rollbackAttributes();
-    }
-    if (mailAddress.hasDirtyAttributes) {
-      mailAddress.rollbackAttributes();
-    }
-    this.closeContactItemModal();
-  }
-
-  @action
   closeContactItemModal() {
+    this.selectedContact = null;
     this.showContactItemModal = false;
   }
 }
