@@ -1,11 +1,11 @@
 <Auk::Modal>
   <Auk::Modal::Header
-    @title="Dit persbericht goedkeuren?"
+    @title="Bent u zeker dat u dit persbericht wil goedkeuren?"
     @closeable={{false}}
   />
   <Auk::Modal::Body>
     <p>
-      Wanneer u dit persbericht goedkeurt, geeft u toestemming aan {{@creator.shortName}} om dit persbericht te publiceren. Weet u zeker dat u dit persbericht wilt goedkeuren?
+      Wanneer u dit persbericht goedkeurt, geeft u toestemming aan {{@creator.shortName}} om dit persbericht te publiceren. Indien het persbericht na de goedkeuring nog gewijzigd wordt, zal het persbericht opnieuw goedgekeurd moeten worden.
     </p>
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>

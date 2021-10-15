@@ -16,3 +16,11 @@
 @import 'custom-application/power-select';
 @import 'custom-application/input-pills';
 @import 'custom-application/toast';
+
+.auk-avatar-and-text {
+  align-items: start;
+}
+
+.auk-u-text-green {
+  color: $au-green-500;
+}

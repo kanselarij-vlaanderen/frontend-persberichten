@@ -6,21 +6,24 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
   @service toaster;
 
   async beforeModel() {
-    const pressRelease = this.modelFor('press-releases.press-release');
-    this.collaboration = await pressRelease.collaboration;
+    this.collaboration = this.modelFor('press-releases.press-release.shared');
+
+    // Using this.store.query to ensure non-stale token-claim from backend
+    // instead of cached ember-data record
     const tokenClaim = await this.store.queryOne('token-claim', {
       'filter[collaboration-activity][:id:]': this.collaboration.id,
       include: 'user'
     });
 
     if (!tokenClaim) {
+      // Make current user claim the edit-token of the press-release
       const url = `/collaboration-activities/${this.collaboration.id}/claims`;
       const response = await fetch(url, {
           method: 'POST',
         }
       );
       if (response.status !== 201) {
-        this.toaster.error('Er is iets misgegaan bij het claimen van de token.');
+        this.toaster.error('Er is iets misgelopen bij het openen van de bewerk-modus.');
         this.transitionTo('press-releases.press-release.shared.read');
       }
     }
@@ -33,17 +36,8 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
     return snapshot;
   }
 
-  async afterModel() {
-    this.collaborators = await this.collaboration.collaborators;
-    this.approvalActivities = await this.store.query('approval-activity', {
-      'filter[collaboration-activity][:id:]': this.collaboration.id,
-      include: 'collaborator'
-    });
-  }
-
   setupController(controller) {
     super.setupController(...arguments);
-    controller.collaborators = this.collaborators;
-    controller.approvalActivities = this.approvalActivities;
+    controller.collaboration = this.collaboration;
   }
 }

@@ -1,7 +1,8 @@
-{{page-title "Lezen"}}
+{{page-title this.pressRelease.title}}
+
 <Auk::Navbar @skin="gray-100" @size="large">
   <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
+    <Auk::Toolbar::Group @position="left">
       <Auk::Toolbar::Item>
         <Auk::Button
           @layout="icon-only"
@@ -16,14 +17,14 @@
           Persberichten
         </div>
         <h2 class="auk-toolbar__title">
-          {{this.model.title}}
+          {{this.pressRelease.title}}
         </h2>
       </Auk::Toolbar::Item>
     </Auk::Toolbar::Group >
-     <Auk::Toolbar::Group  @position="right">
+     <Auk::Toolbar::Group @position="right">
       <Auk::Toolbar::Item>
         <Auk::StatusPill @status="done">
-          {{dayjs-from-now this.model.modified}} opgeslagen
+          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
         </Auk::StatusPill>
       </Auk::Toolbar::Item>
       <Auk::Toolbar::Item>
@@ -31,26 +32,30 @@
           @skin="secondary"
           @route="press-releases.press-release.shared.edit"
           @disabled={{this.isClaimedByOtherUser}}
-        >Bewerken
+        >
+          Bewerken
         </Auk::Button>
       </Auk::Toolbar::Item>
-      {{#if (eq this.currentSession.organization.uri this.model.creator.uri)}}
+      {{#if this.isPressReleaseOwner}}
         <Auk::Toolbar::Item>
           <Auk::Button
             @skin="danger-primary"
             {{on "click" this.checkApprovals}}
-          >Stop co-editeren
+          >
+            Stop co-editeren
           </Auk::Button>
         </Auk::Toolbar::Item>
-      {{/if}}
-      {{#if (and (not this.didUserApprove) (not-eq this.currentSession.organization.uri this.model.creator.uri))}}
-        <Auk::Toolbar::Item>
-          <Auk::Button
-            @skin="primary"
-            {{on "click" this.openApprovalModal}}
-          >Goedkeuren
-          </Auk::Button>
-        </Auk::Toolbar::Item>
+      {{else}}
+        {{#unless this.hasApproved}}
+          <Auk::Toolbar::Item>
+            <Auk::Button
+              @skin="primary"
+              {{on "click" this.openApprovalModal}}
+            >
+              Goedkeuren
+            </Auk::Button>
+          </Auk::Toolbar::Item>
+        {{/unless}}
       {{/if}}
      </Auk::Toolbar::Group>
   </Auk::Toolbar>
@@ -72,45 +77,61 @@
   {{/if}}
   <div class="auk-o-grid-col-10">
     <PressRelease::ReadOnly
-      @pressRelease={{this.model}}
-      @isUserCreator={{eq this.currentSession.organization.uri this.model.creator.uri}}/>
+      @pressRelease={{this.pressRelease}}
+      @isUserCreator={{this.isPressReleaseOwner}}/>
   </div>
   <div class="auk-o-grid-col-2 auk-u-mt-8">
-    <h3 class="auk-h3">Aangemaakt door</h3>
-      <h4 class="auk-h4">
-        {{this.model.creator.shortName}}
-      </h4>
-    <h3 class="auk-h3">Gedeeld met</h3>
-    <div class="auk-o-flex auk-o-flex--vertical">
-      {{#each this.collaborators as |collaborator|}}
-        {{#if (not-eq collaborator.uri this.model.creator.uri)}}
-          <h4 class="auk-h4 auk-u-mb">
-            {{collaborator.shortName}}
-          </h4>
-          <Collaboration::ApprovalStatus
-            @collaborator={{collaborator}}
-            @collaborationActivity={{this.collaboration.approvalActivities}}
-          />
-        {{/if}}
+    <div>
+      <h3 class="auk-h3">Aangemaakt door</h3>
+      <Auk::Avatar @icon="user" @name={{this.pressRelease.creator.shortName}}>
+        <p>{{this.pressRelease.creator.shortName}}</p>
+      </Auk::Avatar>
+    </div>
+
+    <div class="auk-u-mt-8">
+      <h3 class="auk-h3">Gedeeld met</h3>
+      <div class="auk-o-flex auk-o-flex--vertical">
+        {{#each this.collaboration.collaborators as |collaborator|}}
+          {{#unless (eq collaborator.uri this.pressRelease.creator.uri)}}
+            <div class="auk-u-mb-4">
+              <Auk::Avatar @icon="user" @name={{collaborator.shortName}}>
+                <p>{{collaborator.shortName}}</p>
+                {{#unless (and
+                     (eq collaborator.uri this.currentSession.organization.uri)
+                     this.confirmApproval.isRunning
+                     )}}
+                  {{!-- Hide status during approval to enforce refresh afterwards --}}
+                  <Collaboration::ApprovalStatus
+                    @pressRelease={{this.pressRelease}}
+                    @collaborator={{collaborator}}
+                  />
+                {{/unless}}
+              </Auk::Avatar>
+            </div>
+          {{/unless}}
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="auk-u-mt-4">
+      <h3 class="auk-h3">Historiek</h3>
+      {{#each (sort-by "startDate:desc" this.pressRelease.pressReleaseActivities) as |activity|}}
+        <PressRelease::ActivityStep
+          @activity={{activity}}
+          @config={{this.CONFIG}}
+          @creator={{this.pressRelease.creator}}
+          @collaborators={{this.collaborators}}/>
       {{/each}}
     </div>
-    <h3 class="auk-h3">Historiek</h3>
-    {{#each (sort-by "startDate:desc" this.model.pressReleaseActivities) as |activity|}}
-      <PressRelease::ActivityStep
-        @activity={{activity}}
-        @config={{this.CONFIG}}
-        @creator={{this.model.creator}}
-        @collaborators={{this.collaborators}}/>
-    {{/each}}
   </div>
 </div>
 
 {{#if this.showApprovalModal}}
-  <ApprovePressReleaseModal
+  <Collaboration::ApprovalConfirmationModal
     @loading={{this.confirmApproval.isRunning}}
     @onCancel={{this.closeApprovalModal}}
     @onConfirm={{perform this.confirmApproval}}
-    @creator={{this.model.creator}}
+    @creator={{this.pressRelease.creator}}
   />
 {{/if}}
 

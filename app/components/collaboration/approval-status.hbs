@@ -1,5 +1,11 @@
-{{#if this.approved}}
-  <div class="auk-u-mb-2" style={{this.style}}>Goedgekeurd</div>
-{{else}}
-  <div class="auk-u-mb-2" >Nog niet goedgekeurd</div>
-{{/if}}
+{{#unless this.loadApprovalActivity.isRunning}}
+  {{#if this.approvalActivity}}
+    <div class="auk-u-text-small auk-u-text-green">
+      Goedgekeurd
+    </div>
+  {{else}}
+    <div class="auk-u-text-small auk-u-muted">
+      Nog niet goedgekeurd
+    </div>
+  {{/if}}
+{{/unless}}

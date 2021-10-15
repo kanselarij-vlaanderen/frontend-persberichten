@@ -11,50 +11,86 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @service router;
   @service toaster;
 
-  @tracked collaboration;
-  @tracked collaborators;
   @tracked tokenClaimUser;
-  @tracked approvalActivities;
+  @tracked hasApproved = false;
   @tracked showApprovalModal = false;
   @tracked showCoEditModal = false;
-  @tracked didUserApprove = false;
+
+  get pressRelease() {
+    return this.model.pressRelease;
+  }
+
+  get collaboration() {
+    return this.model.collaboration;
+  }
 
   get isClaimedByOtherUser() {
-    return this.tokenClaimUser;
+    // Note: if this.tokenClaimUser is the current logged in user, he would have been redirected
+    // to the press-releases.press-release.shared.edit route instead of being on this read-route
+    return this.tokenClaimUser && this.tokenClaimUser != this.currentSession.user;
+  }
+
+  get isPressReleaseOwner() {
+    return this.currentSession.organization
+      && this.pressRelease.creator
+      && this.currentSession.organization.uri == this.pressRelease.creator.get('uri');
+  }
+
+  @action
+  openApprovalModal() {
+    this.showApprovalModal = true;
+  }
+
+  @action
+  closeApprovalModal() {
+    this.showApprovalModal = false;
   }
 
   @task
   *confirmApproval() {
-    // Create press release activity
-    const creator = this.currentSession.organization;
-    const user = this.currentSession.user;
-    const { APPROVE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-    const activity = this.store.createRecord('press-release-activity', {
-      startDate: new Date(),
-      type: APPROVE,
-      organization: creator,
-      pressRelease: this.model,
-      creator: user
-    });
-    yield activity.save();
-
-    const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
-    const response = yield fetch(url, {
-        method: 'POST',
-      }
-    ).catch(() => this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.'));
-    if (response.status === 201) {
-      const url = `/collaboration-activities/${this.collaboration.id}`;
+    try {
+      // Create approval
+      const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
       const response = yield fetch(url, {
+        method: 'POST',
+      });
+      if (response.status === 201) {
+        // Note: press-release-activity must be created before distributing data across collaborators
+        const creator = this.currentSession.organization;
+        const user = this.currentSession.user;
+        const { APPROVE } = CONFIG.PRESS_RELEASE_ACTIVITY;
+        const activity = this.store.createRecord('press-release-activity', {
+          startDate: new Date(),
+          type: APPROVE,
+          organization: creator,
+          pressRelease: this.pressRelease,
+          creator: user
+        });
+        yield activity.save();
+
+        // Distribute approval across all collaborators
+        const url = `/collaboration-activities/${this.collaboration.id}`;
+        const response = yield fetch(url, {
           method: 'PUT'
+        });
+        if (response.status === 200) {
+          this.closeApprovalModal();
+          this.toaster.success('Persbericht werd succesvol goedgekeurd.');
         }
-      ).catch(() => this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.'));
-      if (response.status === 200) {
-        this.closeApprovalModal();
-        this.toaster.success('Persbericht werd succesvol goedgekeurd.');
-        this.router.refresh();
       }
+    } catch(err) {
+      this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.');
     }
+  }
+
+  @action
+  openCoEditModal() {
+    this.showCoEditModal = true;
+  }
+
+  @action
+  closeCoEditModal() {
+    this.showCoEditModal = false;
   }
 
   @task
@@ -67,7 +103,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
       startDate: new Date(),
       type: UNSHARE,
       organization: creator,
-      pressRelease: this.model,
+      pressRelease: this.pressRelease,
       creator: user
     });
     yield activity.save();
@@ -93,31 +129,14 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     }
   }
 
-  @action
-  openApprovalModal() {
-    this.showApprovalModal = true;
-  }
-
-  @action
-  closeApprovalModal() {
-    this.showApprovalModal = false;
-  }
-
-  @action
-  openCoEditModal() {
-    this.showCoEditModal = true;
-  }
-
-  @action
-  closeCoEditModal() {
-    this.showCoEditModal = false;
-  }
-
   scheduleTokenClaimRefresh() {
+    // TODO move refresh interval to config
     this.scheduledTokenClaimRefresh = later(this, () => this.refreshTokenClaim(), 10000);
   }
 
   async refreshTokenClaim() {
+    // Using this.store.query to ensure non-stale token-claim from backend
+    // instead of cached ember-data record
     const tokenClaim = await this.store.queryOne('token-claim', {
       'filter[collaboration-activity][:id:]': this.collaboration.id,
       include: 'user'

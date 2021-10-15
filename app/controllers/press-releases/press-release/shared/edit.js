@@ -6,11 +6,12 @@ import { task } from 'ember-concurrency-decorators';
 import CONFIG from '../../../../config/constants';
 
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
+  @service toaster;
   @service currentSession;
   @service store;
   @service router;
 
-  @tracked collaborators;
+  @tracked collaboration;
   @tracked showConfirmationModal = false;
 
   get snapshot() {
@@ -21,22 +22,10 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     return this.snapshot.pressRelease;
   }
 
-  async deleteClaimToken() {
-    const collaborationActivity = await this.pressRelease.collaboration;
-    const url = `/collaboration-activities/${collaborationActivity.id}/claims`;
-    const response = await fetch(url, {
-        method: 'DELETE',
-      }
-    );
-    return response;
-  }
-
-  async transitionBack() {
-    // If no route where you returned from go to the shared page
-    const response = await this.deleteClaimToken();
-    if (response.status ===  204) {
-        this.router.transitionTo('press-releases.overview.shared');
-    }
+  get isPressReleaseOwner() {
+    return this.currentSession.organization
+      && this.pressRelease.creator
+      && this.currentSession.organization.uri == this.pressRelease.creator.get('uri');
   }
 
   @task
@@ -45,7 +34,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     if (isDirty) {
       this.showConfirmationModal = true;
     } else {
-      this.transitionBack();
+      yield this.unclaimEditToken();
     }
   }
 
@@ -53,7 +42,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   *confirmNavigationBack() {
     yield this.snapshot.rollback();
     this.showConfirmationModal = false;
-    this.transitionBack();
+    yield this.unclaimEditToken();
   }
 
   @action
@@ -61,8 +50,9 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     this.showConfirmationModal = false;
   }
 
-  @action
-  async saveChanges() {
+  @task
+  *savePressRelease() {
+    // Note: press-release-activity must be created before distributing data across collaborators
     // Create press release activity
     const creator = this.currentSession.organization;
     const user = this.currentSession.user;
@@ -74,38 +64,51 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
       pressRelease: this.pressRelease,
       creator: user
     });
-    await activity.save();
-    await this.savePressRelease.perform();
+    yield activity.save();
 
-    const collaborationActivity = await this.pressRelease.collaboration;
-    // Make updated data available for all collaborators
-    const url = `/collaboration-activities/${collaborationActivity.id}`;
-    const response = await fetch(url, {
-        method: 'PUT',
-      }
-    ).catch(err => console.log(err));
-    if (response.status === 200) {
-      // Remove existing approvals because press-release has changed
-      const url = `/collaboration-activities/${collaborationActivity.id}/approvals`;
-      const response = await fetch(url, {
+    yield this.snapshot.save();
+
+    // Distribute approval across all collaborators
+    try {
+      const url = `/collaboration-activities/${this.collaboration.id}`;
+      const response = yield fetch(url, {
+        method: 'PUT'
+      });
+      if (response.status === 200) {
+        // Remove existing approvals because press-release has changed
+        const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
+        const response = yield fetch(url, {
           method: 'DELETE',
+        });
+        if (response.status === 204) {
+          this.toaster.success('Persbericht werd succesvol opgeslagen.');
+        } else {
+          this.toaster.error('Er is iets misgelopen bij het ongedaan maken van de goedkeuringen.');
         }
-      ).catch(err => console.log(err));
-      if (response.status === 204) {
-        // TODO Force reload of approvals linked to the collaboration-activity
-        await collaborationActivity.hasMany('approvalActivities').reload();
+      } else {
+        this.toaster.error('Er is iets misgelopen bij het verspreiden van de wijzigingen aan het persbericht.');
       }
+    } catch(err) {
+      this.toaster.error('Er is iets misgegaan bij het opslaan van het persbericht.');
     }
   }
 
-  @action
-  async saveChangesAndNavigateBack() {
-    await this.saveChanges();
-    this.transitionBack();
+  @task
+  *saveAndClose() {
+    yield this.savePressRelease.perform();
+    yield this.unclaimEditToken();
   }
 
-  @task
-  *savePressRelease() {
-    yield this.snapshot.save();
+  async unclaimEditToken() {
+    const url = `/collaboration-activities/${this.collaboration.id}/claims`;
+    const response = await fetch(url, {
+        method: 'DELETE',
+      }
+    );
+    if (response.status === 204) {
+      this.router.transitionTo('press-releases.overview.shared');
+    } else {
+      this.toaster.error('Er is iets misgelopen bij het vrijgeven van het persbericht.');
+    }
   }
 }

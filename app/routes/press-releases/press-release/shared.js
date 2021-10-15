@@ -5,13 +5,17 @@ export default class PressReleasesPressReleaseSharedRoute extends Route {
   @service currentSession;
   @service toaster;
 
+  model() {
+    const pressRelease = this.modelFor('press-releases.press-release');
+    return pressRelease.collaboration;
+  }
+
   async afterModel(model) {
-    const collaboration = await model.collaboration;
-    const collaborators = await collaboration.collaborators;
+    const collaborators = await model.collaborators;
     const currentOrganization = this.currentSession.organization;
     if (!collaborators.includes(currentOrganization)) {
       // Organization of current user is not a collaborator
-      this.toaster.error('Geen toegang tot het gedeeld persbericht.');
+      this.toaster.error('U heeft geen toegang tot het persbericht.');
       this.transitionTo('press-releases.overview.shared');
     }
   }

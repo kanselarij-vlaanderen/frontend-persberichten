@@ -6,9 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class CollaborationApprovalStatusComponent extends Component {
   @service store;
 
-  @tracked approved = false;
-
-  style='color: #8BAE00';
+  @tracked approvalActivity;
 
   constructor() {
     super(...arguments);
@@ -17,14 +15,9 @@ export default class CollaborationApprovalStatusComponent extends Component {
 
   @task
   *loadApprovalActivity() {
-    const collaborationActivity = yield this.args.collaborationActivity;
-    collaborationActivity.forEach(async activity => {
-      const activityCollaborator = await activity.collaborator;
-      const approved = activityCollaborator.uri === this.args.collaborator.uri;
-      if (approved) {
-        this.approved = approved;
-        return;
-      }
+    this.approvalActivity = yield this.store.queryOne('approval-activity', {
+      'filter[collaboration-activity][press-release][:id:]': this.args.pressRelease.id,
+      'filter[collaborator][:id:]': this.args.collaborator.id
     });
   }
 }
