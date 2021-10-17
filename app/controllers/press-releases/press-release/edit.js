@@ -32,10 +32,18 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       || !this.pressRelease.publicationChannels.length;
   }
 
-  transitionBack() {
-    // If no route where you returned from go to the concept page
-    if (history.length > 1) {
-      history.back();
+  async transitionBack() {
+    if (this.pressRelease) {
+      const publicationEvent = await this.pressRelease.publicationEvent;
+      if (publicationEvent) {
+        if (publicationEvent.isPublished) {
+          this.router.transitionTo('press-releases.overview.published');
+        } else {
+          this.router.transitionTo('press-releases.overview.planned');
+        }
+      } else {
+        this.router.transitionTo('press-releases.overview.concept');
+      }
     } else {
       this.router.transitionTo('press-releases.overview.concept');
     }
@@ -54,7 +62,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @action
   async saveChangesAndNavigateBack() {
     await this.savePressRelease.perform();
-    this.transitionBack();
+    await this.transitionBack();
   }
 
   @task
@@ -63,7 +71,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     if (isDirty) {
       this.showConfirmationModal = true;
     } else {
-      this.transitionBack();
+      yield this.transitionBack();
     }
   }
 
@@ -71,7 +79,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   *confirmNavigationBack() {
     yield this.snapshot.rollback();
     this.showConfirmationModal = false;
-    this.transitionBack();
+    yield this.transitionBack();
   }
 
   @action
@@ -136,7 +144,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       yield publicationEvent.destroyRecord();
     }
     yield this.snapshot.pressRelease.destroyRecord();
-    this.transitionBack();
+    yield this.transitionBack();
     this.showDeletionModal = false;
   }
 
