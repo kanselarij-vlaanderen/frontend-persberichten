@@ -74,7 +74,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
       const response = yield fetch(url, {
         method: 'PUT'
       });
-      if (response.status === 200) {
+      if (response.status === 204) {
         // Remove existing approvals because press-release has changed
         const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
         const response = yield fetch(url, {

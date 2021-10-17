@@ -73,7 +73,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
         const response = yield fetch(url, {
           method: 'PUT'
         });
-        if (response.status === 200) {
+        if (response.status === 204) {
           this.closeApprovalModal();
           this.toaster.success('Persbericht werd succesvol goedgekeurd.');
         }
@@ -114,7 +114,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
       }
     ).catch(() => this.toaster.error('Er is iets misgegaan bij het stoppen van co-editeren.'));
 
-    if (response.status === 200) {
+    if (response.status === 204) {
       this.toaster.success('Co-editeren werd succesvol stopgezet.');
       this.router.transitionTo('press-releases.press-release.edit', this.pressRelease.id);
     }
