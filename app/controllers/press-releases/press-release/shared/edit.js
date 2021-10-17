@@ -108,7 +108,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     );
     if (response.status === 204 || response.status === 409) {
       // Note: 409 Conflict response status means the token claim is already removed by a batch job
-      this.router.transitionTo('press-releases.overview.shared');
+      this.router.transitionTo('press-releases.press-release.shared.read');
     } else {
       this.toaster.error('Er is iets misgelopen bij het vrijgeven van het persbericht.');
     }
