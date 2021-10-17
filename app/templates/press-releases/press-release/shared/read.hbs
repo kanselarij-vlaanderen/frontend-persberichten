@@ -40,7 +40,8 @@
         <Auk::Toolbar::Item>
           <Auk::Button
             @skin="danger-primary"
-            {{on "click" this.checkApprovals}}
+            @loading={{this.stopCoEdit.isRunning}}
+            {{on "click" (perform this.stopCoEdit)}}
           >
             Stop co-editeren
           </Auk::Button>
@@ -135,11 +136,11 @@
   />
 {{/if}}
 
-{{#if this.showCoEditModal}}
-  <StopCoEditModal
-    @loading={{this.stopCoEdit.isRunning}}
-    @onCancel={{this.closeCoEditModal}}
-    @onConfirm={{perform this.stopCoEdit}}
+{{#if this.showStopCoEditWarningModal}}
+  <Collaboration::StopCoEditWarningModal
+    @loading={{this.confirmStopCoEdit.isRunning}}
+    @onCancel={{this.cancelStopCoEdit}}
+    @onConfirm={{perform this.confirmStopCoEdit}}
   />
 {{/if}}
 

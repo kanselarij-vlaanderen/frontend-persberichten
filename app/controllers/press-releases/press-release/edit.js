@@ -124,7 +124,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       yield publicationEvent.destroyRecord();
       yield publicationEvent.save();
       this.toaster.success('Persbericht werd succesvol teruggetrokken.');
-    } catch {
+    } catch(err) {
       this.toaster.error('Er is iets misgegaan bij het terugtrekken van het persbericht.');
     }
   }

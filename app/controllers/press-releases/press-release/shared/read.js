@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import CONFIG from '../../../../config/constants';
 
+const TOKEN_REFRESH_INTERVAL_MS = 10000; // 10 seconds
+
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
   @service router;
@@ -14,7 +16,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @tracked tokenClaimUser;
   @tracked hasApproved = false;
   @tracked showApprovalModal = false;
-  @tracked showCoEditModal = false;
+  @tracked showStopCoEditWarningModal = false;
 
   get pressRelease() {
     return this.model.pressRelease;
@@ -74,64 +76,87 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
           method: 'PUT'
         });
         if (response.status === 204) {
-          this.closeApprovalModal();
           this.toaster.success('Persbericht werd succesvol goedgekeurd.');
+        } else {
+          this.toaster.error('Er is iets misgegaan bij het verspreiden van de goedkeuring.');
         }
+      } else {
+        this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.');
       }
     } catch(err) {
       this.toaster.error('Er is iets misgegaan bij het goedkeuren van het persbericht.');
     }
-  }
-
-  @action
-  openCoEditModal() {
-    this.showCoEditModal = true;
-  }
-
-  @action
-  closeCoEditModal() {
-    this.showCoEditModal = false;
+    this.closeApprovalModal();
   }
 
   @task
   *stopCoEdit() {
-    // Create press release activity
-    const creator = this.currentSession.organization;
-    const user = this.currentSession.user;
-    const { UNSHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-    const activity = this.store.createRecord('press-release-activity', {
-      startDate: new Date(),
-      type: UNSHARE,
-      organization: creator,
-      pressRelease: this.pressRelease,
-      creator: user
+    // Refresh collaborators and approval-activities by using store.query
+    // to avoid using stale/cached ember-data records
+    const collaboration = yield this.store.queryOne('collaboration-activity', {
+      'filter[:id:]': this.collaboration.id,
+      include: [
+        'collaborators',
+        'approval-activities'
+      ].join(',')
     });
-    yield activity.save();
 
-    const url = `/collaboration-activities/${this.collaboration.id}`;
-    const response = yield fetch(url, {
-        method: 'DELETE',
-      }
-    ).catch(() => this.toaster.error('Er is iets misgegaan bij het stoppen van co-editeren.'));
+    const collaborators = yield collaboration.collaborators;
+    const approvals = yield collaboration.approvalActivities;
 
-    if (response.status === 204) {
-      this.toaster.success('Co-editeren werd succesvol stopgezet.');
-      this.router.transitionTo('press-releases.press-release.edit', this.pressRelease.id);
+    // Using include in the query above to ensure we get a full list instead of a paginated one
+    if ((collaborators.length - 1) == approvals.length) {
+      yield this.confirmStopCoEdit.perform();
+    } else {
+      this.showStopCoEditWarningModal = true;
     }
+  }
+
+  @task
+  *confirmStopCoEdit() {
+    try {
+      const url = `/collaboration-activities/${this.collaboration.id}`;
+      const response = yield fetch(url, {
+        method: 'DELETE',
+      });
+
+      if (response.status === 204) {
+        const creator = this.currentSession.organization;
+        const user = this.currentSession.user;
+        const { UNSHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
+        const activity = this.store.createRecord('press-release-activity', {
+          startDate: new Date(),
+          type: UNSHARE,
+          organization: creator,
+          pressRelease: this.pressRelease,
+          creator: user
+        });
+        yield activity.save();
+
+        // Note: no need to distribute data anymore since co-editing has already been stopped
+
+        // Force reload of collaboration related to press-release such that
+        // ember-data is aware the collaboration has been deleted in the backend
+        yield this.pressRelease.belongsTo('collaboration').reload();
+
+        this.toaster.success('Co-editeren van het persbericht is afgesloten.');
+        this.router.transitionTo('press-releases.press-release.edit', this.pressRelease.id);
+      } else {
+        this.toaster.error('Er is iets misgegaan bij het stoppen met co-editeren.');
+      }
+    } catch(err) {
+      this.toaster.error('Er is iets misgegaan bij het stoppen met co-editeren.');
+    }
+    this.showStopCoEditWarningModal = false;
   }
 
   @action
-  checkApprovals() {
-    if (this.collaborators.length === this.approvalActivities.length + 1) {
-      this.stopCoEdit.perform();
-    } else {
-      this.openCoEditModal();
-    }
+  cancelStopCoEdit() {
+    this.showStopCoEditWarningModal = false;
   }
 
   scheduleTokenClaimRefresh() {
-    // TODO move refresh interval to config
-    this.scheduledTokenClaimRefresh = later(this, () => this.refreshTokenClaim(), 10000);
+    this.scheduledTokenClaimRefresh = later(this, () => this.refreshTokenClaim(), TOKEN_REFRESH_INTERVAL_MS);
   }
 
   async refreshTokenClaim() {

@@ -68,7 +68,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
     yield this.snapshot.save();
 
-    // Distribute approval across all collaborators
+    // Distribute activity across all collaborators
     try {
       const url = `/collaboration-activities/${this.collaboration.id}`;
       const response = yield fetch(url, {
@@ -81,6 +81,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
           method: 'DELETE',
         });
         if (response.status === 204) {
+          // TODO force reload of approval-status component
           this.toaster.success('Persbericht werd succesvol opgeslagen.');
         } else {
           this.toaster.error('Er is iets misgelopen bij het ongedaan maken van de goedkeuringen.');
@@ -105,7 +106,8 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
         method: 'DELETE',
       }
     );
-    if (response.status === 204) {
+    if (response.status === 204 || response.status === 409) {
+      // Note: 409 Conflict response status means the token claim is already removed by a batch job
       this.router.transitionTo('press-releases.overview.shared');
     } else {
       this.toaster.error('Er is iets misgelopen bij het vrijgeven van het persbericht.');
