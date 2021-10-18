@@ -150,6 +150,10 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
   @task
   *coEdit(organizations) {
+    if (yield this.snapshot.isDirty()) {
+      yield this.savePressRelease.perform();
+    }
+
     // Create press release activity
     const creator = this.currentSession.organization;
     const user = this.currentSession.user;
