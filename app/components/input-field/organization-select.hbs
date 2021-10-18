@@ -3,13 +3,24 @@
     {{@label}}
   </Auk::Label>
   {{#unless this.loadOrganizations.isRunning}}
-    <PowerSelect
-      @options={{this.organizations}}
-      @selected={{@selected}}
-      @searchEnabled={{true}}
-      @searchField="shortName"
-      @onChange={{@onChange}} as |organization|>
-      {{or organization.shortName organization.name}}
-    </PowerSelect>
+    {{#if @multiple}}
+      <PowerSelectMultiple
+        @options={{this.organizations}}
+        @selected={{@selected}}
+        @searchEnabled={{true}}
+        @searchField="shortName"
+        @onChange={{@onChange}} as |organization|>
+        {{or organization.shortName organization.name}}
+      </PowerSelectMultiple>
+    {{else}}
+      <PowerSelect
+        @options={{this.organizations}}
+        @selected={{@selected}}
+        @searchEnabled={{true}}
+        @searchField="shortName"
+        @onChange={{@onChange}} as |organization|>
+        {{or organization.shortName organization.name}}
+      </PowerSelect>
+    {{/if}}
   {{/unless}}
 </div>

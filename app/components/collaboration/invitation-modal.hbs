@@ -4,20 +4,20 @@
     @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
-    <Auk::Label>
-      Kabinet(ten)
-    </Auk::Label>
-    <PressRelease::OrganizationSelect
-        @label="Kabinet(ten)"
-        @onChange={{this.selectOrganizations}}
-      />
+    <InputField::OrganizationSelect
+      @label="Kabinet(ten)"
+      @selected={{this.externalCollaborators}}
+      @filterUserOrganization={{true}}
+      @multiple={{true}}
+      @onChange={{this.selectExternalCollaborators}}
+    />
   </Auk::Modal::Body>
   <Auk::Modal::Footer @onCancel={{@onCancel}}>
     <Auk::Button
       @skin="primary"
       @disabled={{this.isDisabled}}
       @loading={{@loading}}
-      {{on "click" this.coEdit}}
+      {{on "click" (fn @onConfirm this.collaborators)}}
     >
       Uitnodigen tot co-editeren
     </Auk::Button>

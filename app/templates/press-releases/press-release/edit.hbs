@@ -58,7 +58,7 @@
           @label="Acties"
           as |Menu|>
           {{#if (and (not this.pressRelease.collaboration) (not this.pressRelease.publicationEvent))}}
-            <Menu.Item {{on "click" this.openOrganizationModal}}>
+            <Menu.Item {{on "click" this.openCoEditInvitationModal}}>
               Co-editeren
             </Menu.Item>
           {{/if}}
@@ -151,10 +151,10 @@
   />
 {{/if}}
 
-{{#if this.showOrganizationModal}}
-  <PressRelease::OrganizationModal
+{{#if this.showCoEditInvitationModal}}
+  <Collaboration::InvitationModal
     @loading={{this.coEdit.isRunning}}
-    @onCancel={{this.closeOrganizationModal}}
+    @onCancel={{this.closeCoEditInvitationModal}}
     @onConfirm={{perform this.coEdit}}
   />
 {{/if}}

@@ -5,6 +5,7 @@ import { task } from 'ember-concurrency-decorators';
 
 export default class InputFieldOrganizationSelectComponent extends Component {
   @service store;
+  @service currentSession;
 
   @tracked organizations = [];
 
@@ -19,9 +20,16 @@ export default class InputFieldOrganizationSelectComponent extends Component {
 
   @task
   *loadOrganizations() {
-    this.organizations = yield this.store.query('organization', {
+    let organizations = yield this.store.query('organization', {
       'page[size]': 100,
       sort: 'short-name'
     });
+
+    if (this.args.filterUserOrganization) {
+      const userOrganization = this.currentSession.organization.uri;
+      organizations = organizations.filter(org => org.uri != userOrganization);
+    }
+
+    this.organizations = organizations;
   }
 }

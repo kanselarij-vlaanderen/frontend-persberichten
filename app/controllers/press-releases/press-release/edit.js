@@ -16,7 +16,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @tracked showPublicationPlanningModal = false;
   @tracked showConfirmationModal = false;
   @tracked showDeletionModal = false;
-  @tracked showOrganizationModal = false;
+  @tracked showCoEditInvitationModal = false;
 
   get snapshot() {
     return this.model;
@@ -148,7 +148,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   }
 
   @task
-  *coEdit(organizations) {
+  *coEdit(collaborators) {
     if (yield this.snapshot.isDirty()) {
       yield this.savePressRelease.perform();
     }
@@ -169,9 +169,10 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     const collaborationActivity = this.store.createRecord('collaboration-activity', {
       startDate: new Date(),
       pressRelease: this.pressRelease,
-      collaborators: organizations
+      collaborators: collaborators
     });
     yield collaborationActivity.save();
+
     const url = `/collaboration-activities/${collaborationActivity.id}/share`;
     const response = yield fetch(url, {
         method: 'POST',
@@ -180,7 +181,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
     if (response.status === 204) {
       this.router.transitionTo('press-releases.press-release.shared.read', this.pressRelease);
     }
-    this.showOrganizationModal = false;
+    this.showCoEditInvitationModal = false;
   }
 
   @action
@@ -214,12 +215,12 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   }
 
   @action
-  openOrganizationModal() {
-    this.showOrganizationModal = true;
+  openCoEditInvitationModal() {
+    this.showCoEditInvitationModal = true;
   }
 
   @action
-  closeOrganizationModal() {
-    this.showOrganizationModal = false;
+  closeCoEditInvitationModal() {
+    this.showCoEditInvitationModal = false;
   }
 }
