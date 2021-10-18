@@ -52,45 +52,47 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
 
   @task
   *savePressRelease() {
-    // Note: press-release-activity must be created before distributing data across collaborators
-    // Create press release activity
-    const creator = this.currentSession.organization;
-    const user = this.currentSession.user;
-    const { EDIT } = CONFIG.PRESS_RELEASE_ACTIVITY;
-    const activity = this.store.createRecord('press-release-activity', {
-      startDate: new Date(),
-      type: EDIT,
-      organization: creator,
-      pressRelease: this.pressRelease,
-      creator: user
-    });
-    yield activity.save();
-
-    yield this.snapshot.save();
-
-    // Distribute activity across all collaborators
-    try {
-      const url = `/collaboration-activities/${this.collaboration.id}`;
-      const response = yield fetch(url, {
-        method: 'PUT'
+    if (yield this.snapshot.isDirty()) {
+      // Note: press-release-activity must be created before distributing data across collaborators
+      // Create press release activity
+      const creator = this.currentSession.organization;
+      const user = this.currentSession.user;
+      const { EDIT } = CONFIG.PRESS_RELEASE_ACTIVITY;
+      const activity = this.store.createRecord('press-release-activity', {
+        startDate: new Date(),
+        type: EDIT,
+        organization: creator,
+        pressRelease: this.pressRelease,
+        creator: user
       });
-      if (response.status === 204) {
-        // Remove existing approvals because press-release has changed
-        const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
+      yield activity.save();
+
+      yield this.snapshot.save();
+
+      // Distribute activity across all collaborators
+      try {
+        const url = `/collaboration-activities/${this.collaboration.id}`;
         const response = yield fetch(url, {
-          method: 'DELETE',
+          method: 'PUT'
         });
         if (response.status === 204) {
-          // TODO force reload of approval-status component
-          this.toaster.success('Persbericht werd succesvol opgeslagen.');
+          // Remove existing approvals because press-release has changed
+          const url = `/collaboration-activities/${this.collaboration.id}/approvals`;
+          const response = yield fetch(url, {
+            method: 'DELETE',
+          });
+          if (response.status === 204) {
+            // TODO force reload of approval-status component
+            this.toaster.success('Persbericht werd succesvol opgeslagen.');
+          } else {
+            this.toaster.error('Er is iets misgelopen bij het ongedaan maken van de goedkeuringen.');
+          }
         } else {
-          this.toaster.error('Er is iets misgelopen bij het ongedaan maken van de goedkeuringen.');
+          this.toaster.error('Er is iets misgelopen bij het verspreiden van de wijzigingen aan het persbericht.');
         }
-      } else {
-        this.toaster.error('Er is iets misgelopen bij het verspreiden van de wijzigingen aan het persbericht.');
+      } catch(err) {
+        this.toaster.error('Er is iets misgegaan bij het opslaan van het persbericht.');
       }
-    } catch(err) {
-      this.toaster.error('Er is iets misgegaan bij het opslaan van het persbericht.');
     }
   }
 
