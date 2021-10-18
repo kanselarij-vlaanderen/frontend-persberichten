@@ -144,7 +144,7 @@
 {{/if}}
 
 {{#if this.showDeletionModal}}
-  <DeletePressReleaseModal
+  <PressRelease::DeleteConfirmationModal
     @loading={{this.confirmDeletion.isRunning}}
     @onCancel={{this.cancelDeletion}}
     @onConfirm={{perform this.confirmDeletion}}

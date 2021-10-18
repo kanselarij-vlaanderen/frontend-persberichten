@@ -122,7 +122,6 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
     this.showPublicationModal = false;
     this.showPublicationPlanningModal = false;
-
   }
 
   @task
