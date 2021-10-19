@@ -53,6 +53,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
   @task
   *savePressRelease() {
     yield this.snapshot.save();
+    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.EDIT);
   }
 
   @action
