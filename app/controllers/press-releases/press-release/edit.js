@@ -101,19 +101,21 @@ export default class PressReleasesPressReleaseEditController extends Controller 
 
     if (!publicationEvent) {
       publicationEvent = this.store.createRecord('publication-event', {
-        plannedStartDate: publicationDate,
         pressRelease: this.snapshot.pressRelease,
         publicationChannels: publicationChannels,
         contactLists: contactLists,
         contactItems: contactItems
       });
     } else {
-      publicationEvent.plannedStartDate = publicationDate;
       publicationEvent.publicationChannels = publicationChannels;
       publicationEvent.contactLists = contactLists;
       publicationEvent.contactItems = contactItems;
     }
 
+    yield publicationEvent.save();
+
+    // Ensure all previous data of the event has been persisted before triggering the publication
+    publicationEvent.plannedStartDate = publicationDate;
     yield publicationEvent.save();
 
     if (publicationDate < new Date()) { // press-release is published immediately
