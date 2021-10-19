@@ -53,7 +53,9 @@
   <div class="auk-o-grid-col-10">
     <PressRelease::Form
       @pressRelease={{this.pressRelease}}
-      @isUserCreator={{this.isPressReleaseOwner}}/>
+      {{!-- Collaborators of a shared press-release only get a limited view --}}
+      @isSharedView={{not-eq this.currentSession.organization.uri this.pressRelease.creator.uri}}
+    />
   </div>
   <div class="auk-o-grid-col-2 auk-u-mt-8">
     <div>

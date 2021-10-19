@@ -22,12 +22,6 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
     return this.snapshot.pressRelease;
   }
 
-  get isPressReleaseOwner() {
-    return this.currentSession.organization
-      && this.pressRelease.creator
-      && this.currentSession.organization.uri == this.pressRelease.creator.get('uri');
-  }
-
   @task
   *navigateBack() {
     const isDirty = yield this.snapshot.isDirty();

@@ -21,7 +21,7 @@
         <p class="auk-o-grid-col-9">{{{@pressRelease.htmlContent}}}</p>
         {{!-- template-lint-enable no-triple-curlies --}}
       </div>
-      {{#if @isUserCreator}}
+      {{#unless @isSharedView}}
         <div class="auk-o-grid auk-u-mb-4">
           <Auk::Label class="auk-o-grid-col-3">
             Bron
@@ -34,7 +34,7 @@
             />
           </div>
         </div>
-      {{/if}}
+      {{/unless}}
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Beleidsbevoegdheden
@@ -71,7 +71,7 @@
           {{/each}}
         </ul>
       </div>
-      {{#if @isUserCreator}}
+      {{#unless @isSharedView}}
         <div class="auk-o-grid auk-u-mb-4">
           <Auk::Label class="auk-o-grid-col-3">
             Publicatiekanalen
@@ -84,7 +84,7 @@
             {{/each}}
           </ul>
         </div>
-      {{/if}}
+      {{/unless}}
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Bijlagen

@@ -112,11 +112,7 @@
   </Auk::Toolbar>
 </Auk::Navbar>
 
-<PressRelease::Form
-  @pressRelease={{this.pressRelease}}
-  {{!-- When in the edit route of a non-shared press-release user can always edit --}}
-  @isUserCreator={{true}}
-/>
+<PressRelease::Form @pressRelease={{this.pressRelease}} />
 
 {{#if this.showPublicationModal}}
   <PressRelease::PublicationModal

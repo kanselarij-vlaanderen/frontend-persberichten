@@ -71,7 +71,7 @@
           @onChange={{this.setThemes}}
           />
       </div>
-      {{#if @isUserCreator}}
+      {{#unless @isSharedView}}
         <div class="auk-form-group">
           <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
             <h4 class="auk-h4">Perscontacten</h4>
@@ -89,11 +89,11 @@
             @noDataMessage="Er is nog geen perscontact toegevoegd."
           />
         </div>
-      {{/if}}
+      {{/unless}}
       <div class="auk-form-group">
         <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
           <h3 class="auk-h3">Bijlagen</h3>
-          {{#if @isUserCreator}}
+          {{#unless @isSharedView}}
             <Auk::Button
               @icon="add"
               @skin="secondary"
@@ -101,16 +101,16 @@
             >
               Bijlage toevoegen
             </Auk::Button>
-          {{/if}}
+          {{/unless}}
         </div>
         <PressRelease::FilesTable
-          @showRemoveButton={{@isUserCreator}}
+          @showRemoveButton={{not @isSharedView}}
           @onRemoveAttachment={{this.removeAttachment}}
           @model={{@pressRelease.attachments}}
           @noDataMessage="Er zijn nog geen bijlagen toegevoegd."
         />
       </div>
-      {{#if @isUserCreator}}
+      {{#unless @isSharedView}}
         <h3 class="auk-h3">Ontvangers</h3>
         <div class="auk-form-group">
           <h4 class="auk-h4">Publicatiekanalen</h4>
@@ -153,7 +153,7 @@
             @noDataMessage="Er zijn nog geen bestemmelingen toegevoegd."
           />
         </div>
-      {{/if}}
+      {{/unless}}
     </div>
   </div>
 </div>
