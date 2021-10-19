@@ -9,6 +9,7 @@ import CONFIG from '../../config/constants';
 
 export default class PressReleaseSourcesModalComponent extends Component {
   @service store;
+  @service currentSession;
 
   @tracked sources = [];
   @tracked selectedSources = [];
@@ -23,8 +24,11 @@ export default class PressReleaseSourcesModalComponent extends Component {
     const filter = {
       'status': {
         ':uri:': CONFIG.CONTACT_STATUS.ACTIVE
+      },
+      'creator': {
+        ':uri:': this.currentSession.organization.uri
       }
-    }; //enkel actief
+    };
 
     if (searchText) {
       filter['full-name'] = searchText;

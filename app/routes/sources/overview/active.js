@@ -8,10 +8,6 @@ export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRo
   @service currentSession;
   modelName = 'contact';
 
-  beforeModel() {
-    this.creator = this.currentSession.organization;
-  }
-
   mergeQueryOptions(params){
     const queryParams = {
       sort: params.sort,
@@ -21,7 +17,7 @@ export default class SourcesOverviewActiveRoute extends Route.extend(DataTableRo
           ':uri:': CONFIG.CONTACT_STATUS.ACTIVE
         },
         'creator': {
-          ':uri:': this.creator.uri
+          ':uri:':  this.currentSession.organization.uri
         }
       },
     };
