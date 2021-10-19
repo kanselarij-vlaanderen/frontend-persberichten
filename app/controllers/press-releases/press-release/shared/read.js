@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task, keepLatestTask } from 'ember-concurrency-decorators';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import CONFIG from '../../../../config/constants';
@@ -48,6 +48,15 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
     this.showApprovalModal = false;
   }
 
+  @keepLatestTask
+  *loadApprovalStatus() {
+    const approvalActivity = yield this.store.queryOne('approval-activity', {
+      'filter[collaboration-activity][press-release][:id:]': this.pressRelease.id,
+      'filter[collaborator][:id:]': this.currentSession.organization.id
+    });
+    this.hasApproved = approvalActivity != null;
+  }
+
   @task
   *confirmApproval() {
     try {
@@ -76,6 +85,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
           method: 'PUT'
         });
         if (response.status === 204) {
+          yield this.loadApprovalStatus.perform();
           this.toaster.success('Persbericht werd succesvol goedgekeurd.');
         } else {
           this.toaster.error('Er is iets misgegaan bij het verspreiden van de goedkeuring.');

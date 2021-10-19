@@ -30,17 +30,12 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
         this.transitionTo('press-releases.press-release.shared.edit');
       }
     }
-
-    this.approvalActivity = await this.store.queryOne('approval-activity', {
-      'filter[collaboration-activity][press-release][:id:]': model.pressRelease.id,
-      'filter[collaborator][:id:]': this.currentSession.organization.id
-    });
   }
 
   setupController(controller) {
     super.setupController(...arguments);
     controller.tokenClaimUser = this.tokenClaimUser;
-    controller.hasApproved = this.approvalActivity != null;
+    controller.loadApprovalStatus.perform();
     controller.scheduleTokenClaimRefresh();
   }
 
