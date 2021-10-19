@@ -6,8 +6,9 @@ import { task } from 'ember-concurrency-decorators';
 import CONFIG from '../../config/constants';
 
 export default class PressReleasesOverviewController extends Controller {
-  @service store;
   @service currentSession;
+  @service activityTracker;
+  @service store;
   @service router;
 
   @tracked showNewPressReleaseModal = false;
@@ -15,24 +16,14 @@ export default class PressReleasesOverviewController extends Controller {
   @task
   *createNewPressRelease(title) {
     const now = new Date();
-    const creator = this.currentSession.organization;
-    const user = this.currentSession.user;
     const pressRelease = this.store.createRecord('press-release', {
       title,
       created: now,
       modified: now,
-      creator
+      creator: this.currentSession.organization
     });
     yield pressRelease.save();
-    const { CREATE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-    const activity = this.store.createRecord('press-release-activity', {
-      startDate: now,
-      type: CREATE,
-      organization: creator,
-      pressRelease: pressRelease,
-      creator: user
-    });
-    yield activity.save();
+    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.CREATE);
     this.showNewPressReleaseModal = false;
     this.router.transitionTo('press-releases.press-release.edit', pressRelease.id);
   }

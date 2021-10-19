@@ -10,6 +10,7 @@ const TOKEN_REFRESH_INTERVAL_MS = 10000; // 10 seconds
 
 export default class PressReleasesPressReleaseSharedReadController extends Controller {
   @service currentSession;
+  @service activityTracker;
   @service router;
   @service toaster;
 
@@ -67,17 +68,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
       });
       if (response.status === 201) {
         // Note: press-release-activity must be created before distributing data across collaborators
-        const creator = this.currentSession.organization;
-        const user = this.currentSession.user;
-        const { APPROVE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-        const activity = this.store.createRecord('press-release-activity', {
-          startDate: new Date(),
-          type: APPROVE,
-          organization: creator,
-          pressRelease: this.pressRelease,
-          creator: user
-        });
-        yield activity.save();
+        yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.APPROVE);
 
         // Distribute approval across all collaborators
         const url = `/collaboration-activities/${this.collaboration.id}`;
@@ -131,17 +122,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
       });
 
       if (response.status === 204) {
-        const creator = this.currentSession.organization;
-        const user = this.currentSession.user;
-        const { UNSHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-        const activity = this.store.createRecord('press-release-activity', {
-          startDate: new Date(),
-          type: UNSHARE,
-          organization: creator,
-          pressRelease: this.pressRelease,
-          creator: user
-        });
-        yield activity.save();
+        yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.UNSHARE);
 
         // Note: no need to distribute data anymore since co-editing has already been stopped
 

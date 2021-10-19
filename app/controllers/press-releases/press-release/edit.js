@@ -8,6 +8,7 @@ import CONFIG from '../../../config/constants';
 
 export default class PressReleasesPressReleaseEditController extends Controller {
   @service currentSession;
+  @service activityTracker;
   @service router;
   @service store;
   @service toaster;
@@ -155,18 +156,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       yield this.savePressRelease.perform();
     }
 
-    // Create press release activity
-    const creator = this.currentSession.organization;
-    const user = this.currentSession.user;
-    const { SHARE } = CONFIG.PRESS_RELEASE_ACTIVITY;
-    const activity = this.store.createRecord('press-release-activity', {
-      startDate: new Date(),
-      type: SHARE,
-      organization: creator,
-      pressRelease: this.pressRelease,
-      creator: user
-    });
-    yield activity.save();
+    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.SHARE);
 
     const collaborationActivity = this.store.createRecord('collaboration-activity', {
       startDate: new Date(),

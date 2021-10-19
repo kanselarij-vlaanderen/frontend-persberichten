@@ -8,7 +8,7 @@ import CONFIG from '../../../../config/constants';
 export default class PressReleasesPressReleaseSharedEditController extends Controller {
   @service toaster;
   @service currentSession;
-  @service store;
+  @service activityTracker;
   @service router;
 
   @tracked collaboration;
@@ -54,18 +54,7 @@ export default class PressReleasesPressReleaseSharedEditController extends Contr
   *savePressRelease() {
     if (yield this.snapshot.isDirty()) {
       // Note: press-release-activity must be created before distributing data across collaborators
-      // Create press release activity
-      const creator = this.currentSession.organization;
-      const user = this.currentSession.user;
-      const { EDIT } = CONFIG.PRESS_RELEASE_ACTIVITY;
-      const activity = this.store.createRecord('press-release-activity', {
-        startDate: new Date(),
-        type: EDIT,
-        organization: creator,
-        pressRelease: this.pressRelease,
-        creator: user
-      });
-      yield activity.save();
+      yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.EDIT);
 
       yield this.snapshot.save();
 
