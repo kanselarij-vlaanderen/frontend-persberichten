@@ -103,12 +103,15 @@
             </Auk::Button>
           {{/unless}}
         </div>
-        <PressRelease::FilesTable
-          @showRemoveButton={{not @isSharedView}}
-          @onRemoveAttachment={{this.removeAttachment}}
-          @model={{@pressRelease.attachments}}
-          @noDataMessage="Er zijn nog geen bijlagen toegevoegd."
-        />
+        {{#if @isSharedView}}
+          <PressRelease::FileList @files={{@pressRelease.attachments}} />
+        {{else}}
+          <PressRelease::FilesTable
+            @model={{@pressRelease.attachments}}
+            @onRemoveAttachment={{this.removeAttachment}}
+            @noDataMessage="Er zijn nog geen bijlagen toegevoegd."
+          />
+        {{/if}}
       </div>
       {{#unless @isSharedView}}
         <h3 class="auk-h3">Ontvangers</h3>

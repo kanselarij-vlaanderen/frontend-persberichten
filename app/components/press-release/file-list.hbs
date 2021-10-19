@@ -1,0 +1,32 @@
+{{#if @files.length}}
+  <Auk::List @isBordered="true" class="auk-list--view" ...attributes>
+    {{#each @files as |file|}}
+      <Auk::List::Item @flex={{true}}>
+        <Auk::Badge @icon="file" />
+        <div class="auk-u-mx-2">
+          <span class="auk-u-text-bold">{{file.name}}</span>
+          <div class="auk-u-muted auk-u-text-small">{{uppercase file.extension}}</div>
+        </div>
+        <Auk::Button
+          @layout="icon-only"
+          @icon="download"
+          @skin="borderless"
+          @href={{file.namedDownloadLink}}
+          download={{file.name}}
+        />
+      </Auk::List::Item>
+    {{/each}}
+  </Auk::List>
+{{else}}
+  <div class="auk-scroll-wrapper" ...attributes>
+    <div class="auk-scroll-wrapper__body">
+      <div class="auk-u-my-4">
+        <Auk::Panel>
+          <Auk::Panel::Body>
+            <Auk::EmptyState @message="Geen bijlagen toegevoegd" />
+          </Auk::Panel::Body>
+        </Auk::Panel>
+      </div>
+    </div>
+  </div>
+{{/if}}
