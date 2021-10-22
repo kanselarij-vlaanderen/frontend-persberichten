@@ -200,19 +200,19 @@ export default class ContactsNewController extends Controller {
       const creator = this.currentSession.organization;
       const telephone = this.store.createRecord('telephone', {
         creator,
-        value: contact.telephone
+        value: contact["Telefoon"]
       });
       const mailAddress = this.store.createRecord('mail-address', {
         creator,
-        value: contact.mailAddress
+        value: contact["Email"]
       });
       const contactItem = this.store.createRecord('contact-item', {
         telephone,
         mailAddress,
-        givenName: contact.givenName,
-        familyName: contact.familyName,
-        fullName: `${contact.givenName} ${contact.familyName}`,
-        organizationName: contact.organizationName
+        givenName: contact["Voornaam"],
+        familyName: contact["Achternaam"],
+        fullName: `${contact["Voornaam"]} ${contact["Achternaam"]}`,
+        organizationName: contact["Organisatie Naam"]
       });
       this.contacts.pushObject(contactItem);
     });
