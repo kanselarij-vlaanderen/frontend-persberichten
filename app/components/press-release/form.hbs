@@ -22,6 +22,7 @@
             content=@pressRelease.htmlContent
             onEditorContentChange=(fn this.setHtmlContent @pressRelease)
             config=(hash
+              content_css = '/assets/frontend-persberichten.css'
               base_url = '/tinymce'
               menubar = false
               plugins = 'link lists table'
