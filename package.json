@@ -2,10 +2,13 @@
   "name": "frontend-persberichten",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for frontend-persberichten goes here",
-  "repository": "",
+  "description": "Frontend of Vlivia application",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanselarij-vlaanderen/frontend-persberichten.git"
+  },
   "license": "MIT",
-  "author": "",
+  "author": "redpencil.io",
   "directories": {
     "doc": "doc",
     "test": "tests"
