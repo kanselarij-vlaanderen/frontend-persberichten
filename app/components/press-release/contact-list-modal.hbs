@@ -19,6 +19,7 @@
           @searchEnabled={{true}}
           @onInput={{perform this.debouncedSearch}}
           @searchField="name"
+          @renderInPlace={{true}}
           as |contactList|>
           {{contactList.name}}
         </PowerSelectMultiple>

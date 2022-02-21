@@ -19,6 +19,7 @@
           @searchEnabled={{true}}
           @onInput={{perform this.debouncedSearch}}
           @searchField="fullName"
+          @renderInPlace={{true}}
           as |source|>
           {{source.fullName}} {{#if source.role}}({{source.role}}){{/if}}
         </PowerSelectMultiple>
