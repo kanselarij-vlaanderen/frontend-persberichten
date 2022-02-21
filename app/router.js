@@ -44,4 +44,5 @@ Router.map(function () {
 
   this.route('login', { path: 'aanmelden' });
   this.route('mock-login');
+  this.route('unknown-organization', { path: 'organizatie-niet-gekend' });
 });

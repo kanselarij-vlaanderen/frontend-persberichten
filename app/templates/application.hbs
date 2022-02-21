@@ -1,6 +1,6 @@
 {{page-title "Vlivia"}}
 
-{{#if this.session.isAuthenticated}}
+{{#if this.currentSession.isValidUser}}
   <MainHeader />
 {{/if}}
 {{outlet}}

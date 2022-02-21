@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 export default class CurrentSessionService extends Service {
   @service session;
   @service store;
+  @service router;
 
   @tracked account;
   @tracked user;
@@ -17,14 +18,21 @@ export default class CurrentSessionService extends Service {
       this.account = await this.store.find('account', accountId);
       this.user = await this.account.user;
 
-
       const groupId = this.session.get('data.authenticated.relationships.group.data.id');
       if (groupId) {
         this.group = await this.store.find('user-group', groupId);
         this.organization = await this.store.findRecordByUri('organization', this.group.uri);
+
+        if (!this.organization) {
+          this.router.transitionTo('unknown-organization');
+        }
       }
 
       this.roles = this.session.get('data.authenticated.data.attributes.roles');
     }
+  }
+
+  get isValidUser() {
+    return this.session.isAuthenticated && this.organization != null;
   }
 }
