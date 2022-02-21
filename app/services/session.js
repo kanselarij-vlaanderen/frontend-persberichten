@@ -9,10 +9,10 @@ export default class ExtendedSessionService extends SessionService {
   async handleAuthentication() {
     try {
       await this.currentSession.load();
+      super.handleAuthentication('index');
     } catch (error) {
       this.invalidate();
     }
-    super.handleAuthentication('index');
   }
 
   handleInvalidation() {
