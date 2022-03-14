@@ -1,9 +1,7 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask } from 'ember-concurrency-decorators';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, timeout, task } from 'ember-concurrency-decorators';
 import { action } from '@ember/object';
 
 export default class PressReleaseContactListModalComponent extends Component {

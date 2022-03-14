@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { enqueueTask } from 'ember-concurrency-decorators';
+import { enqueueTask } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import {
   action,

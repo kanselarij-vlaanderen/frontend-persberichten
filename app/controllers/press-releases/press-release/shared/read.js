@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task, keepLatestTask } from 'ember-concurrency-decorators';
+import { task, keepLatestTask } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import CONFIG from '../../../../config/constants';
