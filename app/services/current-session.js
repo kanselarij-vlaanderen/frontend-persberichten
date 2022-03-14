@@ -12,13 +12,17 @@ export default class CurrentSessionService extends Service {
   @tracked roles;
   @tracked organization;
 
+  get isValidUser() {
+    return this.session.isAuthenticated && this.organization != null;
+  }
+
   async load() {
-    if (this.session.isAuthenticated) {
-      const accountId = this.session.get('data.authenticated.relationships.account.data.id');
+    const accountId = this.session.data.authenticated.relationships?.account?.data?.id;
+    if (accountId) {
       this.account = await this.store.find('account', accountId);
       this.user = await this.account.user;
 
-      const groupId = this.session.get('data.authenticated.relationships.group.data.id');
+      const groupId = this.session.data.authenticated.relationships?.group?.data?.id;
       if (groupId) {
         this.group = await this.store.find('user-group', groupId);
         this.organization = await this.store.findRecordByUri('organization', this.group.uri);
@@ -28,11 +32,17 @@ export default class CurrentSessionService extends Service {
         }
       }
 
-      this.roles = this.session.get('data.authenticated.data.attributes.roles');
+      this.roles = this.session.data.authenticated.data?.attributes?.roles || [];
+    } else {
+      this.reset();
     }
   }
 
-  get isValidUser() {
-    return this.session.isAuthenticated && this.organization != null;
+  reset() {
+    this.account = null;
+    this.user = null;
+    this.group = null;
+    this.organization = null;
+    this.roles = [];
   }
 }
