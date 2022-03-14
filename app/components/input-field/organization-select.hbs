@@ -8,18 +8,18 @@
         @options={{this.organizations}}
         @selected={{@selected}}
         @searchEnabled={{true}}
-        @searchField="shortName"
+        @searchField="searchLabel"
         @onChange={{@onChange}} as |organization|>
-        {{or organization.shortName organization.name}}
+        {{organization.searchLabel}}
       </PowerSelectMultiple>
     {{else}}
       <PowerSelect
         @options={{this.organizations}}
         @selected={{@selected}}
         @searchEnabled={{true}}
-        @searchField="shortName"
+        @searchField="searchLabel"
         @onChange={{@onChange}} as |organization|>
-        {{or organization.shortName organization.name}}
+        {{organization.searchLabel}}
       </PowerSelect>
     {{/if}}
   {{/unless}}

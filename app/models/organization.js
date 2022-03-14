@@ -15,4 +15,13 @@ export default class OrganizationModel extends Model {
   @hasMany('collaboration-activity') collaborations;
   @hasMany('approval-activity') approvalActivities;
   @hasMany('press-release-activity') pressReleaseActivities;
+
+  get searchLabel() {
+    const name = this.shortName || this.name || '';
+    if (this.identifier) {
+      return `${name} (${this.identifier})`;
+    } else {
+      return name;
+    }
+  }
 }
