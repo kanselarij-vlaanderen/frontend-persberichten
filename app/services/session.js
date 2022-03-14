@@ -9,7 +9,11 @@ export default class ExtendedSessionService extends SessionService {
   async handleAuthentication() {
     try {
       await this.currentSession.load();
-      super.handleAuthentication('index');
+      if (this.currentSession.organization) {
+        super.handleAuthentication('index');
+      } else {
+        this.router.transitionTo('unknown-organization');
+      }
     } catch (error) {
       this.invalidate();
     }

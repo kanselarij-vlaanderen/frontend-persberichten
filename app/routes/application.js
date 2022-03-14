@@ -4,11 +4,15 @@ import { inject as service } from '@ember/service';
 export default class ApplicationRoute extends Route {
   @service currentSession;
   @service session;
+  @service router;
 
   async beforeModel() {
     try {
       await this.currentSession.load();
-    } catch (error) { // eslint-disable-line no-unused-vars
+      if (!this.currentSession.organization) {
+        this.router.transitionTo('unknown-organization');
+      }
+    } catch (error) {
       this.session.invalidate();
     }
   }
