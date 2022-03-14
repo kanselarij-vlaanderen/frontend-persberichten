@@ -8,9 +8,13 @@ export default class ApplicationRoute extends Route {
 
   async beforeModel() {
     try {
-      await this.currentSession.load();
-      if (!this.currentSession.organization) {
-        this.router.transitionTo('unknown-organization');
+      if (this.session.isAuthenticated) {
+        await this.currentSession.load();
+        if (!this.currentSession.account) {
+          this.session.invalidate();
+        } else if (!this.currentSession.organization) {
+          this.router.transitionTo('unknown-organization');
+        }
       }
     } catch (error) {
       this.session.invalidate();
