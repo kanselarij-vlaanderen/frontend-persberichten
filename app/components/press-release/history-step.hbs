@@ -8,7 +8,7 @@
         Persbericht aangemaakt
       </h4>
       <p class="auk-u-text-small auk-u-muted">
-        door {{@activity.creator.fullName}}
+        door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       <p class="auk-u-text-small auk-u-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
@@ -25,7 +25,7 @@
         Persbericht bewerkt
       </h4>
       <p class="auk-u-text-small auk-u-muted">
-        door {{@activity.creator.fullName}}
+        door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       <p class="auk-u-text-small auk-u-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
@@ -42,7 +42,7 @@
         Persbericht goedgekeurd
       </h4>
       <p class="auk-u-text-small auk-u-muted">
-        door {{@activity.creator.fullName}}
+        door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       <p class="auk-u-text-small auk-u-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
@@ -59,7 +59,7 @@
         Persbericht gedeeld
       </h4>
       <p class="auk-u-text-small auk-u-muted">
-        door {{@activity.creator.fullName}}
+        door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       {{!-- TODO add list of collaborators --}}
       <p class="auk-u-text-small auk-u-muted">
@@ -77,7 +77,7 @@
         Delen gestopt
       </h4>
       <p class="auk-u-text-small auk-u-muted">
-        door {{@activity.creator.fullName}}
+        door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       <p class="auk-u-text-small auk-u-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}

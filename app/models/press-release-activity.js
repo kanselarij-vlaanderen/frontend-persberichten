@@ -9,7 +9,11 @@ export default class PressReleaseActivity extends Model {
 
   @belongsTo('organization') organization;
   @belongsTo('press-release') pressRelease;
-  @belongsTo('user') creator;
+
+  // Note: users are stored per organization graph (except mock-users),
+  // hence this relation is not available for users of other organizations
+  // and should therefore probably not be used in the frontend
+  // @belongsTo('user') creator;
 
   get isCreationActivity() {
     return this.type == ACTIVITY_TYPES.CREATE;
