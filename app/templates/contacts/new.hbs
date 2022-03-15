@@ -27,20 +27,22 @@
   <Auk::ProgressBar @progress={{this.progress}} @disablePercentage={{true}}/>
   <div class="auk-o-flex auk-o-flex--align-baseline auk-o-flex--justify-between">
     <h1 class="auk-h1">{{this.title}}</h1>
-    {{#if (and (eq this.step 2) (eq this.inputType "manual"))}}
-      <Auk::Button
-        @skin="secondary"
-        @icon="add"
-        {{on "click" this.openContactItemModal}}>
+    {{#if (eq this.step 2)}}
+      {{#if (eq this.inputType "manual")}}
+        <Auk::Button
+          @skin="secondary"
+          @icon="add"
+          {{on "click" this.openContactItemModal}}>
           Bestemmeling toevoegen
-      </Auk::Button>
-    {{/if}}
-    {{#if (and (eq this.step 2) (and (eq this.inputType "csv")  this.isUploadComplete))}}
-      <Auk::Button
-        @skin="secondary"
-        {{on "click" this.uploadNewFile}}>
+        </Auk::Button>
+      {{/if}}
+      {{#if (and (eq this.inputType "csv") this.convertFile.lastSuccessful)}}
+        <Auk::Button
+          @skin="secondary"
+          {{on "click" this.uploadNewFile}}>
           Nieuw bestand uploaden
-      </Auk::Button>
+        </Auk::Button>
+      {{/if}}
     {{/if}}
   </div>
   <div>
@@ -81,6 +83,9 @@
     {{/if}}
     {{#if (eq this.step 2)}}
       {{#if (and (eq this.inputType "csv") (not this.isUploadComplete))}}
+        <p class="auk-u-muted">
+          Laad een CSV bestand op met kolommen Voornaam, Achternaam, Organisatie Naam, Telefoon, Email.
+        </p>
         <div class="auk-u-mb-2">
           <Auk::FileUploader
             @fileQueueName={{this.fileQueueName}}
@@ -89,23 +94,14 @@
             @onUpload={{perform this.convertFile}}
           />
         </div>
-      {{/if}}
-      {{#if (or (eq this.inputType "manual") this.isUploadComplete)}}
+      {{else if this.convertFile.isRunning}}
+      {{else}}
+        {{!-- Manual input or results of CSV upload --}}
         <ContactItem::Table
           @onOpenContactItem={{this.openContactItem}}
           @model={{this.contacts}}
           @isEditEnabled={{true}}
           @noDataMessage="Er zijn nog geen bestemmelingen."
-        />
-      {{/if}}
-      {{#if this.showContactItemModal}}
-        <ContactItem::Modal
-          @isNewContact={{this.isNewContact}}
-          @contact={{this.selectedContact}}
-          @onCancel={{this.closeContactItemModalAndReset}}
-          @onAddContact={{this.addContact}}
-          @onChangeContact={{this.changeContact}}
-          @onDeleteContact={{this.deleteContact}}
         />
       {{/if}}
     {{/if}}
@@ -140,6 +136,18 @@
     </div>
   </div>
 </div>
+
+{{#if this.showContactItemModal}}
+  <ContactItem::Modal
+    @isNewContact={{this.isNewContact}}
+    @contact={{this.selectedContact}}
+    @onCancel={{this.closeContactItemModalAndReset}}
+    @onAddContact={{this.addContact}}
+    @onChangeContact={{this.changeContact}}
+    @onDeleteContact={{this.deleteContact}}
+  />
+{{/if}}
+
 {{#if this.showConfirmationModal}}
   <DiscardChangesModal
     @loading={{this.confirmNavigationBack.isRunning}}

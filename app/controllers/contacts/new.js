@@ -14,7 +14,7 @@ export default class ContactsNewController extends Controller {
   @service router;
 
   @tracked step;
-  @tracked inputType;
+  @tracked inputType; // 'manual' or 'csv'
   @tracked showContactItemModal = false;
   @tracked showConfirmationModal = false;
   @tracked isNewContact = true;
@@ -29,12 +29,12 @@ export default class ContactsNewController extends Controller {
     return this.step > 0;
   }
 
-  get hasNext() {
-    return this.step < this.TITLES_ARRAY.length - 1;
-  }
-
   get isLast() {
     return this.step === this.TITLES_ARRAY.length - 1;
+  }
+
+  get hasNext() {
+    return !this.isLast;
   }
 
   get title() {
@@ -193,30 +193,30 @@ export default class ContactsNewController extends Controller {
     const response = yield fetch(url);
     if (response.status !== 200) {
       yield file.destroyRecord();
-      return;
+    } else {
+      const payload = yield response.json();
+      payload.forEach(contact => {
+        const creator = this.currentSession.organization;
+        const telephone = this.store.createRecord('telephone', {
+          creator,
+          value: contact["Telefoon"]
+        });
+        const mailAddress = this.store.createRecord('mail-address', {
+          creator,
+          value: contact["Email"]
+        });
+        const contactItem = this.store.createRecord('contact-item', {
+          telephone,
+          mailAddress,
+          givenName: contact["Voornaam"],
+          familyName: contact["Achternaam"],
+          fullName: `${contact["Voornaam"]} ${contact["Achternaam"]}`,
+          organizationName: contact["Organisatie Naam"]
+        });
+        this.contacts.pushObject(contactItem);
+      });
+      yield file.destroyRecord();
     }
-    const payload = yield response.json();
-    payload.forEach(contact => {
-      const creator = this.currentSession.organization;
-      const telephone = this.store.createRecord('telephone', {
-        creator,
-        value: contact["Telefoon"]
-      });
-      const mailAddress = this.store.createRecord('mail-address', {
-        creator,
-        value: contact["Email"]
-      });
-      const contactItem = this.store.createRecord('contact-item', {
-        telephone,
-        mailAddress,
-        givenName: contact["Voornaam"],
-        familyName: contact["Achternaam"],
-        fullName: `${contact["Voornaam"]} ${contact["Achternaam"]}`,
-        organizationName: contact["Organisatie Naam"]
-      });
-      this.contacts.pushObject(contactItem);
-    });
-    yield file.destroyRecord();
   }
 
   @action
