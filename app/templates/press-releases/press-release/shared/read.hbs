@@ -87,7 +87,7 @@
     <div>
       <h3 class="auk-h3">Aangemaakt door</h3>
       <Auk::Avatar @icon="user" @name={{this.pressRelease.creator.shortName}}>
-        <p>{{this.pressRelease.creator.shortName}}</p>
+        <p>{{or this.pressRelease.creator.shortName this.pressRelease.creator.name}}</p>
       </Auk::Avatar>
     </div>
 
@@ -98,7 +98,7 @@
           {{#unless (eq collaborator.uri this.pressRelease.creator.uri)}}
             <div class="auk-u-mb-4">
               <Auk::Avatar @icon="user" @name={{collaborator.shortName}}>
-                <p>{{collaborator.shortName}}</p>
+                <p>{{or collaborator.shortName collaborator.name}}</p>
                 {{#unless (and
                      (eq collaborator.uri this.currentSession.organization.uri)
                      this.confirmApproval.isRunning
