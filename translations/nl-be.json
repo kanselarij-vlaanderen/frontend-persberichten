@@ -4,10 +4,10 @@
   "next": "Volgende",
   "of": "van",
   "cancel": "Annuleren",
-  "upload-files": "{numFiles, plural, =one {Bestand} =multiple {Bestanden}} opladen",
-  "drag-or-click-for-upload": "Sleep je {numFiles, plural, =one {bestand} =many {bestanden}} naar hier of klik hier om een bestand te selecteren.",
-  "invalid-type": "Fout bestandstype.",
-  "drop-text": "Laat los om het bestand op te laden.",
+  "upload-files": "{numFiles, plural, =1 {Bestand} other {Bestanden}} opladen",
   "uploading-files": "{numFiles, plural, =1 {# bestand} other {# bestanden}} opladen",
-  "uploaded-files": "{numFiles, plural, =1 {Bestand} other {Bestanden}} opgeladen"
+  "uploaded-files": "{numFiles, plural, =1 {Bestand} other {Bestanden}} opgeladen",
+  "drag-or-click-for-upload": "Sleep je {numFiles, plural, =1 {bestand} other {bestanden}} naar hier of klik hier om een bestand te selecteren.",
+  "invalid-type": "Fout bestandstype.",
+  "drop-text": "Laat los om het bestand op te laden."
 }

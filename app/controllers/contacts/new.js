@@ -4,7 +4,6 @@ import { task } from 'ember-concurrency';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { isBlank } from '@ember/utils';
-import { guidFor } from '@ember/object/internals';
 
 export default class ContactsNewController extends Controller {
   TITLES_ARRAY = ['Basis informatie', 'Ontvangers', 'Contactgegevens'];
@@ -53,10 +52,6 @@ export default class ContactsNewController extends Controller {
     } else {
       return false;
     }
-  }
-
-  get fileQueueName() {
-    return `${guidFor(this)}-file-queue`;
   }
 
   @action
