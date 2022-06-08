@@ -6,7 +6,6 @@ import { action } from '@ember/object';
 
 export default class SourcesSourceController extends Controller {
   @service router;
-  @service store;
 
   @tracked showConfirmationModal;
   @tracked showDeleteSourceModal;

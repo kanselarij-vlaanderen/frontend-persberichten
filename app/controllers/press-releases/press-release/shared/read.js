@@ -13,6 +13,7 @@ export default class PressReleasesPressReleaseSharedReadController extends Contr
   @service activityTracker;
   @service router;
   @service toaster;
+  @service store;
 
   @tracked tokenClaimUser;
   @tracked hasApproved = false;

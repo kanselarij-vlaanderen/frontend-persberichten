@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 
 export default class PressReleasesPressReleaseSharedEditRoute extends Route {
   @service toaster;
+  @service store;
+  @service router;
 
   async beforeModel() {
     this.collaboration = this.modelFor('press-releases.press-release.shared');
@@ -24,7 +26,7 @@ export default class PressReleasesPressReleaseSharedEditRoute extends Route {
       );
       if (response.status !== 201) {
         this.toaster.error('Er is iets misgelopen bij het openen van de bewerk-modus.');
-        this.transitionTo('press-releases.press-release.shared.read');
+        this.router.transitionTo('press-releases.press-release.shared.read');
       }
     }
   }

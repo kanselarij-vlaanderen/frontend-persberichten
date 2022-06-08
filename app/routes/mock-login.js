@@ -3,7 +3,8 @@ import { inject as service } from '@ember/service';
 import CONSTANTS from '../config/constants';
 
 export default class MockLoginRoute extends Route {
-  @service() session;
+  @service session;
+  @service store;
 
   beforeModel() {
     this.session.prohibitAuthentication('index');

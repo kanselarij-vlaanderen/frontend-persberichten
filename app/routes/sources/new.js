@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class SourcesNewRoute extends Route {
   @service currentSession;
+  @service store;
 
   async model() {
     const creator = this.currentSession.organization;

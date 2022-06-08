@@ -5,6 +5,8 @@ import { hash } from 'rsvp';
 
 export default class PressReleasesPressReleaseSharedReadRoute extends Route {
   @service currentSession;
+  @service store;
+  @service router;
 
   model() {
     const pressRelease = this.modelFor('press-releases.press-release');
@@ -27,7 +29,7 @@ export default class PressReleasesPressReleaseSharedReadRoute extends Route {
     if (tokenClaim) {
       this.tokenClaimUser = await tokenClaim.user;
       if (this.tokenClaimUser === this.currentSession.user) {
-        this.transitionTo('press-releases.press-release.shared.edit');
+        this.router.transitionTo('press-releases.press-release.shared.edit');
       }
     }
   }

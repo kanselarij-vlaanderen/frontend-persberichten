@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class ContactsMailingListController extends Controller {
   @service router;
   @service currentSession;
+  @service store;
 
   @tracked sort = '-full-name';
   @tracked page = 0;
