@@ -8,23 +8,23 @@
           <div class="o-flex o-flex--vertical-center">
             <h4 class="auk-toolbar-complex__title">Persberichten</h4>
           </div>
-          <Auk::Tabs @reversed="true">
-            <Auk::Tab
+          <Auk::Tabs @reversed="true" as |Tabs|>
+            <Tabs.Tab
               @route="press-releases.overview.concept">
               Concepten
-            </Auk::Tab>
-            <Auk::Tab
+            </Tabs.Tab>
+            <Tabs.Tab
               @route="press-releases.overview.shared">
               Gedeeld
-            </Auk::Tab>
-            <Auk::Tab
+            </Tabs.Tab>
+            <Tabs.Tab
               @route="press-releases.overview.planned">
               Gepland voor publicatie
-            </Auk::Tab>
-            <Auk::Tab
+            </Tabs.Tab>
+            <Tabs.Tab
               @route="press-releases.overview.published">
               Gepubliceerd
-            </Auk::Tab>
+            </Tabs.Tab>
           </Auk::Tabs>
         </div>
       </Auk::Toolbar::Item>

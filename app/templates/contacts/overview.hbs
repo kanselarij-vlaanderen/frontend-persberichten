@@ -8,15 +8,15 @@
           <div class="o-flex o-flex--vertical-center">
             <h4 class="auk-toolbar-complex__title">Bestemmelingen</h4>
           </div>
-          <Auk::Tabs @reversed="true">
-            <Auk::Tab
+          <Auk::Tabs @reversed="true" as |Tabs|>
+            <Tabs.Tab
               @route="contacts.overview.mailing-lists">
               Verzendlijsten
-            </Auk::Tab>
-            <Auk::Tab
+            </Tabs.Tab>
+            <Tabs.Tab
               @route="contacts.overview.persons">
               Personen
-            </Auk::Tab>
+            </Tabs.Tab>
           </Auk::Tabs>
         </div>
       </Auk::Toolbar::Item>
