@@ -69,19 +69,21 @@
       <h3 class="auk-h3">Gedeeld met</h3>
       <div class="auk-o-flex auk-o-flex--vertical">
         {{#each this.collaboration.collaborators as |collaborator|}}
-          {{#unless (eq collaborator.uri this.pressRelease.creator.uri)}}
-            <div class="auk-u-mb-4">
-              <Auk::Avatar @icon="user" @name={{collaborator.shortName}}>
-                <p>{{collaborator.shortName}}</p>
-                {{#unless this.savePressRelease.isRunning}}
-                  {{!-- Hide status during saving of changes to enforce refresh afterwards --}}
-                  <Collaboration::ApprovalStatus
-                    @pressRelease={{this.pressRelease}}
-                    @collaborator={{collaborator}} />
-                {{/unless}}
-              </Auk::Avatar>
-            </div>
-          {{/unless}}
+          {{#let (eq collaborator.uri this.pressRelease.creator.uri) as |isCreator|}}
+            {{#unless isCreator}}
+              <div class="auk-u-mb-4">
+                <Auk::Avatar @icon="user" @name={{collaborator.shortName}}>
+                  <p>{{collaborator.shortName}}</p>
+                  {{#unless this.savePressRelease.isRunning}}
+                    {{!-- Hide status during saving of changes to enforce refresh afterwards --}}
+                    <Collaboration::ApprovalStatus
+                      @pressRelease={{this.pressRelease}}
+                      @collaborator={{collaborator}} />
+                  {{/unless}}
+                </Auk::Avatar>
+              </div>
+            {{/unless}}
+          {{/let}}
         {{/each}}
       </div>
     </div>

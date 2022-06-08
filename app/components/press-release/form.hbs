@@ -18,7 +18,9 @@
         <Auk::Label for="message">
           Bericht *
         </Auk::Label>
-        <textarea {{editor
+        <textarea
+          id="message"
+          {{editor
             content=@pressRelease.htmlContent
             onEditorContentChange=(fn this.setHtmlContent @pressRelease)
             config=(hash
@@ -28,7 +30,8 @@
               plugins = 'link lists table'
               toolbar = 'bold italic | bullist numlist | link unlink | formatselect | table'
               table_toolbar = 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol')
-        }}></textarea>
+          }}
+        ></textarea>
 
       </div>
       <div class="auk-form-group">

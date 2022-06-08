@@ -13,10 +13,11 @@
       </td>
       {{#each this.mediums as |medium|}}
         <td class="auk-u-text-align--center">
-          <Input
-            @type="checkbox"
+          <input
+            aria-label="Publicatiekanaal"
+            type="checkbox"
             checked={{includes channel.uri medium.value.publicationChannels}}
-            {{on "change" (fn this.togglePublicationChannel channel medium.value)}}/>
+            {{on "change" (fn this.togglePublicationChannel channel medium.value)}} />
         </td>
       {{/each}}
     </tr>

@@ -75,7 +75,7 @@
         <Auk::Button
           class="auk-u-mr"
           @skin="danger-primary"
-          {{on "click" (fn @onDeleteContact)}}
+          {{on "click" @onDeleteContact}}
         >
           Verwijderen
         </Auk::Button>
@@ -84,14 +84,14 @@
         <Auk::Button
           @skin="primary"
           @disabled={{this.isAddDisabled}}
-          {{on "click" (fn @onAddContact)}}
+          {{on "click" @onAddContact}}
         >
           Bestemmelingen toevoegen
         </Auk::Button>
       {{else}}
         <Auk::Button
           @skin="primary"
-          {{on "click" (fn @onChangeContact)}}
+          {{on "click" @onChangeContact}}
         >
           Wijzigen
         </Auk::Button>
