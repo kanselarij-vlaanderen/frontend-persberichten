@@ -72,7 +72,7 @@
                 {{#if (and (not @plannedRoute) (not @publishedRoute))}}
                   <td>
                     {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
-                    <span class="auk-u-text-small auk-u-muted">
+                    <span class="auk-u-text-small auk-u-text-muted">
                       {{dayjs-format row.modified outputFormat="HH:mm"}}
                     </span>
                   </td>
@@ -81,7 +81,7 @@
                 {{#if @publishedRoute}}
                   <td>
                     {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY"}}<br/>
-                    <span class="auk-u-text-small auk-u-muted">
+                    <span class="auk-u-text-small auk-u-text-muted">
                       {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="HH:mm"}}
                     </span>
                   </td>
@@ -90,7 +90,7 @@
                 {{#if @plannedRoute}}
                   <td>
                     {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY"}}<br/>
-                    <span class="auk-u-text-small auk-u-muted">
+                    <span class="auk-u-text-small auk-u-text-muted">
                       {{dayjs-format row.publicationEvent.plannedStartDate outputFormat="HH:mm"}}
                     </span>
                   </td>
