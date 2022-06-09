@@ -1,30 +1,32 @@
-<Auk::Modal>
-  <Auk::Modal::Header
-    @title="Nieuw persbericht"
-    @onClose={{@onCancel}}
-  />
-  <Auk::Modal::Body>
-    <div class="auk-form-group-layout auk-form-group-layout--standard">
-      <div class="auk-form-group">
-        <Auk::Label for="press-release-title">
-          Geef een titel aan uw persbericht
-        </Auk::Label>
-        <Auk::Input
-          type="text"
-          id="press-release-title"
-          @block={{true}}
-          @value={{mut this.title}}
-        />
+<form {{on "submit" this.createPressRelease}}>
+  <Auk::Modal>
+    <Auk::Modal::Header
+      @title="Nieuw persbericht"
+      @onClose={{@onCancel}}
+    />
+    <Auk::Modal::Body>
+      <div class="auk-form-group-layout auk-form-group-layout--standard">
+        <div class="auk-form-group">
+          <Auk::Label for="press-release-title">
+            Geef een titel aan uw persbericht
+          </Auk::Label>
+          <Auk::Input
+            type="text"
+            id="press-release-title"
+            @block={{true}}
+            @value={{mut this.title}}
+          />
+        </div>
       </div>
-    </div>
-  </Auk::Modal::Body>
-  <Auk::Modal::Footer @onCancel={{@onCancel}}>
-    <Auk::Button
-      @skin="primary"
-      @loading={{@loading}}
-      {{on "click" (fn @onCreate this.title)}}
-    >
-      Persbericht aanmaken
-    </Auk::Button>
-  </Auk::Modal::Footer>
-</Auk::Modal>
+    </Auk::Modal::Body>
+    <Auk::Modal::Footer @onCancel={{@onCancel}}>
+      <Auk::Button
+        type="submit"
+        @skin="primary"
+        @loading={{@loading}}
+      >
+        Persbericht aanmaken
+      </Auk::Button>
+    </Auk::Modal::Footer>
+  </Auk::Modal>
+</form>
