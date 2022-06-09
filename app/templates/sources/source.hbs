@@ -26,7 +26,7 @@
             Opslaan mislukt
           </Auk::StatusPill>
         {{else}}
-          <Auk::StatusPill @status="done">
+          <Auk::StatusPill @status="success">
             {{dayjs-from-now this.source.modified}} opgeslagen
           </Auk::StatusPill>
         {{/if}}
