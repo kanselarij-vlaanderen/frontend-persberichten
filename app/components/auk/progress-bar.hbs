@@ -3,5 +3,7 @@
     class="auk-progress-bar__bar"
     style={{html-safe (concat "--value: " this.decimalProgress)}}
   ></div>
-  <div class="auk-progress-bar__value">{{@progress}}%</div>
+  {{#unless @disablePercentage}}
+    <div class="auk-progress-bar__value">{{@progress}}%</div>
+  {{/unless}}
 </div>
