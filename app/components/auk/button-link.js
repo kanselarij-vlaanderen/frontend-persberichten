@@ -72,4 +72,8 @@ export default class ButtonLink extends Component {
     }
     return null;
   }
+
+  get query() {
+    return this.args.query || {};
+  }
 }
