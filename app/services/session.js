@@ -1,6 +1,7 @@
 import SessionService from 'ember-simple-auth/services/session';
 import { inject as service } from '@ember/service';
 import ENV from '../config/environment';
+import { warn } from '@ember/debug';
 
 export default class ExtendedSessionService extends SessionService {
   @service currentSession;
@@ -15,6 +16,7 @@ export default class ExtendedSessionService extends SessionService {
         this.router.transitionTo('unknown-organization');
       }
     } catch (error) {
+      warn(error, { id: 'authentication-error' });
       this.invalidate();
     }
   }
