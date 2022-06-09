@@ -17,8 +17,8 @@
       <div class="auk-content" style="max-width: 45rem; width: 100%; margin: 0 auto;">
         {{!-- template-lint-enable no-inline-styles  --}}
         <div class="auk-u-my-4">
-          <h4 class="auk-u-mb-2">Aanmelden als bepaald kabinet</h4>
-          <p class="auk-u-mb-4">Kies een kabinet om mee aan te melden:</p>
+          <h4 class="auk-u-mb-2">Aanmelden met mock account</h4>
+          <p class="auk-u-mb-4">Kies een organizatie om mee aan te melden:</p>
           <div class="auk-panel auk-u-mb-8">
             <MockLogin as |login|>
               {{#if login.errorMessage}}
@@ -32,7 +32,10 @@
                   <login.each-account @accounts={{this.model}} as |account|>
                     <Auk::List::Item>
                       <div class="auk-u-mx-2">
-                        <span>{{account.user.firstName}} {{account.user.familyName}}</span>
+                        <div>{{account.user.firstName}} {{account.user.familyName}}</div>
+                        <div class="auk-u-text-muted auk-u-text-size--small">
+                          {{or account.user.group.shortName account.user.group.name}}
+                        </div>
                       </div>
                       <div class="auk-button auk-button--borderless auk-button--icon">
                         <span class="auk-button__content">
