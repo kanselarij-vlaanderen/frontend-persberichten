@@ -101,7 +101,7 @@
                 <Auk::Avatar @icon="user" @name={{collaborator.shortName}}>
                   <p>{{or collaborator.shortName collaborator.name}}</p>
                   {{#if (or
-                       (neq collaborator.uri this.currentSession.organization.uri)
+                       (not-eq collaborator.uri this.currentSession.organization.uri)
                        (not this.confirmApproval.isRunning)
                        )}}
                     {{!-- Hide status for logged in collaborator during approval to enforce refresh afterwards --}}
