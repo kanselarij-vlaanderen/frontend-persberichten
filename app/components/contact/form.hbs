@@ -24,7 +24,7 @@
             type="text"
             id="given-name"
             @block={{true}}
-            value={{@source.givenName}}
+            @value={{@source.givenName}}
             {{on "input" (fn this.setInputValue @source "givenName")}}
             {{on "change" this.setFullName}}
           />
@@ -37,7 +37,7 @@
             type="text"
             id="family-name"
             @block={{true}}
-            value={{@source.familyName}}
+            @value={{@source.familyName}}
             {{on "input" (fn this.setInputValue @source "familyName")}}
             {{on "change" this.setFullName}}
           />
@@ -50,8 +50,8 @@
             type="text"
             id="contact-role"
             @block={{true}}
+            @value={{@source.role}}
             {{on "input" (fn this.setInputValue @source "role")}}
-            value={{@source.role}}
           />
         </div>
         <div class="auk-o-grid-col-12">
@@ -75,7 +75,7 @@
             type="text"
             id="telephone"
             @block={{true}}
-            value={{this.telephone.value}}
+            @value={{this.telephone.value}}
             {{on "input" (fn this.setInputValue this.telephone "value")}}
           />
         </div>
@@ -87,7 +87,7 @@
             type="text"
             id="mobile-phone"
             @block={{true}}
-            value={{this.mobilePhone.value}}
+            @value={{this.mobilePhone.value}}
             {{on "input" (fn this.setInputValue this.mobilePhone "value")}}
           />
         </div>
@@ -99,7 +99,7 @@
             type="text"
             id="email"
             @block={{true}}
-            value={{this.mailAddress.value}}
+            @value={{this.mailAddress.value}}
             {{on "input" (fn this.setInputValue this.mailAddress "value")}}
           />
         </div>

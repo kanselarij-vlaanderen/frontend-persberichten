@@ -10,7 +10,7 @@
           type="text"
           id="title"
           @block={{true}}
-          value={{@pressRelease.title}}
+          @value={{@pressRelease.title}}
           {{on "input" (fn this.setInputValue @pressRelease "title")}}
         />
       </div>

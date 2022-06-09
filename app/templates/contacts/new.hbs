@@ -55,7 +55,7 @@
           type="text"
           id="name"
           @block={{true}}
-          value={{this.model.name}}
+          @value={{this.model.name}}
           {{on "input" (fn this.setInputValue this.model "name")}}
         />
       </div>
