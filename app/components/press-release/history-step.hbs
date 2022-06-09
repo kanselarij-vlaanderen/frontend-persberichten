@@ -4,13 +4,13 @@
       <Auk::Badge @icon="plus" />
     </div>
     <div class="history-timeline-step__content">
-      <h4 class="history-timeline-step__title auk-u-text-small">
+      <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht aangemaakt
       </h4>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
       </p>
     </div>
@@ -21,13 +21,13 @@
       <Auk::Badge @icon="pencil" />
     </div>
     <div class="history-timeline-step__content">
-      <h4 class="history-timeline-step__title auk-u-text-small">
+      <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht bewerkt
       </h4>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
       </p>
     </div>
@@ -38,13 +38,13 @@
       <Auk::Badge @icon="user-check" />
     </div>
     <div class="history-timeline-step__content">
-      <h4 class="history-timeline-step__title auk-u-text-small">
+      <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht goedgekeurd
       </h4>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
       </p>
     </div>
@@ -55,14 +55,14 @@
       <Auk::Badge @icon="user-add" />
     </div>
     <div class="history-timeline-step__content">
-      <h4 class="history-timeline-step__title auk-u-text-small">
+      <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht gedeeld
       </h4>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
       {{!-- TODO add list of collaborators --}}
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
       </p>
     </div>
@@ -73,13 +73,13 @@
       <Auk::Badge @icon="x" />
     </div>
     <div class="history-timeline-step__content">
-      <h4 class="history-timeline-step__title auk-u-text-small">
+      <h4 class="history-timeline-step__title auk-u-text-size--small">
         Delen gestopt
       </h4>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </p>
-      <p class="auk-u-text-small auk-u-text-muted">
+      <p class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
       </p>
     </div>
