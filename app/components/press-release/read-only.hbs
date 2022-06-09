@@ -30,7 +30,7 @@
             <PressRelease::SourcesTable
               @disabled={{true}}
               @model={{@pressRelease.sources}}
-              @noDataMessage="Geen bronnen gevonden."
+              @noDataMessage="Geen bronnen toegevoegd."
             />
           </div>
         </div>
@@ -39,50 +39,82 @@
         <Auk::Label class="auk-o-grid-col-3">
           Beleidsbevoegdheden
         </Auk::Label>
-        <ul class="auk-o-grid-col-9">
-          {{#each @pressRelease.governmentFields as |governmentField|}}
-            <li>
-              {{governmentField.prefLabel}}
-            </li>
-          {{/each}}
-        </ul>
+        {{#if @pressRelease.governmentFields}}
+          <ul class="auk-o-grid-col-9">
+            {{#each @pressRelease.governmentFields as |governmentField|}}
+              <li>
+                {{governmentField.prefLabel}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <Auk::Panel class="auk-o-grid-col-9">
+            <Auk::Panel::Body>
+              <Auk::EmptyState @message="Geen beleidsbevoegdheden toegevoegd" />
+            </Auk::Panel::Body>
+          </Auk::Panel>
+        {{/if}}
       </div>
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Kernwoorden
         </Auk::Label>
-        <ul class="auk-o-grid-col-9">
-          {{#each @pressRelease.keywords as |keyword|}}
-            <li>
-              {{keyword}}
-            </li>
-          {{/each}}
-        </ul>
+        {{#if @pressRelease.keywords}}
+          <ul class="auk-o-grid-col-9">
+            {{#each @pressRelease.keywords as |keyword|}}
+              <li>
+                {{keyword}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <Auk::Panel class="auk-o-grid-col-9">
+            <Auk::Panel::Body>
+              <Auk::EmptyState @message="Geen kernwoorden toegevoegd" />
+            </Auk::Panel::Body>
+          </Auk::Panel>
+        {{/if}}
       </div>
       <div class="auk-o-grid auk-u-mb-4">
         <Auk::Label class="auk-o-grid-col-3">
           Thema's
         </Auk::Label>
-        <ul class="auk-o-grid-col-9">
-          {{#each @pressRelease.themes as |theme|}}
-            <li>
-              {{theme.label}}
-            </li>
-          {{/each}}
-        </ul>
+        {{#if @pressRelease.themes}}
+          <ul class="auk-o-grid-col-9">
+            {{#each @pressRelease.themes as |theme|}}
+              <li>
+                {{theme.label}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <Auk::Panel class="auk-o-grid-col-9">
+            <Auk::Panel::Body>
+              <Auk::EmptyState @message="Geen thema's toegevoegd" />
+            </Auk::Panel::Body>
+          </Auk::Panel>
+        {{/if}}
       </div>
       {{#unless @isSharedView}}
         <div class="auk-o-grid auk-u-mb-4">
           <Auk::Label class="auk-o-grid-col-3">
             Publicatiekanalen
           </Auk::Label>
-          <ul class="auk-o-grid-col-9">
-            {{#each @pressRelease.publicationChannels as |publicationChannel|}}
-              <li>
-                {{publicationChannel.name}}
-              </li>
-            {{/each}}
-          </ul>
+          {{#if @pressRelease.publicationChannels}}
+            <ul class="auk-o-grid-col-9">
+              {{#each @pressRelease.publicationChannels as |publicationChannel|}}
+                <li>
+                  {{publicationChannel.name}}
+                </li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <Auk::Panel class="auk-o-grid-col-9">
+              <Auk::Panel::Body>
+                <Auk::EmptyState @message="Geen publicatiekanalen geselecteerd" />
+              </Auk::Panel::Body>
+            </Auk::Panel>
+          {{/if}}
         </div>
       {{/unless}}
       <div class="auk-o-grid auk-u-mb-4">
