@@ -6,6 +6,21 @@ export default class PressReleasesOverviewSharedController extends Controller {
   @tracked sort = '-modified';
   @tracked page = 0;
   @tracked size = 25;
+  @tracked search;
+  @tracked theme;
+  @tracked themeId;
+  @tracked organization;
+  @tracked organizationId;
+
+  @action
+  setThemeFilter(theme) {
+    this.themeId = theme?.id;
+  }
+
+  @action
+  setOrganizationFilter(organization) {
+    this.organizationId = organization?.id;
+  }
 
   @action
   prevPage() {

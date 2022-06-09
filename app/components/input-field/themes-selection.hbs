@@ -5,7 +5,7 @@
       @type="checkbox"
       @checked={{includes theme @selectedThemes}}
       @label={{theme.label}}
-      {{on "change" (fn this.getSelectedThemes theme)}}
+      {{on "change" (fn this.updateSelectedThemes theme)}}
       />
   </Auk::CheckboxList>
   {{/each}}

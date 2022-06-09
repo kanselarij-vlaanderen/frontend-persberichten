@@ -7,6 +7,7 @@
       <PowerSelectMultiple
         @options={{this.organizations}}
         @selected={{@selected}}
+        @allowClear={{@allowClear}}
         @searchEnabled={{true}}
         @searchField="searchLabel"
         @onChange={{@onChange}} as |organization|>
@@ -16,6 +17,7 @@
       <PowerSelect
         @options={{this.organizations}}
         @selected={{@selected}}
+        @allowClear={{@allowClear}}
         @searchEnabled={{true}}
         @searchField="searchLabel"
         @onChange={{@onChange}} as |organization|>

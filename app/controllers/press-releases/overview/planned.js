@@ -3,10 +3,24 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class PressReleasesOverviewPlannedController extends Controller {
-
   @tracked sort = '-publication-event.planned-start-date';
   @tracked page = 0;
   @tracked size = 25;
+  @tracked search;
+  @tracked theme;
+  @tracked themeId;
+  @tracked organization;
+  @tracked organizationId;
+
+  @action
+  setThemeFilter(theme) {
+    this.themeId = theme?.id;
+  }
+
+  @action
+  setOrganizationFilter(organization) {
+    this.organizationId = organization?.id;
+  }
 
   @action
   prevPage() {

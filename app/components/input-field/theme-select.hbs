@@ -1,0 +1,12 @@
+<PowerSelect
+  @options={{this.themes}}
+  @selected={{@selectedTheme}}
+  @noMatchesMessage="Geen resultaten gevonden"
+  @onChange={{@onChange}}
+  @allowClear={{true}}
+  @searchEnabled={{true}}
+  @searchField="label"
+  @renderInPlace="true"
+  as |theme|>
+  {{theme.label}}
+</PowerSelect>

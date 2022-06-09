@@ -1,0 +1,7 @@
+<Auk::Input
+  placeholder={{this.placeholder}}
+  @value={{this.value}}
+  @icon="search"
+  aria-label="Zoeken"
+  {{on "input" (perform this.delayedInput)}}
+/>

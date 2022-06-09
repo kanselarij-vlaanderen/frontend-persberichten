@@ -4,7 +4,31 @@
   <Auk::Toolbar @size="large" as |Toolbar|>
     <Toolbar.Group @position="left" as |Group|>
       <Group.Item>
-        <h1 class="auk-h1">Gepubliceerd</h1>
+        <h1 class="auk-h1 auk-u-m-0">Gepubliceerd</h1>
+      </Group.Item>
+    </Toolbar.Group>
+    <Toolbar.Group @position="right" class="auk-o-flex auk-o-flex--align-end" as |Group|>
+      <Group.Item class="auk-input-group--w-medium">
+        <Auk::Label for="organization-select">Aangemaakt door</Auk::Label>
+        <InputField::OrganizationSelect
+          @selected={{this.organization}}
+          @allowClear={{true}}
+          @onChange={{this.setOrganizationFilter}} />
+      </Group.Item>
+      <Group.Item class="auk-input-group--w-medium">
+        <Auk::Label for="theme-select">Thema</Auk::Label>
+        <InputField::ThemeSelect
+          @selectedTheme={{this.theme}}
+          @onChange={{this.setThemeFilter}} />
+      </Group.Item>
+      <Group.Item>
+        <Auk::Label for="theme-select">Trefwoord</Auk::Label>
+        <div class="auk-form-group">
+          <InputField::SearchInput
+            @placeholder="Trefwoord"
+            @value={{this.search}}
+            @onChange={{fn (mut this.search)}} />
+        </div>
       </Group.Item>
     </Toolbar.Group>
   </Auk::Toolbar>
