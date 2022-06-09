@@ -5,7 +5,7 @@
         <h2 class="auk-h2">Status</h2>
         <div class="auk-form-group-layout auk-form-group-layout--standard">
           <InputField::ContactStatusRadio
-            @label="Deze contactpersoon is momenteel"
+            @label="Dit perscontact is momenteel"
             @value={{this.selectedStatus}}
             @onChange={{this.setContactStatus}}
             class="auk-form-group"
@@ -76,7 +76,8 @@
             id="telephone"
             @block={{true}}
             @value={{this.telephone.value}}
-            {{on "input" (fn this.setInputValue this.telephone "value")}}
+            {{on "input" (fn this.setTelephoneValue this.telephone "value")}}
+            {{on "focusout" (fn this.cleanTelephoneValue this.telephone "value")}}
           />
         </div>
         <div class="auk-o-grid-col-6 auk-form-group">
@@ -88,7 +89,8 @@
             id="mobile-phone"
             @block={{true}}
             @value={{this.mobilePhone.value}}
-            {{on "input" (fn this.setInputValue this.mobilePhone "value")}}
+            {{on "input" (fn this.setTelephoneValue this.mobilePhone "value")}}
+            {{on "focusout" (fn this.cleanTelephoneValue this.mobilePhone "value")}}
           />
         </div>
         <div class="auk-o-grid-col-12 auk-form-group">
@@ -101,6 +103,7 @@
             @block={{true}}
             @value={{this.mailAddress.value}}
             {{on "input" (fn this.setInputValue this.mailAddress "value")}}
+            {{on "focusout" (fn this.cleanEmailValue this.mailAddress "value")}}
           />
         </div>
       </div>

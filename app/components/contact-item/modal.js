@@ -22,10 +22,43 @@ export default class ContactItemModalComponent extends Component {
   }
 
   @action
+  async setTelephoneValue(attribute, event) {
+    let value = event.target.value;
+    value = value ? value.replace(/\D/g, '') : null; // remove any non-digit
+    (await this.args.contact[attribute]).value = value;
+  }
+
+  @action
+  async cleanTelephoneValue(attribute) {
+    const record = await this.args.contact[attribute];
+    if (record.value) {
+      record.value = record.value.replace(/\D/g, ''); // remove any non-digit
+    }
+  }
+
+  @action
+  async cleanEmailValue(attribute) {
+    const record = await this.args.contact[attribute];
+    if (record.value) {
+      record.value = record.value.replace(/\s/g, ''); // remove any space
+    }
+  }
+
+  @action
   setFullName() {
     const fullName = [this.args.contact.givenName, this.args.contact.familyName]
       .filter(n => !isBlank(n))
       .join(" ");
     this.args.contact.fullName = fullName;
+  }
+
+  @action
+  saveContact(e) {
+    e.preventDefault();
+    if (this.args.isNewContact) {
+      this.args.onAddContact();
+    } else {
+      this.args.onChangeContact();
+    }
   }
 }

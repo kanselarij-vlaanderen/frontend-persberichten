@@ -29,6 +29,27 @@ export default class ContactFormComponent extends Component {
   }
 
   @action
+  setTelephoneValue(record, attribute, event) {
+    let value = event.target.value;
+    value = value ? value.replace(/\D/g, '') : null; // remove any non-digit
+    record[attribute] = value;
+  }
+
+  @action
+  cleanTelephoneValue(record, attribute) {
+    let value = record[attribute];
+    value = value ? value.replace(/\D/g, '') : null; // remove any non-digit
+    record[attribute] = value;
+  }
+
+  @action
+  cleanEmailValue(record, attribute) {
+    let value = record[attribute];
+    value = value ? value.replace(/\s/g, '') : null; // remove any space
+    record[attribute] = value;
+  }
+
+  @action
   setFullName() {
     const fullName = [this.args.source.givenName, this.args.source.familyName]
       .filter(n => !isBlank(n))
