@@ -1,10 +1,10 @@
 <Auk::Navbar @skin="white" @noPadding="true">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Brand @logotype="Vlivia" />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <Auk::Tabs as |Tabs|>
           <Tabs.Tab @route="press-releases">
             Persberichten
@@ -16,75 +16,56 @@
             Perscontacten
           </Tabs.Tab>
         </Auk::Tabs>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-    <Auk::Toolbar::Group @position="right">
-      <Auk::Toolbar::Item>
-        <Auk::ButtonLink
+      </Group.Item>
+    </Toolbar.Group >
+    <Toolbar.Group @position="right" as |Group|>
+      <Group.Item>
+        <Auk::DropdownMenu
+          @type="button-link"
           @skin="muted"
-          @padded="padded"
           @icon="circle-question"
-        >
-          Help
-        </Auk::ButtonLink>
-        <AttachPopover
-          @renderInPlace={{true}}
-          @class="ember-attacher-popper"
-          @hideOn="clickout click"
-          @showOn="click"
-          @animation="shift"
-          @placement="bottom-end"
-        >
-          <Auk::Menu as |Menu|>
-            <Menu.Item {{!-- TODO PERS-162 @href="mailto:kaleidos.servicedesk@vlaanderen.be" --}}>
-              <div>
-                <span>Contacteer ons</span>
-                <span class="auk-u-text-muted auk-u-text-small">
-                  {{!-- TODO: PERS-162 mail naar support emailadres --}}
-                </span>
-              </div>
-            </Menu.Item>
-          </Auk::Menu>
-        </AttachPopover>
-      </Auk::Toolbar::Item>
-      {{#if this.session.isAuthenticated}}
-        <Auk::Toolbar::Item class="auk-u-mr-3">
-          <Auk::ButtonLink
+          @layout="icon-left"
+          @padded="padded"
+          @label="Help"
+          as |Menu|>
+          {{!-- TODO: PERS-162 change to Vlivia support emailaddress --}}
+          <Menu.Item @href="mailto:kaleidos.servicedesk@vlaanderen.be">
+            <p>
+              Contacteer ons
+            </p>
+            <p class="auk-u-text-muted auk-u-text-size--small">
+              kaleidos.servicedesk@vlaanderen.be
+            </p>
+          </Menu.Item>
+        </Auk::DropdownMenu>
+      </Group.Item>
+      <Group.Item class="auk-u-mr-3">
+        {{#if this.session.isAuthenticated}}
+          <Auk::DropdownMenu
+            @type="button-link"
             @skin="muted"
-            @icon="chevron-down"
-            @layout="icon-right"
-          >
-            {{this.currentSession.user.firstName}}
-          </Auk::ButtonLink>
-          <AttachPopover
-            @renderInPlace={{true}}
-            @class="ember-attacher-popper"
-            @hideOn="clickout click"
-            @showOn="click"
-            @animation="shift"
+            @label={{this.currentSession.user.firstName}}
             @placement="bottom-end"
-          >
-            <Auk::Menu as |Menu|>
-              <Menu.Item @textOnly={{true}}>
-                <Auk::Avatar @icon="user" @name={{this.currentSession.user.fullName}}>
-                  <p>
-                    {{this.currentSession.user.fullName}}
-                  </p>
-                  <p class="auk-u-text-muted auk-u-text-small">
-                    {{or this.currentSession.organization.shortName
-                        this.currentSession.organization.name
-                        this.currentSession.organization.identifier}}
-                  </p>
-                </Auk::Avatar>
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item {{on "click" this.logout}}>
-                Afmelden
-              </Menu.Item>
-            </Auk::Menu>
-          </AttachPopover>
-        </Auk::Toolbar::Item>
-      {{/if}}
-    </Auk::Toolbar::Group>
+            as |Menu|>
+            <Menu.Item @textOnly={{true}}>
+              <Auk::Avatar @icon="user" @name="Admin">
+                <p>
+                  {{this.currentSession.user.fullName}}
+                </p>
+                <p class="auk-u-text-muted auk-u-text-size--small">
+                  {{or this.currentSession.organization.shortName
+                      this.currentSession.organization.name
+                      this.currentSession.organization.identifier}}
+                </p>
+              </Auk::Avatar>
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item {{on "click" this.logout}}>
+              Afmelden
+            </Menu.Item>
+          </Auk::DropdownMenu>
+        {{/if}}
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>

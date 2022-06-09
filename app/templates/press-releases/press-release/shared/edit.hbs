@@ -1,9 +1,9 @@
 {{page-title this.pressRelease.title}}
 
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -11,30 +11,30 @@
           @size="large"
           {{on "click" (perform this.navigateBack)}}
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Persberichten
         </div>
         <h2 class="auk-toolbar__title">
           {{this.pressRelease.title}}
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-     <Auk::Toolbar::Group  @position="right">
-      <Auk::Toolbar::Item>
+      </Group.Item>
+    </Toolbar.Group>
+    <Toolbar.Group @position="right" as |Group|>
+      <Group.Item>
         {{#if this.savePressRelease.last.isError}}
           <Auk::StatusPill @status="error">
             Opslaan mislukt
           </Auk::StatusPill>
         {{else}}
-        <Auk::StatusPill @status="success">
-          {{dayjs-from-now this.pressRelease.modified}} opgeslagen
-        </Auk::StatusPill>
+          <Auk::StatusPill @status="success">
+            {{dayjs-from-now this.pressRelease.modified}} opgeslagen
+          </Auk::StatusPill>
         {{/if}}
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
-        <DropdownMenu
+      </Group.Item>
+      <Group.Item>
+        <Auk::DropdownMenu
           @label="Acties"
           as |Menu|>
           <Menu.Item {{on "click" (perform this.savePressRelease)}}>
@@ -43,9 +43,9 @@
           <Menu.Item  {{on "click" (perform this.saveAndClose)}}>
             Opslaan en sluiten
           </Menu.Item>
-        </DropdownMenu>
-      </Auk::Toolbar::Item>
-     </Auk::Toolbar::Group>
+        </Auk::DropdownMenu>
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 
