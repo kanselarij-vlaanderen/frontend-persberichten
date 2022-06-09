@@ -73,9 +73,9 @@
           </tbody>
         </table>
 
-        <Auk::Toolbar>
-          <Auk::Toolbar::Group  @position="left">
-            <Auk::Toolbar::Item>
+        <Auk::Toolbar as |Toolbar|>
+          <Toolbar.Group @position="left" as |Group|>
+            <Group.Item>
               <Auk::Pagination
                 @page={{@page}}
                 @size={{@size}}
@@ -84,19 +84,19 @@
                 @onNextPage={{@onNextPage}}
                 @onPreviousPage={{@onPreviousPage}}
               />
-            </Auk::Toolbar::Item>
-          </Auk::Toolbar::Group >
-          <Auk::Toolbar::Group  @position="right">
-            <Auk::Toolbar::Item>
+            </Group.Item>
+          </Toolbar.Group>
+          <Toolbar.Group @position="right" as |Group|>
+            <Group.Item>
               Perscontacten per pagina
-            </Auk::Toolbar::Item>
-            <Auk::Toolbar::Item>
+            </Group.Item>
+            <Group.Item>
               <WebComponents::AuPageSize
                 @selectedSize={{@size}}
                 @onChange={{@onPageSizeChange}}
               />
-            </Auk::Toolbar::Item>
-          </Auk::Toolbar::Group >
+            </Group.Item>
+          </Toolbar.Group>
         </Auk::Toolbar>
       {{else}}
         <Auk::Panel>

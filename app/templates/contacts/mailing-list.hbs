@@ -1,9 +1,9 @@
 {{page-title "Verzendlijst"}}
 
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group  @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -11,24 +11,24 @@
           @size="large"
           {{on "click" this.navigateBack}}
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Verzendlijsten
         </div>
         <h2 class="auk-toolbar__title">
           {{this.contactList.name}}
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-    <Auk::Toolbar::Group  @position="right">
+      </Group.Item>
+    </Toolbar.Group>
+    <Toolbar.Group @position="right" as |Group|>
       {{#if this.isEditEnabled}}
-        <Auk::Toolbar::Item>
+        <Group.Item>
           <Auk::StatusPill @status="success">
             {{dayjs-from-now this.contactList.modified}} opgeslagen
           </Auk::StatusPill>
-        </Auk::Toolbar::Item>
-        <Auk::Toolbar::Item>
+        </Group.Item>
+        <Group.Item>
           <Auk::Button
             @skin="primary"
             @loading={{this.saveAndDisableEdit.isRunning}}
@@ -36,26 +36,26 @@
           >
             Opslaan
           </Auk::Button>
-        </Auk::Toolbar::Item>
+        </Group.Item>
       {{else}}
-        <Auk::Toolbar::Item>
+        <Group.Item>
           <Auk::Button
             @skin="danger-secondary"
             {{on "click" this.openDeleteContactListModal}}
           >
             Verwijderen
           </Auk::Button>
-        </Auk::Toolbar::Item>
-        <Auk::Toolbar::Item>
+        </Group.Item>
+        <Group.Item>
           <Auk::Button
             @skin="primary"
             {{on "click" this.enableEdit}}
           >
             Bewerken
           </Auk::Button>
-        </Auk::Toolbar::Item>
+        </Group.Item>
       {{/if}}
-    </Auk::Toolbar::Group >
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 

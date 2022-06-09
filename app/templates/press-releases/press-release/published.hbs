@@ -1,7 +1,7 @@
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -9,8 +9,8 @@
           @size="large"
           @route="press-releases.overview.published"
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Persberichten
         </div>
@@ -20,8 +20,8 @@
             Gepubliceerd op {{dayjs-format this.model.publicationEvent.plannedStartDate outputFormat="DD-MM-YYYY [om] HH:mm"}}
           </Auk::Pill>
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 

@@ -1,8 +1,8 @@
 {{page-title "Nieuwe verzendlijst"}}
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -10,16 +10,16 @@
           @size="large"
           {{on "click" this.navigateBack}}
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Verzendlijsten
         </div>
         <h2 class="auk-toolbar__title">
           Nieuwe verzendlijst
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group>
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 

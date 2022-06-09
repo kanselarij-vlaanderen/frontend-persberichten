@@ -1,9 +1,9 @@
 {{page-title "Overzicht"}}
 
 <Auk::Navbar @skin="gray-100" @auto={{true}}>
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <div class="o-flex o-flex--vertical auk-u-mt-2">
           <div class="o-flex o-flex--vertical-center">
             <h4 class="auk-toolbar-complex__title">Persberichten</h4>
@@ -27,10 +27,10 @@
             </Tabs.Tab>
           </Auk::Tabs>
         </div>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-    <Auk::Toolbar::Group  @position="right">
-      <Auk::Toolbar::Item>
+      </Group.Item>
+    </Toolbar.Group>
+    <Toolbar.Group @position="right" as |Group|>
+      <Group.Item>
         <Auk::Button
           @icon="add"
           @skin="primary"
@@ -38,8 +38,8 @@
         >
           Persbericht aanmaken
         </Auk::Button>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 

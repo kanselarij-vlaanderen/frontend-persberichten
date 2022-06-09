@@ -1,9 +1,9 @@
 {{page-title this.pressRelease.title}}
 
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -11,23 +11,23 @@
           @size="large"
           @route="press-releases.overview.shared"
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Persberichten
         </div>
         <h2 class="auk-toolbar__title">
           {{this.pressRelease.title}}
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-     <Auk::Toolbar::Group @position="right">
-      <Auk::Toolbar::Item>
+      </Group.Item>
+    </Toolbar.Group>
+     <Toolbar.Group @position="right" as |Group|>
+      <Group.Item>
         <Auk::StatusPill @status="success">
           {{dayjs-from-now this.pressRelease.modified}} opgeslagen
         </Auk::StatusPill>
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <Auk::Button
           @skin="secondary"
           @route="press-releases.press-release.shared.edit"
@@ -35,9 +35,9 @@
         >
           Bewerken
         </Auk::Button>
-      </Auk::Toolbar::Item>
+      </Group.Item>
       {{#if (eq this.currentSession.organization.uri this.pressRelease.creator.uri)}}
-        <Auk::Toolbar::Item>
+        <Group.Item>
           <Auk::Button
             @skin="danger-primary"
             @loading={{this.stopCoEdit.isRunning}}
@@ -45,20 +45,20 @@
           >
             Stop co-editeren
           </Auk::Button>
-        </Auk::Toolbar::Item>
+        </Group.Item>
       {{else}}
         {{#unless this.hasApproved}}
-          <Auk::Toolbar::Item>
+          <Group.Item>
             <Auk::Button
               @skin="primary"
               {{on "click" this.openApprovalModal}}
             >
               Goedkeuren
             </Auk::Button>
-          </Auk::Toolbar::Item>
+          </Group.Item>
         {{/unless}}
       {{/if}}
-     </Auk::Toolbar::Group>
+     </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 

@@ -1,12 +1,12 @@
 {{page-title "Personen"}}
 
 <div class="auk-u-m-8">
-  <Auk::Toolbar @size="large">
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar @size="large" as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <h1 class="auk-h1">Personen</h1>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group>
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 
   <ContactItem::Table

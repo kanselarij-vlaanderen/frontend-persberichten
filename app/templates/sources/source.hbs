@@ -1,7 +1,7 @@
 <Auk::Navbar @skin="gray-100" @size="large">
-  <Auk::Toolbar>
-    <Auk::Toolbar::Group  @position="left">
-      <Auk::Toolbar::Item>
+  <Auk::Toolbar as |Toolbar|>
+    <Toolbar.Group @position="left" as |Group|>
+      <Group.Item>
         <Auk::Button
           @layout="icon-only"
           @skin="borderless"
@@ -9,18 +9,18 @@
           @size="large"
           {{on "click" (perform this.navigateBack)}}
         />
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <div class="auk-overline auk-u-block auk-u-text-muted">
           Bronnen
         </div>
         <h2 class="auk-toolbar__title">
           {{this.source.fullName}}
         </h2>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
-    <Auk::Toolbar::Group  @position="right">
-      <Auk::Toolbar::Item>
+      </Group.Item>
+    </Toolbar.Group>
+    <Toolbar.Group @position="right" as |Group|>
+      <Group.Item>
         {{#if this.saveChanges.last.isError}}
           <Auk::StatusPill @status="error">
             Opslaan mislukt
@@ -30,24 +30,24 @@
             {{dayjs-from-now this.source.modified}} opgeslagen
           </Auk::StatusPill>
         {{/if}}
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <Auk::Button
           @skin="danger-secondary"
           {{on "click" this.openDeleteSourceModal}}
         >
           Verwijderen
         </Auk::Button>
-      </Auk::Toolbar::Item>
-      <Auk::Toolbar::Item>
+      </Group.Item>
+      <Group.Item>
         <Auk::Button
           @skin="primary"
           {{on "click" (perform this.saveChanges)}}
         >
           Opslaan
         </Auk::Button>
-      </Auk::Toolbar::Item>
-    </Auk::Toolbar::Group >
+      </Group.Item>
+    </Toolbar.Group>
   </Auk::Toolbar>
 </Auk::Navbar>
 
