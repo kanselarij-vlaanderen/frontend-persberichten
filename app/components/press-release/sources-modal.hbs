@@ -1,10 +1,10 @@
-<Auk::Modal>
+<Auk::Modal @size="large">
   <Auk::Modal::Header
     @title="Perscontacten toevoegen"
     @onClose={{@onCancel}}
   />
   <Auk::Modal::Body>
-    <div class="modal-with-dropdown auk-form-group-layout auk-form-group-layout--standard">
+    <div class="auk-form-group-layout auk-form-group-layout--standard">
       <div class="auk-form-group">
         <Auk::Label for="publication-date">
           Perscontacten
@@ -18,7 +18,6 @@
           @searchEnabled={{true}}
           @onInput={{perform this.debouncedSearch}}
           @searchField="fullName"
-          @renderInPlace={{true}}
           as |source|>
           {{source.fullName}} {{#if source.role}}({{source.role}}){{/if}}
         </PowerSelectMultiple>
