@@ -23,7 +23,7 @@ export default class PressReleasesOverviewController extends Controller {
       creator: this.currentSession.organization
     });
     yield pressRelease.save();
-    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.CREATE);
+    yield this.activityTracker.addActivity(pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.CREATE);
     this.showNewPressReleaseModal = false;
     this.router.transitionTo('press-releases.press-release.edit', pressRelease.id);
   }
