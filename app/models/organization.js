@@ -14,7 +14,8 @@ export default class OrganizationModel extends Model {
   @hasMany('press-release') pressReleases;
   @hasMany('collaboration-activity') collaborations;
   @hasMany('approval-activity') approvalActivities;
-  @hasMany('press-release-activity') pressReleaseActivities;
+  @hasMany('press-release-activity', { inverse: 'organization' }) pressReleaseActivities;
+  @hasMany('press-release-activity', { inverse: 'participants' }) participations;
 
   get searchLabel() {
     const name = this.shortName || this.name || '';

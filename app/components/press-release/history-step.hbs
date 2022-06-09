@@ -61,6 +61,11 @@
       <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
       </div>
+      {{#if this.collaborators}}
+        <div class="auk-u-text-size--small auk-u-text-muted">
+          met {{join ", " this.collaborators}}
+        </div>
+      {{/if}}
       {{!-- TODO add list of collaborators --}}
       <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}

@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import CONFIG from '../config/constants';
 
 const ACTIVITY_TYPES = CONFIG.PRESS_RELEASE_ACTIVITY;
@@ -7,7 +7,8 @@ export default class PressReleaseActivity extends Model {
   @attr('datetime') startDate;
   @attr('string') type;
 
-  @belongsTo('organization') organization;
+  @belongsTo('organization', { inverse: 'pressReleaseActivities' }) organization;
+  @hasMany('organization', { inverse: 'participations' }) participants;
   @belongsTo('press-release') pressRelease;
 
   // Note: users are stored per organization graph (except mock-users),

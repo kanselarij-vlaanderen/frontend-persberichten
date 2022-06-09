@@ -157,7 +157,7 @@ export default class PressReleasesPressReleaseEditController extends Controller 
       yield this.savePressRelease.perform();
     }
 
-    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.SHARE);
+    yield this.activityTracker.addActivity(this.pressRelease, CONFIG.PRESS_RELEASE_ACTIVITY.SHARE, collaborators);
 
     const collaborationActivity = this.store.createRecord('collaboration-activity', {
       startDate: new Date(),
