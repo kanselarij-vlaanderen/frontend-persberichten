@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import { assert } from '@ember/debug';
 
@@ -6,7 +7,7 @@ import { assert } from '@ember/debug';
  *
  * @argument skin {String}: possible values are:
  *  "primary", "secondary" (default), "tertiary", "borderless", "muted-borderless",
- *  "danger-primary", "danger-secondary", "danger-tertiary", "danger-borderless", "danger-hover"
+ *  "danger-primary", "danger-secondary", "danger-borderless", "success-borderless", "danger-hover"
  * @argument layout {String}
  * @argument disabled {Boolean}
  * @argument loading {Boolean}: Show the button in a loading state. Overrides most other arguments.
@@ -42,7 +43,7 @@ export default class Button extends Component {
     return 'auk-button--secondary';
   }
 
-  get layout() {
+  get layoutClass() {
     if (this.args.layout === 'icon-only') {
       // TODO: Is this argument unnecessary? Could this be determined from existence of @icon && !has-block?
       return 'auk-button--icon';
@@ -58,8 +59,8 @@ export default class Button extends Component {
   }
 
   get size() {
-    if (this.args.size === 'small') {
-      return 'auk-button--size-s';
+    if (this.args.size) {
+      return `auk-button--size-${this.args.size}`;
     }
     return null;
   }
@@ -69,5 +70,9 @@ export default class Button extends Component {
       return 'auk-button--block';
     }
     return null;
+  }
+
+  get query() {
+    return this.args.query || {};
   }
 }

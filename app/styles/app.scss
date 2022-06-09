@@ -1,21 +1,34 @@
-@import "ember-data-table";
-@import "ember-power-select";
+// EXTERNAL COMPONENTS
+@import 'ember-power-select';
 
-@import '_colors';
-@import 'govflanders/core/_setting.scss';
-@import 'govflanders/core/_tool.scss';
-@import 'govflanders/core/_generic.scss';
-@import 'govflanders/core/_object.scss';
+// AUK BASE
+@import 'auk-base'; // sourced from "au-kaleidos-css" npm package
+
+// AUK ICONS STYLING
+@import 'auk-icons'; // sourced from "au-kaleidos-icons" npm package
+
+// AU STYLING
+@import 'au/au-base';
+@import 'au/au-components';
+
+// AUK COMPONENTS
+@import 'auk-components'; // sourced from "au-kaleidos-css" npm package
+
+// LOCAL AUK EXTENSIONS & ADDITIONS
+@import 'auk/auk-additions';
 
 /* sourced from 'au-kaleidos-css' */
-@import '_s-colors';
-@import "auk-standalone";
-@import "./au-kaleidos-css/auk-procedure-step";
+//@import "./au-kaleidos-css/auk-procedure-step";
 
-/* application-specific overrides */
-@import 'custom-application/power-select';
-@import 'custom-application/input-pills';
+// CUSTOM STYLING
 @import 'custom-application/toast';
+
+// EXTERNAL ADDON OVERRIDES
+@import 'addon-overrides/ember-data-table';
+@import 'addon-overrides/ember-flatpickr';
+@import 'addon-overrides/ember-power-select';
+@import 'addon-overrides/ember-tag-input';
+@import 'addon-overrides/ember-tooltip';
 
 .auk-avatar-and-text {
   align-items: start;

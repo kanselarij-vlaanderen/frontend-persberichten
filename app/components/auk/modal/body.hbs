@@ -1,5 +1,9 @@
-<div data-test-au-modal-body-content class="auk-modal__body">
-  <div class="auk-u-p-4">
+<div class="auk-modal__body">
+  {{#if @noPadding}}
     {{yield}}
-  </div>
+  {{else}}
+    <div class="auk-u-p-4">
+      {{yield}}
+    </div>
+  {{/if}}
 </div>

@@ -1,18 +1,17 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { isPresent } from '@ember/utils';
 
 /**
  * Kaleidos-styled wrapper for EmberFlatpickr. Takes the same arguments as EmberFlatpickr takes.
  */
-export default class Datepicker extends Component {
-  get dateFormat() {
-    if (this.args.enableTime) {
-      return 'd-m-Y H:i';
-    } else {
-      return 'd-m-Y';
-    }
-  }
 
+/**
+ *
+ * @argument {String} placeholder. Determines the input placeholder (defaults to 'Kies een datum')
+ * @argument {Boolean} multiple. Determines if multiple dates can be selected
+ */
+export default class Datepicker extends Component {
   get enable() {
     if (this.args.enable) {
       return this.args.enable;
@@ -31,6 +30,14 @@ export default class Datepicker extends Component {
     return this.args.placeholder || 'Kies een datum';
   }
 
+  get multiple() {
+    return this.args.multiple || false;
+  }
+
+  get mode() {
+    return this.multiple ? 'multiple' : 'single';
+  }
+
   @action
   // eslint-disable-next-line no-unused-vars
   onReady(_selectedDates, _dateStr, instance) {
@@ -43,7 +50,12 @@ export default class Datepicker extends Component {
   }
 
   @action
-  openDatepicker() {
-    this.flatpickrRef.toggle();
+  // eslint-disable-next-line no-unused-vars
+  onChange(selectedDates, _dateStr, _instance) {
+    if (isPresent(this.args.onChange)) {
+      return this.args.onChange(this.multiple ? selectedDates : selectedDates[0]);
+    }
+    // Return 'null' as a default since <EmberFlatpickr> doesn't handle 'undefined'.
+    return null;
   }
 }

@@ -16,11 +16,17 @@ module.exports = function (defaults) {
     sassOptions: {
       extension: 'scss',
       includePaths: [
-        'node_modules/@kanselarij-vlaanderen/au-kaleidos-css/'
+        'node_modules/@kanselarij-vlaanderen/au-kaleidos-css/',
+        'node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/',
+        'node_modules/@appuniversum/appuniversum',
+        'node_modules/@appuniversum/ember-appuniversum/app/styles',
       ],
     },
     fingerprint: {
       exclude: ['tinymce/**/**'],
+    },
+    flatpickr: {
+      locales: ['nl'],
     },
   });
 
@@ -48,13 +54,13 @@ module.exports = function (defaults) {
   app.import('node_modules/tinymce/tinymce.js', {
     using: [{ transformation: 'cjs', as: 'tinymce/tinymce' }],
   });
-  /*
-  ******************
-  **** Tiny MCE ****
-  ******************
-  */
 
-  app.import('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons/iconfont/icons.css');
+
+  /*
+  *********************
+  **** Au-kaleidos ****
+  *********************
+  */
 
   const iconAssets = new Funnel('node_modules/@kanselarij-vlaanderen/au-kaleidos-icons', {
     srcDir: '/iconfont',

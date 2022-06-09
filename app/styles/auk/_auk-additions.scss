@@ -1,0 +1,142 @@
+/* Framework & external component fixes
+   ========================================================================== */
+
+// Auk icons font styling placeholder
+
+%auk-icons-font-style {
+  font-family: auk-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+// Modal
+
+.auk-modal-backdrop > .ember-view {
+  height: 100%;
+}
+
+
+// Ember data table
+
+.auk-table--no-scroll {
+  .data-table-content {
+    overflow: hidden;
+  }
+}
+
+.auk-table {
+  .data-table,
+  &.data-table {
+    tbody {
+      tr:hover {
+        background: $auk-gray-100;
+      }
+    }
+  }
+}
+
+.auk-table--striped {
+  .data-table,
+  &.data-table {
+    tbody {
+      tr:hover {
+        td {
+          background: $auk-gray-200;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr.lt-expanded-row {
+      td {
+        background: $auk-white;
+      }
+    }
+  }
+}
+
+.data-table__actions--top {
+  border-bottom: none;
+}
+
+table tr.lt-expanded-row {
+  &:hover {
+    background-color: $auk-white !important;
+  }
+}
+
+
+// When using auk-modal, the ember power select wormhole is behind the modal
+// auk-modal has z-index of 1600;
+
+.ember-power-select-dropdown {
+  z-index: $z-index-modal-additive + $z-index-dropdown;
+}
+
+
+// Sortable
+
+.sortable-item {
+  transition: all 0.125s;
+
+  &.is-dragging {
+    transition-duration: 0s;
+  }
+
+  &.is-dragging,
+  &.is-dropping {
+    z-index: $z-index-drag;
+  }
+}
+
+
+// Ember tooltip
+
+.auk-tooltip {
+  z-index: $z-index-tooltip !important;
+}
+
+
+// Simplified document-card. Publication reference-documents.
+
+// Note that despite its name, "vlc-procedure-step" is used for displaying
+// *document* details. Both the CSS component itself and its name are suboptimal
+// in this context, but used since no alternative for a minimal document card
+// is currently available.
+
+// Adjust procedure step to fit inside a panel
+
+.auk-panel .vlc-procedure-step {
+  &:first-child:before {
+    top: -2.2rem;
+    height: calc(100% + 4.4rem);
+  }
+
+  &:before {
+    z-index: 0;
+  }
+}
+
+.vlc-procedure-step .auk-panel,
+.vlc-procedure-step .auk-accordion-panel {
+  border: 0;
+}
+
+.vlc-procedure-step .auk-accordion__button {
+  padding-left: .5rem !important;
+}
+
+.vlc-procedure-step .auk-accordion__title {
+  padding-left: .5rem;
+}
+
+.vlc-procedure-step--nopadding {
+  padding: 0;
+}
