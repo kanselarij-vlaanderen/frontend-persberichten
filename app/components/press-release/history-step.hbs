@@ -7,12 +7,12 @@
       <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht aangemaakt
       </h4>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
-      </p>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      </div>
+      <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
-      </p>
+      </div>
     </div>
   </div>
 {{else if @activity.isEditActivity}}
@@ -24,12 +24,12 @@
       <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht bewerkt
       </h4>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
-      </p>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      </div>
+      <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
-      </p>
+      </div>
     </div>
   </div>
 {{else if @activity.isApprovalActivity}}
@@ -41,12 +41,12 @@
       <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht goedgekeurd
       </h4>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
-      </p>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      </div>
+      <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
-      </p>
+      </div>
     </div>
   </div>
 {{else if @activity.isSharingActivity}}
@@ -58,13 +58,13 @@
       <h4 class="history-timeline-step__title auk-u-text-size--small">
         Persbericht gedeeld
       </h4>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
-      </p>
+      </div>
       {{!-- TODO add list of collaborators --}}
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
-      </p>
+      </div>
     </div>
   </div>
 {{else if @activity.isUnsharingActivity}}
@@ -76,12 +76,12 @@
       <h4 class="history-timeline-step__title auk-u-text-size--small">
         Delen gestopt
       </h4>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      <div class="auk-u-text-size--small auk-u-text-muted">
         door {{or @activity.organization.shortName @activity.organization.name}}
-      </p>
-      <p class="auk-u-text-size--small auk-u-text-muted">
+      </div>
+      <div class="auk-u-text-size--small auk-u-text-muted">
         om {{dayjs-format @activity.startDate outputFormat="DD-MM-YYYY HH:mm"}}
-      </p>
+      </div>
     </div>
   </div>
 {{/if}}
