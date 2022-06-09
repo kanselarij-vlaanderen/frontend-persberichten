@@ -21,12 +21,16 @@
         <textarea
           id="message"
           {{editor
-            content=@pressRelease.htmlContent
-            onEditorContentChange=(fn this.setHtmlContent @pressRelease)
-            config=(hash
-              content_css = '/assets/frontend-persberichten.css'
+              content=@pressRelease.htmlContent
+              onEditorContentChange=(fn this.setHtmlContent @pressRelease)
+              config=(hash
               base_url = '/tinymce'
+              body_class = 'rich-text-editor'
+              content_style = '.rich-text-editor { color: #2A2D31 }'
+              branding = false
+              elementpath = false
               menubar = false
+              contextmenu = false
               plugins = 'link lists table'
               toolbar = 'bold italic | bullist numlist | link unlink | formatselect | table'
               table_toolbar = 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol')
