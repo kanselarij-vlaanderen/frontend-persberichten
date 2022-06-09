@@ -120,7 +120,7 @@
 
     <div class="auk-u-mt-4">
       <h3 class="auk-h3">Historiek</h3>
-      <div class="historic-timeline">
+      <div class="history-timeline">
         {{#each (sort-by "startDate:desc" this.pressRelease.pressReleaseActivities) as |activity|}}
           <PressRelease::HistoryStep @activity={{activity}} />
         {{/each}}

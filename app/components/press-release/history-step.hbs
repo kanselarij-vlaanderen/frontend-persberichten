@@ -1,10 +1,10 @@
 {{#if @activity.isCreationActivity}}
-  <div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
-      <Auk::Badge @icon="add" />
+  <div class="history-timeline-step">
+    <div class="history-timeline-step__badge-wrapper">
+      <Auk::Badge @icon="plus" />
     </div>
-    <div class="auk-procedure-step__content">
-      <h4 class="auk-procedure-step__title auk-u-text-small">
+    <div class="history-timeline-step__content">
+      <h4 class="history-timeline-step__title auk-u-text-small">
         Persbericht aangemaakt
       </h4>
       <p class="auk-u-text-small auk-u-text-muted">
@@ -16,12 +16,12 @@
     </div>
   </div>
 {{else if @activity.isEditActivity}}
-  <div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
-      <Auk::Badge @icon="edit" />
+  <div class="history-timeline-step">
+    <div class="history-timeline-step__badge-wrapper">
+      <Auk::Badge @icon="pencil" />
     </div>
-    <div class="auk-procedure-step__content">
-      <h4 class="auk-procedure-step__title auk-u-text-small">
+    <div class="history-timeline-step__content">
+      <h4 class="history-timeline-step__title auk-u-text-small">
         Persbericht bewerkt
       </h4>
       <p class="auk-u-text-small auk-u-text-muted">
@@ -33,12 +33,12 @@
     </div>
   </div>
 {{else if @activity.isApprovalActivity}}
-  <div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
+  <div class="history-timeline-step">
+    <div class="history-timeline-step__badge-wrapper">
       <Auk::Badge @icon="user-check" />
     </div>
-    <div class="auk-procedure-step__content">
-      <h4 class="auk-procedure-step__title auk-u-text-small">
+    <div class="history-timeline-step__content">
+      <h4 class="history-timeline-step__title auk-u-text-small">
         Persbericht goedgekeurd
       </h4>
       <p class="auk-u-text-small auk-u-text-muted">
@@ -50,12 +50,12 @@
     </div>
   </div>
 {{else if @activity.isSharingActivity}}
-  <div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
+  <div class="history-timeline-step">
+    <div class="history-timeline-step__badge-wrapper">
       <Auk::Badge @icon="user-add" />
     </div>
-    <div class="auk-procedure-step__content">
-      <h4 class="auk-procedure-step__title auk-u-text-small">
+    <div class="history-timeline-step__content">
+      <h4 class="history-timeline-step__title auk-u-text-small">
         Persbericht gedeeld
       </h4>
       <p class="auk-u-text-small auk-u-text-muted">
@@ -68,12 +68,12 @@
     </div>
   </div>
 {{else if @activity.isUnsharingActivity}}
-  <div class="auk-procedure-step">
-    <div class="auk-procedure-step__badge-wrapper">
-      <Auk::Badge @icon="cross" />
+  <div class="history-timeline-step">
+    <div class="history-timeline-step__badge-wrapper">
+      <Auk::Badge @icon="x" />
     </div>
-    <div class="auk-procedure-step__content">
-      <h4 class="auk-procedure-step__title auk-u-text-small">
+    <div class="history-timeline-step__content">
+      <h4 class="history-timeline-step__title auk-u-text-small">
         Delen gestopt
       </h4>
       <p class="auk-u-text-small auk-u-text-muted">

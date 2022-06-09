@@ -1,8 +1,12 @@
 /* ==========================================================================
-    auk-procedure-step
+    history-timeline-step
    ========================================================================== */
 
-.auk-procedure-step {
+.history-timeline {
+  margin-left: -2rem;
+}
+
+.history-timeline-step {
   text-decoration: none;
   display: block;
   position: relative;
@@ -18,7 +22,7 @@
   }
 }
 
-.auk-procedure-step {
+.history-timeline-step {
   &:first-child {
     &:before {
       height: 50%;
@@ -33,44 +37,25 @@
   }
 }
 
-.auk-procedure-step {
-  &.active {
-    background: $au-gray-100;
-    &:after {
-      content: "";
-      height: 100%;
-      left: 0;
-      top: 0;
-      width: 0.4rem;
-      position: absolute;
-      background: $au-blue-600;
-    }
-  }
-  &:hover {
-    background-color: $au-gray-100;
-  }
-}
-
-.auk-procedure-step__content {
+.history-timeline-step__content {
   margin-left: 4rem;
 }
 
-.auk-procedure-step__meta {
+.history-timeline-step__meta {
   font-size: 1.3rem;
   color: $au-gray-600;
 }
 
-.auk-procedure-step__badge-wrapper {
+.history-timeline-step__badge-wrapper {
   position: absolute;
   left: 2rem;
   top: calc(50% - 2rem);
 }
 
-.auk-procedure-step__title {
+.history-timeline-step__title {
   color: $au-blue-600;
   font-weight: 500;
   display: block;
   text-decoration: none;
   margin-bottom: 0.2rem;
 }
-

@@ -17,11 +17,9 @@
 // LOCAL AUK EXTENSIONS & ADDITIONS
 @import 'auk/auk-additions';
 
-/* sourced from 'au-kaleidos-css' */
-//@import "./au-kaleidos-css/auk-procedure-step";
-
 // CUSTOM STYLING
 @import 'custom-application/toast';
+@import 'custom-application/history-timeline';
 
 // EXTERNAL ADDON OVERRIDES
 @import 'addon-overrides/ember-data-table';
@@ -36,12 +34,4 @@
 
 .auk-u-text-green {
   color: $au-green-500;
-}
-
-.historic-timeline {
-  margin-left: -2rem;
-}
-
-.auk-procedure-step:hover {
-  background-color: unset;
 }
