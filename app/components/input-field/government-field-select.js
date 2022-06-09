@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { restartableTask, timeout, task } from 'ember-concurrency-decorators';
+import { restartableTask, timeout, task } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 
 export default class InputFieldGovernmentFieldSelectComponent extends Component {
