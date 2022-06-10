@@ -28,7 +28,7 @@
           </Auk::Label>
           <div class="auk-o-grid-col-9">
             <PressRelease::SourcesTable
-              @disabled={{true}}
+              @condensedView={{true}}
               @model={{@pressRelease.sources}}
               @noDataMessage="Geen bronnen toegevoegd."
             />
@@ -60,13 +60,11 @@
           Kernwoorden
         </Auk::Label>
         {{#if @pressRelease.keywords}}
-          <ul class="auk-o-grid-col-9">
+          <div class="auk-o-grid-col-9">
             {{#each @pressRelease.keywords as |keyword|}}
-              <li>
-                {{keyword}}
-              </li>
+              <Auk::Pill>{{keyword}}</Auk::Pill>
             {{/each}}
-          </ul>
+          </div>
         {{else}}
           <Auk::Panel class="auk-o-grid-col-9">
             <Auk::Panel::Body>

@@ -17,14 +17,16 @@
               <th>
                 E-mailadres
               </th>
-              <th class="auk-u-text-nowrap">
-                Laatst bewerkt
-              </th>
-              {{#unless @disabled}}
-                <th>
-                  {{!-- remove source --}}
+              {{#unless @condensedView}}
+                <th class="auk-u-text-nowrap">
+                  Laatst bewerkt
                 </th>
               {{/unless}}
+              {{#if @onRemoveSource}}
+                <th>
+                  {{!-- remove button --}}
+                </th>
+              {{/if}}
             </tr>
           </thead>
           <tbody>
@@ -42,13 +44,15 @@
                 <td>
                   {{row.mailAddress.value}}
                 </td>
-                <td class="auk-u-text-nowrap">
-                  {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
-                  <span class="auk-u-text-size--small auk-u-text-muted">
-                    {{dayjs-format row.modified outputFormat="HH:mm"}}
-                  </span>
-                </td>
-                {{#unless @disabled}}
+                {{#unless @condensedView}}
+                  <td class="auk-u-text-nowrap">
+                    {{dayjs-format row.modified outputFormat="DD-MM-YYYY"}}<br/>
+                    <span class="auk-u-text-size--small auk-u-text-muted">
+                      {{dayjs-format row.modified outputFormat="HH:mm"}}
+                    </span>
+                  </td>
+                {{/unless}}
+                {{#if @onRemoveSource}}
                   <td>
                     <Auk::Button
                       @layout="icon-only"
@@ -57,7 +61,7 @@
                       {{on "click" (fn @onRemoveSource row)}}
                     />
                   </td>
-                {{/unless}}
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>
